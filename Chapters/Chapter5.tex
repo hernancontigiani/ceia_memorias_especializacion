@@ -11,24 +11,48 @@
 %	SECTION 1
 %----------------------------------------------------------------------------------------
 
-\section{Conclusiones generales }
+\section{Resultados obtenidos}
 
-La idea de esta sección es resaltar cuáles son los principales aportes del trabajo realizado y cómo se podría continuar. Debe ser especialmente breve y concisa. Es buena idea usar un listado para enumerar los logros obtenidos.
+Se desarrolló e implementó con éxito un sistema de monitoreo de personas aplicando conocimientos adquiridos a lo largo de todo el año de la Especialización de Inteligencia Artificial. Se alcanzó a cumplir el objetivo propuesto, el cual consistía en estudiar los movimientos que realiza una persona al ingresar y transitar un espacio durante al menos el 80\% del tiempo que la persona permanece en el espacio.
 
-Algunas preguntas que pueden servir para completar este capítulo:
-
+A continuación se listan los logros destacados del trabajo final:
 \begin{itemize}
-\item ¿Cuál es el grado de cumplimiento de los requerimientos?
-\item ¿Cuán fielmente se puedo seguir la planificación original (cronograma incluido)?
-\item ¿Se manifestó algunos de los riesgos identificados en la planificación? ¿Fue efectivo el plan de mitigación? ¿Se debió aplicar alguna otra acción no contemplada previamente?
-\item Si se debieron hacer modificaciones a lo planificado ¿Cuáles fueron las causas y los efectos?
-\item ¿Qué técnicas resultaron útiles para el desarrollo del proyecto y cuáles no tanto?
+\item Cumplir con la planificación original.
+\item Alcanzar las métricas pautadas para el sistema de seguimiento.
+\item Entrar un modelo propio basado en OsNet.
+\item Combinar técnicas de aprendizaje profundo con técnicas de aprendizaje automático para re-identificación de personas.
+\item Re-identificar a las personas que salen de cámara o son ocluidas durante un tiempo considerable.
+\item Generar material en video simulado para ensayar el sistema.
 \end{itemize}
 
+
+A continuación se resaltan aquellas materias de mayor relevancia para este trabajo:
+\begin{itemize}
+\item Gestión de Proyectos: la elaboración de un plan de proyecto para organizar el trabajo final, facilitó la realización del mismo y evitó demoras innecesarias.
+\item Análisis de datos: el análisis de los datos de entrenamiento y su preprocesamiento permitieron mejorar los resultados de entrenamiento.
+\item Aprendizaje automático: el uso de técnicas de segmentación y clasificación para la re-identificación de personas.
+\item Visión por computadora I y II: la experiencia adquirida en el uso de algoritmos y modelos de detección de objetos fueron vitales para la realización de este trabajo.
+\end{itemize}
 
 %----------------------------------------------------------------------------------------
 %	SECTION 2
 %----------------------------------------------------------------------------------------
-\section{Próximos pasos}
+\section{Trabajo futuro}
 
-Acá se indica cómo se podría continuar el trabajo más adelante.
+Utilizando la experiencia adquirida en la realización de este trabajo se encontraron diferentes aspectos de mejora del prototipo, necesarios para que se convierta en un producto comerciable:
+
+\begin{itemize}
+\item Mejorar el modelo entrenado de OsNet utilizando \textit{triple-loss} y datos de diferentes orígenes.
+\item Evaluar la utilización de \textit{Tensorflow Real Time} para mejorar los tiempos de cómputo de los modelos de IA.
+\item Evaluar que tipo de dispositivo podría ejecutar el sistema completo en tiempo real.
+\item Evaluar el uso de cámaras de mayor ángulo visual para capturar más espacio del recinto.
+\item Evaluar incorporar modelos de detección de pose a fin de obtener más información de la actividad que desarrollada la persona en el recinto.
+\end{itemize}
+
+Durante la utilización de la interfaz del sistema también se encontraron aspectos a mejorar en cuanto a la usabilidad:
+\begin{itemize}
+\item Crear una base de datos para almacenar las métricas obtenidas en cada ensayo o ejecución.
+\item Disponer la posibilidad de visualizar varias cámaras o recintos desde la misma interfaz.
+\item Desarrollar una interfaz reducida para su visualización en dispositivos móviles.
+\item Elaborar alertas programables relativas a que está sucediendo en el local.
+\end{itemize}
