@@ -13,16 +13,15 @@ En este capítulo se detallan los resultados esperados y obtenidos sobre cada et
 \section{Descripción del banco de pruebas}
 \label{sec:bancoPruebas}
 
-En esta sección se detallan las herramientas y metodologías empleadas para evaluar cada etapa del sistema. 
-El sistema se evaluá en las siguientes etapas:
+Para poder evaluar la detección, el seguimiento y la re-identificación de personas, se somete al sistema a una validación visual a partir del análisis de los videos procesados por cada parte del sistema. El sistema se evaluá en las siguientes etapas:
 
 \begin{itemize}
-\item Mdelos de detección y seguimientos de personas.
+\item Modelos de detección y seguimientos de personas.
 \item Extractor de características.
 \item Manejo de oclusiones y re-identificación de personas.
 \end{itemize}
 
-Para poder evaluar la detección, el seguimiento y la re-identificación de personas, se somete al sistema a una validación visual mediante los videos procesados por cada parte del sistema, como se puede observar en la figura \ref{fig:bancoPruebas}. En el sección \ref{sec:validDetectorSeguidor} se detallan los criterios de validación empleados para evaluar estos videos.
+En la sección \ref{sec:validDetectorSeguidor} se detallan los criterios de validación empleados para evaluar los videos generados que se pueden observar en la figura \ref{fig:bancoPruebas}.
 
 \begin{figure}[ht]
 	\centering
@@ -33,18 +32,18 @@ Para poder evaluar la detección, el seguimiento y la re-identificación de pers
 
 
 
-Para poder evaluar la calidad del extractor de características, se creó un programa que facilita la captura de imágenes de personas en un video. En la figura \ref{fig:imagenesCrop} se pueden observar ejemplos de capturas realizadas de una misma persona en diferentes poses y locaciones a fin de generar un pequeño banco de imágenes de cada individuo. En el sección \ref{sec:validExtractor} se detalla los criterios de validación empleados para evaluar el extractor con estas imágenes.
+Para poder evaluar la calidad del extractor de características, se creó un programa que facilita la captura de imágenes de personas en un video. En la figura \ref{fig:imagenesCrop} se pueden observar ejemplos de capturas realizadas de una misma persona en diferentes poses y locaciones a fin de generar un pequeño banco de imágenes de cada individuo. En la sección \ref{sec:validExtractor} se detallan los criterios de validación empleados para evaluar el extractor a partir del uso de estas imágenes.
 
 \newpage
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[scale=.45]{./Figures/imagenesCrop.png}
+	\includegraphics[scale=.45]{./Figures/imagenesCrop.jpg}
 	\caption{Capturas tomadas de una persona.}
 	\label{fig:imagenesCrop}
 \end{figure}
 
-De la experiencia obtenida de evaluar videos y el extractor de características, se desarrollo un programa capaz de automatizar los ensayos de validación del sistema. En la sección \ref{sec:precisionSistema} se detalla como se utilizó este programa para obtener métricas automáticas de la precisión de cada etapa y del sistema global.
+De la experiencia obtenida de evaluar videos y el extractor de características, se desarrolló un programa capaz de automatizar los ensayos de validación del sistema. En la sección \ref{sec:precisionSistema} se detalla como se utilizó este programa para obtener métricas automáticas de la precisión de cada etapa y del sistema global.
 
 %\newpage
 
@@ -69,25 +68,29 @@ Validar sistemas de monitoreo por visión o procesamiento de imágenes normalmen
 
 En la figura \ref{fig:fallasDetector} se pueden observar ejemplos de problemas que ocurren con el detector que precisan examinación manual.
 
+%La figura \ref{fig:fallasDetector1de3}, \ref{fig:fallasDetector2de3} y \ref{fig:fallasDetector3de3}.
+
+\newpage
+
 \begin{figure}[!htpb]
      \centering
      \begin{subfigure}[b]{0.3\textwidth}
          \centering
-         \includegraphics[width=.65\textwidth]{./Figures/fallasDetector1.png}
+         \includegraphics[width=.65\textwidth]{./Figures/fallasDetector1.jpg}
          \caption{Falsa detección.}
          \label{fig:fallasDetector1de3}
      \end{subfigure}
      \hfill
      \begin{subfigure}[b]{0.3\textwidth}
          \centering
-         \includegraphics[width=.65\textwidth]{./Figures/fallasDetector2.png}
+         \includegraphics[width=.65\textwidth]{./Figures/fallasDetector2.jpg}
          \caption{No detección.}
          \label{fig:fallasDetector2de3}
      \end{subfigure}
      \hfill
      \begin{subfigure}[b]{0.3\textwidth}
          \centering
-         \includegraphics[width=.65\textwidth]{./Figures/fallasDetector3.png}
+         \includegraphics[width=.65\textwidth]{./Figures/fallasDetector3.jpg}
          \caption{Oclusión.}
          \label{fig:fallasDetector3de3}
      \end{subfigure}
@@ -95,11 +98,9 @@ En la figura \ref{fig:fallasDetector} se pueden observar ejemplos de problemas q
         \label{fig:fallasDetector}
 \end{figure}
 
-%La figura \ref{fig:fallasDetector1de3}, \ref{fig:fallasDetector2de3} y \ref{fig:fallasDetector3de3}.
-
 Es fundamental esta etapa de análisis porque permite entender las debilidades y fortalezas del sistema en una primera etapa de desarrollo.
 
-\newpage
+
 
 %----------------------------------------------------------------------------------------
 %	SECTION 3
@@ -108,7 +109,7 @@ Es fundamental esta etapa de análisis porque permite entender las debilidades y
 \section{Validación del modelo de extracción de características}
 \label{sec:validExtractor}
 
-Para evaluar la calidad del extractor de características no alcanzan las métricas de segmentación obtenidas en la sección 3.2.3. Es necesario llevar el concepto de re-identificación por vectores de características a algo tangible. Para ello, se creó un programa que permite realizar el seguimiento de personas únicamente por sus características, el cual se detalla en el diagrama de la figura \ref{fig:seguidorPorCaracteristicas}.
+Para evaluar la calidad del extractor de características no alcanzan las métricas de segmentación obtenidas en la sección \ref{sec:comparativaExtractores}. Es necesario llevar el concepto de re-identificación por vectores de características a algo tangible. Para ello, se creó un programa que permite realizar el seguimiento de personas únicamente por sus características, el cual se detalla en el diagrama de la figura \ref{fig:seguidorPorCaracteristicas}.
 
 \begin{figure}[ht]
 	\centering
@@ -119,9 +120,9 @@ Para evaluar la calidad del extractor de características no alcanzan las métri
 
 \newpage
 
-El procedimiento llevado a cabo requiere dos pasados del video de entrada, en la primera se obtiene como salida la galería de características y en la segunda se obtiene el video de seguimiento por características.
+El procedimiento llevado a cabo requiere dos iteraciones del video de entrada, en la primera se obtiene como salida la galería de características y en la segunda se obtiene el video de seguimiento por características.
 
-Primera pasada de video:
+Primera iteración del video:
 \begin{itemize}
 \item El sistema levanta las capturas de la imágenes de las personas y calcula los vectores de características de cada una.
 \item Arma una galería de clusters de personas utilizando los vectores calculados.
@@ -130,7 +131,7 @@ Primera pasada de video:
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[scale=.60]{./Figures/tsneClusers.png}
+	\includegraphics[scale=.60]{./Figures/tsneClusers.jpg}
 	\caption{Análisis de los clusters generados.}
 	\label{fig:tsneClusers}
 \end{figure}
@@ -138,12 +139,12 @@ Primera pasada de video:
 La herramienta para analizar clusters permite sacar conclusiones como las siguientes:
 \begin{itemize}
 \item No hay solapamiento de clusters en la galería y los clusters se encuentran bien separados.
-\item Se puede observar que el cluster "G" tiene un vector muy cercano al cluster "F", debido a que dicho vector se calcula sobre una captura en donde ambas personas aparecen en la imagen.
+\item Se puede observar que el cluster ``G'' tiene un vector muy cercano al cluster ``F'', debido a que dicho vector se calcula sobre una captura en donde ambas personas aparecen en la imagen.
 \end{itemize}
 
 \newpage
 
-Segunda pasada de video:
+Segunda iteración del video:
 \begin{itemize}
 \item De cada detección reportada se extrae su vector de características.
 \item El sistema toma cada vector de características y busca en la galería de clusters de personas a cual pertenece.
@@ -155,12 +156,12 @@ La salida del sistema es un nuevo video con las detecciones de las personas. En 
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[scale=.60]{./Figures/videoPorCaracteristicas.png}
+	\includegraphics[scale=.60]{./Figures/videoPorCaracteristicas.jpg}
 	\caption{Sistema de seguimiento por características.}
 	\label{fig:videoPorCaracteristicas}
 \end{figure}
 
-Este proceso es muy robusto porque el sistema en la segunda pasada analiza el video conociendo de ante mano las diferentes poses de cada persona, dado que posee las capturas de ellas que se encuentran transformadas en clusters dentro de la galería, es decir, inicia el proceso con información futura. Conclusión, si la galería está correctamente armada se puede realizar seguimiento de personas por características sin errores. Utilizando este sistema se pueden obtener métricas automáticas de los videos obtenidos a la salida del Engine:
+Este proceso es muy robusto porque el sistema en la segunda iteración analiza el video conociendo de ante mano las diferentes poses de cada persona, es decir, inicia el proceso con información futura. Las capturas de las personas se encuentran transformadas en clusters dentro de la galería. Por lo tanto, si la galería está correctamente armada se puede realizar seguimiento de personas por características sin errores. Utilizando este sistema se pueden obtener métricas automáticas de los videos obtenidos a la salida del Engine:
 \begin{itemize}
 \item Cuánto tiempo fue monitoreada cada persona de forma correcta.
 \item Cuántos identificadores distintos se asignaron a una misma persona.
@@ -191,7 +192,7 @@ En la figura \ref{fig:metricasPorPersona} se observa el porcentaje de correcto s
 	\label{fig:metricasPorPersona}
 \end{figure}
 
-En la \ref{fig:metricasPorPersona} se observa que siete de ocho personas tienen una precisión de seguimiento por arriba del 80\%, por lo tanto, la precisión total del sistema para ese video es de 87.5\%. 
+En la figura \ref{fig:metricasPorPersona} se observa que siete de ocho personas tienen una precisión de seguimiento por arriba del 80\%, y por lo tanto, la precisión total del sistema para ese video es de 87.5\%. 
 
 En la figura \ref{fig:metricasPorSistema} se aplica la misma lógica para calcular la precisión de cada etapa del sistema y sus diferentes versiones para un mismo video de entrada.
 
@@ -207,13 +208,13 @@ En la figura \ref{fig:metricasPorSistema} se aplica la misma lógica para calcul
 Descripción de la evolución de los sistemas de la figura \ref{fig:metricasPorSistema}:
 \begin{itemize}
 \item Yolo y Deepsort: Precisión que se alcanza si se utiliza el detector Yolo y el seguidor Deepsort tal cual se encuentra disponible en la web.
-\item Engine10: Precisión que se alcanza si al detector Yolo y el seguidor Deepsort se agrega el postprocesado del Engine v1.0 utilizando los vectores de características para el manejo de oclusiones y re-identificación de personas.
-\item Engine16: Precisión que se alcanza si al detector Yolo y el seguidor Deepsort se agrega el postprocesado del Engine v1.6 utilizando los vectores de características para el manejo de oclusiones y re-identificación de personas junto con la información agregada de las las zonas de interés.
+\item Engine10: Precisión que se alcanza si al detector Yolo y al seguidor Deepsort se agrega el postprocesado del Engine v1.0 utilizando los vectores de características para el manejo de oclusiones y re-identificación de personas.
+\item Engine16: Precisión que se alcanza si al detector Yolo y al seguidor Deepsort se agrega el postprocesado del Engine v1.6 utilizando los vectores de características para el manejo de oclusiones y re-identificación de personas junto con la información agregada de las las zonas de interés.
 \end{itemize}
 
-En conclusión. la precisión del sistema aumenta con cada nueva funcionalidad que se incorpora. Por otro lado, en la figura \ref{fig:idSwitch} se observa que a medida que evolucionan los sistemas también se reducen los intercambios de identificador entre personas.
+En conclusión, la precisión del sistema aumenta con cada nueva funcionalidad que se incorpora. Por otro lado, en la figura \ref{fig:idSwitch} se observa que a medida que evolucionan los sistemas también se reducen los intercambios de identificador entre personas.
 
-Con la última versión del Engine se logra alcanzar la precisión deseada de seguimiento, ya que con el agregado de las zonas se redujeron las falsas detecciones e intercambios de identificadores.
+\newpage
 
 \begin{figure}[ht]
 	\centering
@@ -222,7 +223,7 @@ Con la última versión del Engine se logra alcanzar la precisión deseada de se
 	\label{fig:idSwitch}
 \end{figure}
 
-\newpage
+Con la última versión del Engine se logra alcanzar la precisión deseada de seguimiento, ya que con el agregado de las zonas se redujeron las falsas detecciones e intercambios de identificadores.
 
 %----------------------------------------------------------------------------------------
 %	SECTION 5
@@ -233,29 +234,31 @@ Con la última versión del Engine se logra alcanzar la precisión deseada de se
 
 Durante la realización de este trabajo no se tomaron muestras de videos de tiendas o recintos para realizar ensayos y validación, sino que se contó con el material de video disponible en internet. El problema es que la mayoría del material disponible es de muy corta duración (menor al minuto) o circulan muy pocas personas por el recinto (dos a tres personas). Debido a estos problemas fue muy difícil al comienzo validar las primeras etapas del trabajo.
 
-El único video que se encontró en internet (youtube) que cumpliera con todas las características fue un video de una tienda \citep{TIENDA_ORIGINAL} en donde aparecen más de 10 personas por más de un minuto. Este video se utilizó para las primeras demostraciones \citep{DEMO:1} para validar el sistema de re-identificación y manejo de oclusiones. El inconveniente con este video es que no resultó posible probar todas las funcionalidades de las zonas de interés, debido a que el espacio es bastante reducido y las personas durante la duración del video no llegan a transitar por más de una zona; como se observa en la figura \ref{fig:tienda}.
+El único video que se encontró en internet que cumpliera con todas las características fue un video de una tienda \citep{TIENDA_ORIGINAL} en donde aparecen más de 10 personas por más de un minuto. Este video se utilizó para las primeras demostraciones \citep{DEMO:1} con el fin de validar el sistema de re-identificación y manejo de oclusiones. El inconveniente con este video es que no resultó posible probar todas las funcionalidades de las zonas de interés. Principalmente, debido a que el espacio es bastante reducido y las personas durante la duración del video no llegan a transitar por más de una zona como se observa en la figura \ref{fig:tienda}.
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[scale=.70]{./Figures/tienda.png}
+	\includegraphics[scale=.70]{./Figures/tienda.jpg}
 	\caption{Imagen del video de tienda utilizado al comienzo del trabajo.}
 	\label{fig:tienda}
 \end{figure}
 
-Dado que se necesitaba un video de un recinto con más zonas de interés y personas que se involucraran más con el espacio se buscó simular el entorno. Para ello, se optó por utilizar el video juego "Los Sims 3" \citep{SIMS3}, en el cual es posible crear un ambiente totalmente a medida y personajes que interactúan en el. El juego permite crear personajes con diferentes personalidades por lo que cada uno interactúa de forma singular con el espacio pudiéndose obtener distintas métricas por el tiempo que se desee que dure el ensayo. En la figure \ref{fig:sims} se observa el entorno creado para ensayar las últimas funcionalidades creadas en el sistema, como por ejemplo las zonas de interés, las métricas y la aplicación web.
+\newpage
+
+Dado que se necesitaba un video de un recinto con más zonas de interés y personas que se involucraran más con el espacio se buscó simular el entorno. Para ello, se optó por utilizar el videojuego "Los Sims 3" \citep{SIMS3}, en el cual es posible crear un ambiente totalmente a medida y personajes que interactúan en el. El juego permite crear personajes con diferentes personalidades por lo que cada uno interactúa de forma singular con el espacio pudiéndose obtener distintas métricas por el tiempo que se desee que dure el ensayo. En la figura \ref{fig:sims} se observa el entorno creado para ensayar las últimas funcionalidades creadas en el sistema, como por ejemplo las zonas de interés, las métricas y la aplicación web.
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[scale=.50]{./Figures/sims.png}
+	\includegraphics[scale=.50]{./Figures/sims.jpg}
 	\caption{Imagen del escenario creado en el video juego "Los Sims 3".}
 	\label{fig:sims}
 \end{figure}
 
 \newpage
 
-El video generado a partir del simulador fue un éxito y permitió terminar de ensayar y validar todas las funcionalidades del sistema sin inconvenientes, pero no fue fácil de elaborar. En los primeros videos de simulación el detector a penas conseguía capturar a los personajes en el video, dado que la resolución de grabación y la calidad de las luces y sombras era baja. Se necesitó elaborar diez configuraciones diferentes de captura de video para que los colores y los personajes se vieran lo más realista posible y el detector pudiera identificar a los personajes del juego como personas reales. El resultado final \citep{DEMO:2} se acerca a un escenario real, ya que el detector presenta más inconvenientes detectando a los personajes que a las personas reales en la tienda y es por ello que la precisión de seguimiento utilizando solo el detector y seguidor para este video es muy baja. Finalmente, el video generado como una simulación pudo utilizarse luego de encontrar la configuración de video adecuada y gracias a que el sistema de re-identificación ayuda a salvar todos los defectos del detector en el seguimiento de estos personajes ficticios.
+El video generado a partir del simulador fue un éxito y permitió terminar de ensayar y validar todas las funcionalidades del sistema sin inconvenientes. En los primeros videos de simulación el detector apenas conseguía capturar a los personajes en el video, dado que la resolución de grabación y la calidad de las luces y sombras era baja. Se necesitó elaborar diez configuraciones diferentes de captura de video para que los colores y los personajes se vieran lo más realistas posible y el detector pudiera identificar a los personajes del juego como personas reales.
 
-\newpage
+El resultado final \citep{DEMO:2} se acerca a un escenario real, ya que el detector presenta más inconvenientes detectando a los personajes que a las personas reales en la tienda y es por ello que la precisión de seguimiento utilizando solo el detector y seguidor para este video es muy baja. Finalmente, el video generado como una simulación pudo utilizarse luego de encontrar la configuración de video adecuada gracias a que el sistema de re-identificación ayuda a salvar todos los defectos del detector en el seguimiento de estos personajes ficticios.
 
 %----------------------------------------------------------------------------------------
 %	SECTION 5
@@ -268,7 +271,7 @@ En esta sección se detallan los resultados y métricas obtenidas en la aplicaci
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[scale=.60]{./Figures/simsWebApp.png}
+	\includegraphics[scale=.60]{./Figures/simsWebApp.jpg}
 	\caption{Imagen del monitoreo de personas en la aplicación web.}
 	\label{fig:simsWebApp}
 \end{figure}
@@ -277,27 +280,29 @@ Además de contar con el seguimiento y monitoreo de cada persona en la aplicaci�
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[scale=.60]{./Figures/simsWebApp2.png}
+	\includegraphics[scale=.80]{./Figures/simsWebApp2.png}
 	\caption{Interacción de las personas con cada zona dibujada de interés.}
 	\label{fig:simsWebApp2}
 \end{figure}
 
 \newpage
 
-La aplicación web también arroja métricas sobre el recinto, ofrece en una tabla cuales fueron las zonas más transitadas o más populares como también el mapa de calor del recinto (por donde caminaron las personas), como se puede observar en la figura \ref{fig:metricasWebApp} y \ref{fig:metricasWebApp2} respectivamente.
+La aplicación web también arroja métricas sobre el recinto. Ofrece en una tabla cuales fueron las zonas más transitadas o más populares como también el mapa de calor del recinto (por donde caminaron las personas), como se puede observar en las figuras \ref{fig:metricasWebApp} y \ref{fig:metricasWebApp2} respectivamente.
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[scale=.60]{./Figures/metricasWebApp.png}
+	\includegraphics[scale=.80]{./Figures/metricasWebApp.png}
 	\caption{Métricas de las zonas de interés del recinto.}
 	\label{fig:metricasWebApp}
 \end{figure}
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[scale=.60]{./Figures/metricasWebApp2.png}
+	\includegraphics[scale=.70]{./Figures/metricasWebApp2.jpg}
 	\caption{Mapa de calor del recinto.}
 	\label{fig:metricasWebApp2}
 \end{figure}
+
+\newpage
 
 De los resultados obtenidos se puede llegar a la conclusión que las zonas más visitadas del recinto son las zonas de comida y bebida (color cyan) y las zonas de juegos (color azul).
