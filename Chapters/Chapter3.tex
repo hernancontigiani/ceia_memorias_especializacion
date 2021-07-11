@@ -2,7 +2,7 @@
 
 \label{Chapter3} % Change X to a consecutive number; for referencing this chapter elsewhere, use \ref{ChapterX}
 
-En este capítulo
+En este capítulo se detalla el diseño de la arquitectura del sistema en todos sus componentes. Se menciona el motivo de la elección de cada caso y la implementación correspondiente.
 
 %----------------------------------------------------------------------------------------
 %	SECTION 1
@@ -11,9 +11,69 @@ En este capítulo
 \section{Cadena de procesamiento de inteligencia artificial}
 \label{sec:cadenaProcesamiento}
 
+En esta sección se detalla la implementación de los modelos de inteligencia artificial utilizados en la plataforma \textit{Google Colaboratory (Colab)}.
+
 \subsection{Arquitectura}
 
+La arquitectura de la cadena de procesamiento se compone de tres modelos de inteligencia artificial:
+
+\begin{itemize}
+\item Modelo detector de objectos Yolo, cuyos pesos pre-entrenados se obtuvieron de la página de DarkNet \citep{YOLO_MODELO}.
+\item Modelo seguidor de objectos Deepsort, cuyos pesos pre-entrenados se obtuvieron de un repositorio \citep{DEEPSORT_MODELO}.
+\item Manejo extractor de características Osnet, cuyos pesos pre-entrenados se obtuvieron de la librería Torchreid \citep{OSNET_MODELO}.
+\end{itemize}
+
+Cada uno de estos modelos se encuentran conectados en serie con otro generando así una cadena, como se observa en la figura \ref{fig:cadenaProcesamiento}.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=.50]{./Figures/cadenaProcesamiento.png}
+	\caption{Cadena de procesamiento de inteligencia artificial.}
+	\label{fig:cadenaProcesamiento}
+\end{figure}
+
+Para poder utilizar estos modelos es necesario contar con las siguientes librerías:
+\begin{itemize}
+\item Python versión 3.7 o superior.
+\item Tensorflow GPU versión 2.3.1.
+\item Pytorch versión 1.8.
+\item Numpy versión 1.19.
+\item Scipy versión 1.5.
+\item Jupyterlab versión 3.0.
+\end{itemize}
+
+
 \subsection{Integración de los modelos}
+
+Cada modelo en la cadena realiza un aporte al sistema de detección y seguimiento de personas. Por cada frame que transcurre del video se realiza el siguiente proceso:
+
+\begin{itemize}
+\item El detector recibe la imagen entera del frame y por cada persona encontrada retorna una caja que la representa. Esa caja está conformada por sus coordenadas respecto a su ubicación en la imagen original (top, left, bottom ,right) y el grado de certeza de detección (score).
+\item El seguidor recibe  el vector de cajas de personas y a cada una de ellas le asigna un identificador único (id), los cual representan a cada persona en seguimiento.
+\item El extractor recibe el vector de cajas y personas en seguimiento y genera por cada una de ellas un vector de características que la representan en ese frame.
+\end{itemize}
+
+En la figura \ref{fig:aporteModelos} se observa el aporte de cada modelo en la cadena de procesamiento.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=.50]{./Figures/aporteModelos.png}
+	\caption{Integración de los modelos.}
+	\label{fig:aporteModelos}
+\end{figure}
+
+\newpage
+
+En la figura \ref{fig:aporteModelos2} se observa al detalle como la información se transforma desde el frame capturado por el video hasta llegar al final de la cadena, cuya salida es el seguimiento de cada persona en ese frame. Cada modelo se utiliza como una caja independiente cuya salida está representada en un vector de datos, cuyo formato es compatible con el siguiente modelo en la cadena.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=.75]{./Figures/aporteModelos2.png}
+	\caption{Detalle de la cadena de procesamiento.}
+	\label{fig:aporteModelos2}
+\end{figure}
+
+\newpage
 
 %----------------------------------------------------------------------------------------
 %	SECTION 2
@@ -22,12 +82,195 @@ En este capítulo
 \section{Entrenamiento de un modelo basado en Osnet}
 \label{sec:entrenamientoOsnet}
 
+En esta sección se detalla la selección del dataset, la preparación de los datos y el entrenamiento de un extractor de características basado en la arquitectura del modelo Osnet.
+
 \subsection{Preparación de datos}
+
+Existen diversos datasets disponibles \citep{DATASETS} para entrenar modelos de clasificación y extracción de características de personas. Para la elaboración de este trabajo se optó por utilizar el dataset ``RPIfield'' \citep{RPIfield}, el cual está autorizado para su libre uso y con el consentimientos de los participantes para el entrenamiento de este tipo de modelos.
+
+El dataset RPIfield está formado por capturas de 112 personas en 12 cámaras, en las cuales al menos cada uno aparece en tres cámaras distintas. En la figura \ref{fig:capturasDataset} se observa un ejemplo de las capturas disponibles en este dataset.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=.70]{./Figures/capturasDataset.png}
+	\caption{Capturas disponibles del dataset RPIfield.}
+	\label{fig:capturasDataset}
+\end{figure}
+
+\subsubsection{Composición del dataset}
+
+Dentro de la carpeta del dataset se encuentra la carpeta "Data", dentro de la cual hay 12 carpetas (uno por cada cámara). Dentro de cada carpeta hay una carpeta o varias carpetas por persona (por id), por ejemplo con el id 1:
+\begin{itemize}
+\item Las capturas de la primera vez que aparece la persona en dicha cámara se almacenan en la carpeta ``1''.
+\item Si vuelve a aparece en dicha cámara en capturas posteriores, las capturas aparecerán en la carpeta ``1\_1''.
+\end{itemize}
+
+Este patrón se repite "N" veces por cada id en cada cámara según la cantidad de veces que re-aparecieron. Cada captura está almacenada como un archivo \file{.png} de tamaño variable (aproximadamente 200 x 100 píxeles). En el nombre de la imagen se encuentra el número de frame para el cual fue tomado dicha captura. 
+
+\newpage
+
+\subsubsection{Distribución de los datos}
+
+El dataset original cuenta con 211644 capturas, en la figura \ref{fig:distribucionOriginal} se observa como se encuentran distribuidas estas capturas entre los 112 participantes.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=.50]{./Figures/distribucionOriginal.png}
+	\caption{Distribución del dataset original.}
+	\label{fig:distribucionOriginal}
+\end{figure}
+
+Datos obtenidos del dataset original:
+\begin{itemize}
+\item Cantidad de capturas promedio por persona: 1890.
+\item Cantidad de capturas del cuantil 5\%: 540.
+\item Cantidad de capturas del cuantil 95\%: 3357.
+\item Desvió estándar de capturas por persona: 2325.
+\end{itemize}
+
+A fin de balancear el dataset se decidió tomar menos capturas de las personas más frecuentes (aquellas que superan el cuantil 95\%) ya que por lo observado en los datos poseen muchas capturas repetidas que no aportan valor al sistema.
+
+\subsubsection{Transformación de los datos}
+
+Con el objetivo de balancear el dataset se realizaron dos tipos de procesamiento de datos:
+\begin{itemize}
+\item Submuestreo de aquellas personas que superaran el cuantil 95\% (una total de 6 personas).
+\item Aumento de datos de aquellas personas debajo del 80\% de la media (un total de 23 personas).
+\end{itemize}
+
+Dado que las imágenes son muy chicas y de baja definición, no se posible aplicar una gran distorsión sin que se pierda información. La única técnica que se utilizó de aumento de datos fue espejar las imágenes a fin de duplicar la cantidad de muestras en las personas menos frecuentes. En la figura \ref{fig:distribucionOriginal} se observa la distribución del dataset modificado.
+
+\newpage
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=.50]{./Figures/distribucionFinal.png}
+	\caption{Distribución del dataset modificado.}
+	\label{fig:distribucionFinal}
+\end{figure}
+
+El dataset modificado posee una distribución de datos más balanceada y pareja que el orinal, como se ilustra en la tabla \ref{tab:datasets}.
+
+\begin{table}[h]
+	\centering
+	\caption[Dataset]{Comparación de datasets}
+	\begin{tabular}{l c c c}    
+		\toprule
+		\textbf{Dataset}   & \textbf{Cantidad [cap.]} & \textbf{Promedio [cap.]} & \textbf{Desvió estándar [cap.]}\\
+		\midrule
+		Original & 211644 & 1890   & 2325 \\		
+		Modificado & 173599 & 1600  & 620 \\
+		\bottomrule
+		\hline
+	\end{tabular}
+	\label{tab:datasets}
+\end{table}
+
+El dataset modificado posee menos capturas que el dataset original, aún así la cantidad es suficiente para entrenar un modelo de clasificación de imágenes. De las 173599 capturas se reservaron 140055 imágenes para entrenamiento (80\%), 15799 imágenes para validación (9\%) y 17745 imágenes para evaluación (11\%).
+
+\newpage
 
 \subsection{Entrenamiento grueso y fino}
 
+El entrenamiento del modelo basado en Osnet se dividió en dos etapas, el entrenamiento grueso y fino. En ambas etapas se utilizó el dataset modificado y se realizaron en Colab aprovechando los recursos de GPU que la plataforma provee. El consumo de los datos durante el entrenamiento se efectuó con la herramienta \textit{ImageDataGenerator}\ de la librería Keras.
+
+\subsubsection{Entrenamiento grueso}
+
+El entrenamiento grueso partió del uso de un modelo basado en Osnet con sus pesos pre-entrenados con el dataset de ImageNet \citep{IMAGENET}, un dataset público utilizado para entrenar modelos de clasificación de imágenes. Basado en los pesos pre-entrenados se aplicó la técnica de \textit{transfer learning}\ congelando las capas inferiores del modelo y sustituyendo las capas superiores acorde al dataset ``RPIfield'', como se observa en la figura \ref{fig:entrenamientoGrueso}.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=.60]{./Figures/entrenamientoGrueso.png}
+	\caption{Entrenamiento grueso.}
+	\label{fig:entrenamientoGrueso}
+\end{figure}
+
+Se entrenó el modelo en diez épocas durante 40 minutos con una tasa de aprendizaje de 0.001, en la figura \ref{fig:entrenamientoGruesoResultado} se observa que la exactitud alcanzada por el modelo durante el entrenamiento grueso es aproximadamente 0.6.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=1.]{./Figures/entrenamientoGruesoResultado.png}
+	\caption{Resultado del entrenamiento grueso.}
+	\label{fig:entrenamientoGruesoResultado}
+\end{figure}
+
+\newpage
+
+\subsubsection{Entrenamiento fino}
+
+El entrenamiento fine partió del uso del modelo entrenado en la sección anterior. Esta vez se entrenó todas las capas del modelo utilizando una tasa de aprendizaje más baja a fin de realizar un ajuste fino, como se observa en la figura \ref{fig:entrenamientoFino}.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=.60]{./Figures/entrenamientoFino.png}
+	\caption{Entrenamiento fino.}
+	\label{fig:entrenamientoFino}
+\end{figure}
+
+Se entrenó el modelo en trece épocas durante tres horas con una tasa de aprendizaje de 0.00001, en la figura \ref{fig:entrenamientoFinoResultado} se observa que la exactitud alcanzada por el modelo durante el entrenamiento fino es aproximadamente 0.93.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=1.]{./Figures/entrenamientoFinoResultado.png}
+	\caption{Resultado del entrenamiento fino.}
+	\label{fig:entrenamientoFinoResultado}
+\end{figure}
+
+Como última instancia de validación del entrenamiento, se calcularon las métricas de precisión balanceada \citep{BalancedAccuracy} y precisión promedio \citep{mAP}, como se ilustra en la tabla \ref{tab:metricasEntrenamiento}
+
+\begin{table}[h]
+	\centering
+	\caption[Métrica Entrenamiento]{Métricas de entrenamiento}
+	\begin{tabular}{l c}    
+		\toprule
+		\textbf{Métricas}   & \textbf{Resultado [\%]} \\
+		\midrule
+		Exactitud & 0.93 \\
+		Precisión balanceada & 0.92 \\
+		Precisión promedio [mAP] & 0.97 \\
+		\bottomrule
+		\hline
+	\end{tabular}
+	\label{tab:metricasEntrenamiento}
+\end{table}
+
+\newpage
+
 \subsection{Comparativa de los diferentes modelos de extracción de características}
 \label{sec:comparativaExtractores}
+
+Con el propósito de comparar el extractor de características entrenado (al que llamaremos Cosnet) se armó una galería de imágenes de personas de cuatro videos diferentes, como se observa en la figura \ref{fig:entrenamientoFinoResultado}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=.5]{./Figures/galerias.png}
+	\caption{Imágenes capturadas para comparar los modelos.}
+	\label{fig:galerias}
+\end{figure}
+
+Se sometió a ensayo el modelo Osnet (el modelo original), el modelo Cosnet (elaborado en este trabajo) y el modelo DeepMar (mencionado en la sección \ref{sec:exactorOsnet}). Se utilizó la métrica de la silueta \citep{METRICA_SILUETA} para comparar estos modelos, la cual se obtiene como el cociente entre la distancia de todos los puntos de un mismo cluster al centro y la distancia de un cluster con otros. En la figura \ref{fig:metricaSilueta} se observa que cuanto más cerca se encuentren los puntos pertenecientes a un mismo cluster y más alejados estén los clusters entre sí (B), más alta será la métrica de la silueta.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=.5]{./Figures/metricaSilueta.png}
+	\caption{Métrica de la silueta.}
+	\label{fig:metricaSilueta}
+\end{figure}
+
+\newpage
+
+En la figura \ref{fig:comparacionExtractores} se observa que el modelo original de Osnet obtuvo mejor resultado que Cosnet. Cosnet supera los resultados obtenidos del modelo DeepMar, y por lo tanto, el proceso de entrenamiento y pre-procesamiento fueron un éxito.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=1.]{./Figures/comparacionExtractores.png}
+	\caption{Métrica de la silueta.}
+	\label{fig:comparacionExtractores}
+\end{figure}
+
+El modelo Osnet tuvo un mejor desempeño porque fue entrenado con la función de pérdida \textit{triple-loss}, que maximiza la distancia entre clusters distintos. En un futuro trabajo se continuará trabajando sobre el entrenamiento de Cosnet con triple-loss.
+
+\newpage
 
 %----------------------------------------------------------------------------------------
 %	SECTION 3
@@ -36,13 +279,104 @@ En este capítulo
 \section{Manejo de oclusiones y re-identificación}
 \label{sec:oclusionesReID}
 
+En esta sección se detalla el uso del extractor de características y sus vectores para solucionar problemas en el seguimiento y monitoreo de personas. Se describen las técnicas de re-identificación utilizadas y la validación de las mismas.
+
 \subsection{Segmentación de personas}
+
+La segmentación es el proceso por el cual se separa un conjunto de datos por similitud o características en grupos llamados clusters. El proceso de segmentación es un éxito cuando los clusters representan correctamente los datos y no hay solapamiento entre ellos.
+
+A fin representar a las personas como un conjunto de datos se utiliza el modelo extractor de características que produce un vector por cada persona en cada detección que la describe en un espacio de 512 dimensiones. Los vectores de características se utilizan para segmentar a las personas y transformarlas en clusters.
+
+En la figura \ref{fig:comparacionExtractores} se observa como las capturas de una misma personas forman un cluster que agrupa sus características y la diferencian de las otras personas o clusters. Se utilizó la técnica de \textit{Nearest Centroid} \citep{NEAREST_CENTROID} para calcular el centro de cada cluster dado el conjunto de vectores que lo conforman
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=.6]{./Figures/clusterPersonas.png}
+	\caption{Segmentación de personas en clusters.}
+	\label{fig:clusterPersonas}
+\end{figure}
+
+Finalmente, cada cluster que forme el sistema con los vectores de características representará a una persona en el sistema con un identificador único (cluster id). A medida que la persona incorpora más vectores a su cluster más se robustece y mejor la representa.
+
+\newpage
 
 \subsection{Re-identificación por vectores}
 
+El proceso de re-identificación de una persona es aquel en el cual se intenta relacionar una nueva persona por su vector de características con un cluster ya conformado. El objetivo es mantener el seguimiento de una persona con el mismo cluster, es decir con el mismo identificador, a pesar de que se haya perdido de a la persona de escena por unos segundos. Para poder calcular la similitud entre el vector de una persona y los diferentes clusters se utiliza la similitud coseno \citep{COSINE_SIMILARITY}, la cual retorna un valor entre -1 y 1 siendo 1 la expresión para máxima similitud. 
+
+En la figura \ref{fig:similitudCoseno} se observa que dado un punto verde que representa el vector de una nueva persona, se calcula la similitud coseno ``A'' y ``B''. En este caso, el resultado del proceso será que el nuevo vector es más probable que pertenezca al cluster ``A'' que al cluster ``B'' por su cercanía en el espacio, y por lo tanto, la nueva persona será asociada con el cluster ``A''.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=.6]{./Figures/similitudCoseno.png}
+	\caption{Re-identificación por similitud coseno.}
+	\label{fig:similitudCoseno}
+\end{figure}
+
+Está técnica no contempla casos de falso positivo, es decir, asociar erróneamente una persona con un cluster que no le pertenece. En la próxima sección se discute como se utiliza este principio para mejorar el sistema de seguimiento de personas.
+
 \subsection{Mejora del seguimiento por vectores}
 
+Durante el monitoreo de una persona puede ocurrir diferentes problemas relacionado con oclusiones o intercambios de identificador como se detalla en la sección \ref{sec:desafiosSeguimiento}. En estos casos, lo que sucede es que se pierde el identificador de seguimiento o se intercambia por uno erróneo y el sistema debe reaccionar para re-identificar a la persona con su correspondiente cluster. 
+
+\newpage
+
+El sistema para mejorar el seguimiento por vectores utiliza dos estrategias:
+\begin{itemize}
+\item \textit{Matching}: proceso por el cual el sistema intenta asociar un cluster disponible a un persona que presente un identificador de seguimiento desconocido, es decir, una persona nueva para el sistema. Este proceso puede concluir en que la persona que apareció en escena es realmente una nueva persona que no se había visto hasta el momento (se genera un nuevo cluster), o concluir que en realidad es una persona que se estaba monitoreando pero desapareció de escena (se la asocia con un cluster existente).
+\item \textit{Missmatching}: proceso por el cual el sistema evaluá constantemente si una persona en monitoreo realmente pertenece al cluster asociado. Este proceso busca encontrar identificadores que hayan sido intercambiados por culpa de una oclusión, concluye en la búsqueda de los clusters correctos para aquellas personas  que no hayan pasado la prueba.
+\end{itemize}
+
+El sistema de mejora está conformado por una serie de \textit{thresholds} y \textit{timers} a fin de evitar generar falsos positivos. Estos valores de configuración se obtuvieron de forma teórica utilizando matrices de similitud, y se ensayaron de forma empírica en diferentes condiciones y escenarios a fin de validar los parámetros seleccionados.
+
+En la figura \ref{fig:matrizSimilitud} se observa la matriz de similitud que se obtuvo de los personajes de ``Los Sims''. En promedio, la similitud entre clusters para este escenario fue de 0.66. El mismo proceso se aplicó a otros videos y escenarios y se analizaron los resultados.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=.7]{./Figures/matrizSimilitud.png}
+	\caption{Matriz de similitud de ``Los Sims''.}
+	\label{fig:matrizSimilitud}
+\end{figure}
+
+\newpage
+
 \subsection{Validación del manejo de oclusiones y re-identificación}
+
+Con el propósito de validar el sistema re-identificación por características se creó una serie de herramientas que permiten visualizar como se aplica la estrategia de matching o missmatching durante el procesamiento de un video.
+
+\subsubsection{Validación de matching}
+
+La estrategia de matching se desencadena cuando aparece una persona con un identificador de seguimiento nuevo en escena y se analiza si dicha persona pertenece a un cluster disponible, es decir, no utilizado actualmente por otra persona en la escena. En la figura \ref{fig:validarMatching} se observa un ejemplo de una persona nueva que entra en escena con identificador ``52'' (el hombre de remera gris de caja color violeta) la cual el sistema la asocia con el cluster disponible número 2.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=.7]{./Figures/validarMatching.png}
+	\caption{Validación de la estrategia de matching.}
+	\label{fig:validarMatching}
+\end{figure}
+
+La herramienta de validación arroja una ventana con los datos que el sistema posee en ese momento para aplicar la estrategia de matching. En este caso, la herramienta indica que el sistema encontró un cluster candidato para la persona con identificador ``52'' con un 81.5\% de confianza. La validación de matching se la considera exitosa si la foto de la persona nueva coincide con la última foto capturada por el cluster recomendado para ella. 
+
+En caso de no coincidir las imágenes significa que el sistema no debía ejecutar la estrategia de matching, y por lo tanto, se lo considera un falso positivo. Existen falsos positivos en el sistema, el objetivo es reducirlos lo más posible y cumplir con los requerimientos de precisión de monitoreo establecidos para el trabajo.
+
+\newpage
+
+\subsubsection{Validación de missmatching}
+
+La estrategia de missmatching se desencadena cuando el vector de una persona no coincide durante un determinado tiempo con el cluster asociado, es decir, la similitud coseno se encuentra por debajo del parámetro configurado. En la figura \ref{fig:validarMissmatching} se observa un ejemplo en donde el hombre de gris captura la caja con identificador ``43'' que pertenecía a la mujer que lo acompaña.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=.7]{./Figures/validarMissmatching.png}
+	\caption{Validación de la estrategia de missmatching.}
+	\label{fig:validarMissmatching}
+\end{figure}
+
+La herramienta de validación arroja una ventana con los datos que el sistema posee en ese momento para aplicar la estrategia de missmatching. En este caso, la herramienta indica que el sistema encontró una persona cuyo vector de características coincide tal solo un 46.6\% respeco al cluster asociado con identificador ``4''. La validación de missmatching se la considera exitosa si la foto de la persona de la derecha no coincide con la captura del cluster asociado a ella que se encuentra a la izquierda. 
+
+En caso de coincidir las imágenes significa que el sistema no debía ejecutar la estrategia de missmatching, y por lo tanto, se lo considera un falso positivo. Existen falsos positivos cuando una persona cambia drásticamente su apariencia fuera de escena y es confundida con una persona nueva o distinta.
+
+\newpage
 
 %----------------------------------------------------------------------------------------
 %	SECTION 4
