@@ -37,9 +37,6 @@ Para poder utilizar estos modelos es necesario contar con las siguientes librer�
 \item Python versión 3.7 o superior.
 \item Tensorflow GPU versión 2.3.1.
 \item Pytorch versión 1.8.
-\item Numpy versión 1.19.
-\item Scipy versión 1.5.
-\item Jupyterlab versión 3.0.
 \end{itemize}
 
 
@@ -49,8 +46,8 @@ Cada modelo en la cadena realiza un aporte al sistema de detección y seguimient
 
 \begin{itemize}
 \item El detector recibe la imagen entera del frame y por cada persona encontrada retorna una caja que la representa. Esa caja está conformada por sus coordenadas respecto a su ubicación en la imagen original (top, left, bottom ,right) y el grado de certeza de detección (score).
-\item El seguidor recibe  el vector de cajas de personas y a cada una de ellas le asigna un identificador único (id), los cual representan a cada persona en seguimiento.
-\item El extractor recibe el vector de cajas y personas en seguimiento y genera por cada una de ellas un vector de características que la representan en ese frame.
+\item El seguidor recibe  el vector de cajas de personas y a cada una de ellas le asigna un identificador único (id), que representa a cada persona en seguimiento.
+\item El extractor recibe el vector de cajas y personas en seguimiento y genera por cada una de ellas un vector de características. Los vectores obtenidos simbolizan a cada persona en ese frame.
 \end{itemize}
 
 En la figura \ref{fig:aporteModelos} se observa el aporte de cada modelo en la cadena de procesamiento.
@@ -64,7 +61,7 @@ En la figura \ref{fig:aporteModelos} se observa el aporte de cada modelo en la c
 
 \newpage
 
-En la figura \ref{fig:aporteModelos2} se observa al detalle como la información se transforma desde el frame capturado por el video hasta llegar al final de la cadena, cuya salida es el seguimiento de cada persona en ese frame. Cada modelo se utiliza como una caja independiente cuya salida está representada en un vector de datos, cuyo formato es compatible con el siguiente modelo en la cadena.
+En la figura \ref{fig:aporteModelos2} se observa al detalle como la información se transforma desde el frame capturado por el video hasta llegar al final de la cadena. Cada modelo se utiliza como una caja independiente cuya salida está representada por un vector de datos, con formato compatible con el siguiente modelo en la cadena.
 
 \begin{figure}[ht]
 	\centering
@@ -105,7 +102,7 @@ Dentro de la carpeta del dataset se encuentra la carpeta "Data", dentro de la cu
 \item Si vuelve a aparece en dicha cámara en capturas posteriores, las capturas aparecerán en la carpeta ``1\_1''.
 \end{itemize}
 
-Este patrón se repite "N" veces por cada id en cada cámara según la cantidad de veces que re-aparecieron. Cada captura está almacenada como un archivo \file{.png} de tamaño variable (aproximadamente 200 x 100 píxeles). En el nombre de la imagen se encuentra el número de frame para el cual fue tomado dicha captura. 
+Este patrón se repite "N" veces por cada id en cada cámara según la cantidad de veces que re-aparecieron. Cada captura está almacenada como un archivo \file{.png} de tamaño variable (aproximadamente 200 x 100 píxeles). En el nombre de la imagen se encuentra el número de frame para el cual fue \textcolor{red}{tomado dicha captura}. 
 
 \newpage
 
@@ -138,7 +135,7 @@ Con el objetivo de balancear el dataset se realizaron dos tipos de procesamiento
 \item Aumento de datos de aquellas personas debajo del 80\% de la media (un total de 23 personas).
 \end{itemize}
 
-Dado que las imágenes son muy chicas y de baja definición, no se posible aplicar una gran distorsión sin que se pierda información. La única técnica que se utilizó de aumento de datos fue espejar las imágenes a fin de duplicar la cantidad de muestras en las personas menos frecuentes. En la figura \ref{fig:distribucionOriginal} se observa la distribución del dataset modificado.
+Dado que las imágenes son de baja resolución y definición, no se posible aplicar una gran distorsión sin que se pierda información. La única técnica que se utilizó de aumento de datos fue espejar las imágenes a fin de duplicar la cantidad de muestras en las personas menos frecuentes. En la figura \ref{fig:distribucionOriginal} se observa la distribución del dataset modificado.
 
 \newpage
 
@@ -172,7 +169,7 @@ El dataset modificado posee menos capturas que el dataset original, aún así la
 
 \subsection{Entrenamiento grueso y fino}
 
-El entrenamiento del modelo basado en Osnet se dividió en dos etapas, el entrenamiento grueso y fino. En ambas etapas se utilizó el dataset modificado y se realizaron en Colab aprovechando los recursos de GPU que la plataforma provee. El consumo de los datos durante el entrenamiento se efectuó con la herramienta \textit{ImageDataGenerator}\ de la librería Keras.
+El entrenamiento del modelo basado en Osnet se dividió en dos etapas, el entrenamiento grueso y fino. En ambas etapas se utilizó el dataset modificado y se realizaron en Colab aprovechando los recursos de GPU que la plataforma provee. El consumo de los datos durante el entrenamiento \textcolor{red}{se efectuó} con la herramienta \textit{ImageDataGenerator}\ de la librería Keras.
 
 \subsubsection{Entrenamiento grueso}
 
@@ -198,7 +195,7 @@ Se entrenó el modelo en diez épocas durante 40 minutos con una tasa de aprendi
 
 \subsubsection{Entrenamiento fino}
 
-El entrenamiento fine partió del uso del modelo entrenado en la sección anterior. Esta vez se entrenó todas las capas del modelo utilizando una tasa de aprendizaje más baja a fin de realizar un ajuste fino, como se observa en la figura \ref{fig:entrenamientoFino}.
+El entrenamiento fino partió del uso del modelo entrenado en la sección anterior. Esta vez se entrenó todas las capas del modelo utilizando una tasa de aprendizaje más baja a fin de realizar un ajuste fino, como se observa en la figura \ref{fig:entrenamientoFino}.
 
 \begin{figure}[ht]
 	\centering
@@ -259,7 +256,7 @@ Se sometió a ensayo el modelo Osnet (el modelo original), el modelo Cosnet (ela
 
 \newpage
 
-En la figura \ref{fig:comparacionExtractores} se observa que el modelo original de Osnet obtuvo mejor resultado que Cosnet. Cosnet supera los resultados obtenidos del modelo DeepMar, y por lo tanto, el proceso de entrenamiento y pre-procesamiento fueron un éxito.
+En la figura \ref{fig:comparacionExtractores} se observa que el modelo original de Osnet obtuvo mejor resultado que Cosnet. Cosnet supera los resultados obtenidos del modelo DeepMar, y por lo tanto, \textcolor{red}{el proceso de entrenamiento y pre-procesamiento fueron un éxito}.
 
 \begin{figure}[ht]
 	\centering
@@ -268,7 +265,7 @@ En la figura \ref{fig:comparacionExtractores} se observa que el modelo original 
 	\label{fig:comparacionExtractores}
 \end{figure}
 
-El modelo Osnet tuvo un mejor desempeño porque fue entrenado con la función de pérdida \textit{triple-loss}, que maximiza la distancia entre clusters distintos. En un futuro trabajo se continuará trabajando sobre el entrenamiento de Cosnet con triple-loss.
+El modelo Osnet tuvo un mejor desempeño porque fue entrenado con la función de pérdida \textit{triple-loss}, que maximiza la distancia entre clusters distintos. En un futuro trabajo \textcolor{red}{se continuará trabajando} sobre el entrenamiento de Cosnet con triple-loss.
 
 \newpage
 
@@ -279,15 +276,15 @@ El modelo Osnet tuvo un mejor desempeño porque fue entrenado con la función de
 \section{Manejo de oclusiones y re-identificación}
 \label{sec:oclusionesReID}
 
-En esta sección se detalla el uso del extractor de características y sus vectores para solucionar problemas en el seguimiento y monitoreo de personas. Se describen las técnicas de re-identificación utilizadas y la validación de las mismas.
+En esta sección se detalla el uso del extractor de características para solucionar problemas en el seguimiento y monitoreo de personas. Se describen las técnicas de re-identificación utilizadas y la validación de las mismas.
 
 \subsection{Segmentación de personas}
 
 La segmentación es el proceso por el cual se separa un conjunto de datos por similitud o características en grupos llamados clusters. El proceso de segmentación es un éxito cuando los clusters representan correctamente los datos y no hay solapamiento entre ellos.
 
-A fin representar a las personas como un conjunto de datos se utiliza el modelo extractor de características que produce un vector por cada persona en cada detección que la describe en un espacio de 512 dimensiones. Los vectores de características se utilizan para segmentar a las personas y transformarlas en clusters.
+A fin representar \textcolor{red}{a las personas} como un conjunto de datos, se utiliza el modelo extractor de características que produce un vector por cada persona. Los vectores, de 512 dimensiones, se utilizan para segmentar a las personas y transformarlas en clusters.
 
-En la figura \ref{fig:comparacionExtractores} se observa como las capturas de una misma personas forman un cluster que agrupa sus características y la diferencian de las otras personas o clusters. Se utilizó la técnica de \textit{Nearest Centroid} \citep{NEAREST_CENTROID} para calcular el centro de cada cluster dado el conjunto de vectores que lo conforman
+En la figura \ref{fig:comparacionExtractores} se observa como las capturas de una persona forman un cluster, en el cual se agrupan sus características, formando así un cluster por persona. Se utilizó la técnica de \textit{Nearest Centroid} \citep{NEAREST_CENTROID} para calcular el centro de cada cluster dado el conjunto de vectores que lo conforman.
 
 \begin{figure}[ht]
 	\centering
@@ -296,15 +293,17 @@ En la figura \ref{fig:comparacionExtractores} se observa como las capturas de un
 	\label{fig:clusterPersonas}
 \end{figure}
 
-Finalmente, cada cluster que forme el sistema con los vectores de características representará a una persona en el sistema con un identificador único (cluster id). A medida que la persona incorpora más vectores a su cluster más se robustece y mejor la representa.
+\textcolor{red}{Finalmente}, cada cluster formado en el sistema representará a una persona con un identificador único (cluster id). A medida que la persona incorpora más vectores a su cluster más se robustece y mejor la representa.
 
 \newpage
 
 \subsection{Re-identificación por vectores}
 
-El proceso de re-identificación de una persona es aquel en el cual se intenta relacionar una nueva persona por su vector de características con un cluster ya conformado. El objetivo es mantener el seguimiento de una persona con el mismo cluster, es decir con el mismo identificador, a pesar de que se haya perdido de a la persona de escena por unos segundos. Para poder calcular la similitud entre el vector de una persona y los diferentes clusters se utiliza la similitud coseno \citep{COSINE_SIMILARITY}, la cual retorna un valor entre -1 y 1 siendo 1 la expresión para máxima similitud. 
+\textcolor{red}{
+El proceso de re-identificación de personas es aquel en el cual se busca relacionar una nueva persona por su vector de características con un cluster ya conformado. El objetivo es mantener el seguimiento de una persona con el mismo cluster, es decir con el mismo identificador, a pesar de que se haya perdido a la persona de escena por unos segundos. Para poder calcular la similitud entre el vector de una persona y los diferentes clusters se utiliza la similitud coseno \citep{COSINE_SIMILARITY}, la cual retorna un valor entre -1 y 1 siendo 1 la expresión para máxima similitud.
+}
 
-En la figura \ref{fig:similitudCoseno} se observa que dado un punto verde que representa el vector de una nueva persona, se calcula la similitud coseno ``A'' y ``B''. En este caso, el resultado del proceso será que el nuevo vector es más probable que pertenezca al cluster ``A'' que al cluster ``B'' por su cercanía en el espacio, y por lo tanto, la nueva persona será asociada con el cluster ``A''.
+En la figura \ref{fig:similitudCoseno} se observa que dado un punto verde que representa el vector de una nueva persona, se calcula la similitud coseno ``A'' y ``B''. En este caso, el resultado del proceso será que el nuevo vector es más probable que pertenezca al cluster ``A'' que al cluster ``B'' \textcolor{red}{por su cercanía en el espacio}, y por lo tanto, la nueva persona será asociada con el cluster ``A''.
 
 \begin{figure}[ht]
 	\centering
@@ -317,19 +316,19 @@ Está técnica no contempla casos de falso positivo, es decir, asociar erróneam
 
 \subsection{Mejora del seguimiento por vectores}
 
-Durante el monitoreo de una persona puede ocurrir diferentes problemas relacionado con oclusiones o intercambios de identificador como se detalla en la sección \ref{sec:desafiosSeguimiento}. En estos casos, lo que sucede es que se pierde el identificador de seguimiento o se intercambia por uno erróneo y el sistema debe reaccionar para re-identificar a la persona con su correspondiente cluster. 
+Durante el monitoreo de una persona puede ocurrir diferentes problemas relacionados con oclusiones o intercambios de identificador como se detalla en la sección \ref{sec:desafiosSeguimiento}. En estos casos, lo que sucede es que se pierde el identificador de seguimiento o se intercambia por uno erróneo, y el sistema debe reaccionar para re-identificar a la persona con su correspondiente cluster. 
 
 \newpage
 
 El sistema para mejorar el seguimiento por vectores utiliza dos estrategias:
 \begin{itemize}
-\item \textit{Matching}: proceso por el cual el sistema intenta asociar un cluster disponible a un persona que presente un identificador de seguimiento desconocido, es decir, una persona nueva para el sistema. Este proceso puede concluir en que la persona que apareció en escena es realmente una nueva persona que no se había visto hasta el momento (se genera un nuevo cluster), o concluir que en realidad es una persona que se estaba monitoreando pero desapareció de escena (se la asocia con un cluster existente).
-\item \textit{Missmatching}: proceso por el cual el sistema evaluá constantemente si una persona en monitoreo realmente pertenece al cluster asociado. Este proceso busca encontrar identificadores que hayan sido intercambiados por culpa de una oclusión, concluye en la búsqueda de los clusters correctos para aquellas personas  que no hayan pasado la prueba.
+\item \textit{Matching}: proceso por el cual el sistema intenta asociar un cluster disponible a un persona que presente un identificador de seguimiento desconocido, es decir, una persona nueva para el sistema. Este proceso puede concluir en que la persona que apareció en escena es una persona nueva que no se había detectado hasta el momento (se genera un nuevo cluster), o concluir que en realidad es una persona que se estaba monitoreando pero desapareció de escena (se la asocia con un cluster existente).
+\item \textit{Mismatching}: proceso por el cual el sistema evaluá constantemente si una persona en monitoreo realmente pertenece al cluster asociado. Este proceso busca encontrar identificadores que hayan sido intercambiados por culpa de una oclusión. El proceso concluye en la búsqueda de los clusters correctos para aquellas personas  \textcolor{red}{que no hayan pasado la prueba}.
 \end{itemize}
 
 El sistema de mejora está conformado por una serie de \textit{thresholds} y \textit{timers} a fin de evitar generar falsos positivos. Estos valores de configuración se obtuvieron de forma teórica utilizando matrices de similitud, y se ensayaron de forma empírica en diferentes condiciones y escenarios a fin de validar los parámetros seleccionados.
 
-En la figura \ref{fig:matrizSimilitud} se observa la matriz de similitud que se obtuvo de los personajes de ``Los Sims''. En promedio, la similitud entre clusters para este escenario fue de 0.66. El mismo proceso se aplicó a otros videos y escenarios y se analizaron los resultados.
+En la figura \ref{fig:matrizSimilitud} se observa la matriz de similitud que se obtuvo de los personajes de ``Los Sims''. En promedio, la similitud entre clusters para este escenario fue de 0.66. El mismo proceso se repitió con otros videos y escenarios con el objetivo de estimar los parámetros de configuración del sistema de matching y mismatching.
 
 \begin{figure}[ht]
 	\centering
@@ -342,11 +341,11 @@ En la figura \ref{fig:matrizSimilitud} se observa la matriz de similitud que se 
 
 \subsection{Validación del manejo de oclusiones y re-identificación}
 
-Con el propósito de validar el sistema re-identificación por características se creó una serie de herramientas que permiten visualizar como se aplica la estrategia de matching o missmatching durante el procesamiento de un video.
+Con el propósito de validar el sistema re-identificación por características se creó una serie de herramientas que permiten visualizar como se aplica la estrategia de matching o mismatching durante el procesamiento de un video.
 
 \subsubsection{Validación de matching}
 
-La estrategia de matching se desencadena cuando aparece una persona con un identificador de seguimiento nuevo en escena y se analiza si dicha persona pertenece a un cluster disponible, es decir, no utilizado actualmente por otra persona en la escena. En la figura \ref{fig:validarMatching} se observa un ejemplo de una persona nueva que entra en escena con identificador ``52'' (el hombre de remera gris de caja color violeta) la cual el sistema la asocia con el cluster disponible número 2.
+La estrategia de matching se desencadena cuando aparece una persona con un nuevo identificador de seguimiento y se analiza si dicha persona pertenece a un cluster disponible, es decir, no utilizado actualmente por otra persona en la escena. En la figura \ref{fig:validarMatching} se observa un ejemplo de una persona nueva que entra en escena con identificador ``52'' (persona de remera gris de caja color violeta) la cual el sistema la asocia con el cluster disponible número 2.
 
 \begin{figure}[ht]
 	\centering
@@ -357,24 +356,24 @@ La estrategia de matching se desencadena cuando aparece una persona con un ident
 
 La herramienta de validación arroja una ventana con los datos que el sistema posee en ese momento para aplicar la estrategia de matching. En este caso, la herramienta indica que el sistema encontró un cluster candidato para la persona con identificador ``52'' con un 81.5\% de confianza. La validación de matching se la considera exitosa si la foto de la persona nueva coincide con la última foto capturada por el cluster recomendado para ella. 
 
-En caso de no coincidir las imágenes significa que el sistema no debía ejecutar la estrategia de matching, y por lo tanto, se lo considera un falso positivo. Existen falsos positivos en el sistema, el objetivo es reducirlos lo más posible y cumplir con los requerimientos de precisión de monitoreo establecidos para el trabajo.
+En caso de no coincidir las imágenes significa que el sistema no debía ejecutar la estrategia de matching, y por lo tanto, se lo considera un falso positivo. Existen falsos positivos en el sistema, el objetivo es reducirlos al máximo y alcanzar los requerimientos de precisión de monitoreo establecidos para este trabajo.
 
 \newpage
 
-\subsubsection{Validación de missmatching}
+\subsubsection{Validación de mismatching}
 
-La estrategia de missmatching se desencadena cuando el vector de una persona no coincide durante un determinado tiempo con el cluster asociado, es decir, la similitud coseno se encuentra por debajo del parámetro configurado. En la figura \ref{fig:validarMissmatching} se observa un ejemplo en donde el hombre de gris captura la caja con identificador ``43'' que pertenecía a la mujer que lo acompaña.
+La estrategia de mismatching se desencadena cuando el vector de una persona no coincide durante un determinado tiempo con el cluster asociado, es decir, la similitud coseno se encuentra por debajo del parámetro configurado. En la figura \ref{fig:validarMismatching} se observa un ejemplo en donde el hombre de gris captura la caja con identificador ``43'' que pertenecía a la mujer que lo acompaña.
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[scale=.7]{./Figures/validarMissmatching.png}
-	\caption{Validación de la estrategia de missmatching.}
-	\label{fig:validarMissmatching}
+	\includegraphics[scale=.7]{./Figures/validarMismatching.png}
+	\caption{Validación de la estrategia de mismatching.}
+	\label{fig:validarMismatching}
 \end{figure}
 
-La herramienta de validación arroja una ventana con los datos que el sistema posee en ese momento para aplicar la estrategia de missmatching. En este caso, la herramienta indica que el sistema encontró una persona cuyo vector de características coincide tal solo un 46.6\% respeco al cluster asociado con identificador ``4''. La validación de missmatching se la considera exitosa si la foto de la persona de la derecha no coincide con la captura del cluster asociado a ella que se encuentra a la izquierda. 
+La herramienta de validación arroja una ventana con los datos que el sistema posee en ese momento para aplicar la estrategia de mismatching. En este caso, la herramienta indica que el sistema encontró una persona cuyo vector de características coincide tal solo un 46.6\% respeco al cluster asociado con identificador ``4''. La validación de mismatching se la considera exitosa si la foto de la persona de la derecha no coincide con la captura del cluster asociado a ella que se encuentra a la izquierda.
 
-En caso de coincidir las imágenes significa que el sistema no debía ejecutar la estrategia de missmatching, y por lo tanto, se lo considera un falso positivo. Existen falsos positivos cuando una persona cambia drásticamente su apariencia fuera de escena y es confundida con una persona nueva o distinta.
+En caso de coincidir las imágenes significa que el sistema no debía ejecutar la estrategia de mismatching, y por lo tanto, se lo considera un falso positivo. Existen falsos positivos cuando una persona cambia drásticamente su apariencia fuera de escena y es confundida con una persona nueva o distinta.
 
 \newpage
 
@@ -385,9 +384,51 @@ En caso de coincidir las imágenes significa que el sistema no debía ejecutar l
 \section{Motor de seguimiento y monitoreo (Engine)}
 \label{sec:engine}
 
+En esta sección se detalla el diseño del sistema de manejo de oclusiones, re-identificación de personas, incorporación de zonas de interés y cálculo de métricas. De ahora en adelante se hará mención a este sistema bajo el nombre de \textit{Engine}.
+
 \subsection{Arquitectura}
 
+El objetivo principal del Engine es recibir las detecciones, identificadores y características de salida de la cadena de procesamiento de inteligencia artificial para mejorar el sistema de seguimiento y monitoreo. En la figura \ref{fig:arquitecturaEngine} se observa las distintas etapas que componen al Engine:
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=.5]{./Figures/arquitecturaEngine.png}
+	\caption{Arquitectura del Engine.}
+	\label{fig:arquitecturaEngine}
+\end{figure}
+
+A continuación se detalla la funcionalidad de cada etapa de la figura \ref{fig:arquitecturaEngine}:
+\begin{itemize}
+\item Identificación de zonas: esta etapa es la encargada de determinar en que zona se encuentra cada una de las detecciones, utilizando como dato las zonas definidas por el usuario en la interfaz web. Se utilizan algoritmos geométricos para determinar si la detección se encuentra contenida dentro del polígono que define la zona de interés.
+\item Sistema de mejora de seguimiento: esta etapa posee la heurística que integra el uso de las detecciones y las características para el manejo de oclusiones y re-identificación, mejorando la calidad de seguimiento y monitoreo. La heurística está conformada por una máquina de estados que se explica en la sección \ref{sec:maquinaEstados}).
+\item Cálculo de métricas: esta etapa recibe las personas en monitoreo del sistema de mejora de seguimiento y calcula las métricas de cada una y su interacción con las zonas de interés. El resultado de esta etapa es un conjunto en datos en formato \textit{JSON (JavaScript Object Notation)} que captura la interfaz web para presentar al usuario los resultados.
+\end{itemize}
+
+\newpage
+
 \subsection{Máquina de estados}
+\label{sec:maquinaEstados}
+
+La máquina de estados del sistema de monitoreo integra algoritmos de aprendizaje automático y segmentación con el objetivo de mejorar el seguimiento de las personas. Utiliza técnicas de manejo de oclusión y re-identificación de personas dividas en los estados que se observan en la figura \ref{fig:maquinaEstados}.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=.6]{./Figures/maquinaEstados.png}
+	\caption{Máquina de estados del Engine.}
+	\label{fig:maquinaEstados}
+\end{figure}
+
+Los datos de entrada al sistema son las detecciones, que ingresarán al estado ``nueva'' o ``en seguimiento'' en función de si el identificador de seguimiento es nuevo para el sistema. Todos aquellas personas con identificador ya reconocidos tienen asignadas un cluster y por lo tanto son consideradas personas en monitoreo.
+
+A continuación se detalla la lógica de la máquina de estados.
+\begin{itemize}
+\item Nueva: estado en el cual ingresan las nuevas detección y se analiza si es posible aplicar la estrategia de matching, es decir, ubicar una nueva detección con un cluster disponible (re-identificación). En el caso de que fuera posible aplicar la estrategia (el threshold es válido) el estado pasa a ``matching''. En el caso de no poder asociar la detección con una persona registrada, la nueva detección pasa al estado ``en seguimiento'' y se crea un cluster nuevo.
+\item En seguimiento: estado en el cual ingresan las personas asociadas con un cluster y por lo tanto en monitoreo. Si la similitud de una persona en seguimiento respecto a su cluster disminuye por debajo del threshold, el sistema pasa a estado de ``mismatching'' para evaluar esa persona.
+\item Matching: estado en el cual se mantiene en observación una persona candidata de re-identificación. En caso de sostenerse el estado por encima del tiempo de timeout, el estado de esa persona pasa a ``en seguimiento''.
+\item Mismatching: estado en el cual se mantiene en observación una persona que no coincide con las características de su cluster. En caso de sostenerse el estado por encima del tiempo de timeout, el estado de esa persona pasa a ``nueva'', rompiendo el vínculo entre esa detección y su cluster asociado.
+\end{itemize}
+
+\newpage
 
 %----------------------------------------------------------------------------------------
 %	SECTION 5
@@ -396,9 +437,71 @@ En caso de coincidir las imágenes significa que el sistema no debía ejecutar l
 \section{Interfaz de usuario}
 \label{sec:gui}
 
+La interfaz de usuario es la aplicación web utilizada para configurar las zonas de interés en el recinto y observar la evolución de las métricas y el monitoreo de personas. Para el desarrollo de esta aplicación se utilizaron las siguientes tecnologías:
+\begin{itemize}
+\item Flask 2.0: \textit{microframework} \citep{FLASK} de Python utilizado para el desarrollo del \textit{back end} e integración con el \textit{front end}.
+\item HTML, CSS, Javascript: lenguajes de programación utilizados para el desarrollo del front end.
+\end{itemize}
+
+Toda la aplicación funciona dentro del microframework de Flask, en donde, se captura las solicitudes de usuario por \textit{API REST (Representational 
+State Transfer)} \citep{API_REST} y se envían los datos en tiempo real del monitoreo de personas por \textit{websockets} \citep{WEBSOCKETS} a la interfaz de usuario. En el la figura \ref{fig:arquitecturaWebApp} se observa la arquitectura de la aplicación web.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=.6]{./Figures/arquitecturaWebApp.png}
+	\caption{Arquitectura de la aplicación web.}
+	\label{fig:arquitecturaWebApp}
+\end{figure}
+
+El Engine es un proceso que ejecuta la aplicación, utilizando las configuraciones de usuario y los datos obtenidos de la cadena de procesamiento de inteligencia artificial. A medida que los datos son procesados en el Engine se presentan las métricas en la interfaz en diferentes gráficos que se detallarán en las próximas secciones.
+
+\newpage
+
 \subsection{Definición de zonas de interés}
+
+Las zonas de interés las define el usuario en el menu de ``Zones''. Las zonas son definidas como polígonos sobre la imagen del recinto, utilizando el mouse para agregar puntos y formar el polígono. Para poder agregar una zona es necesario primero indicar que tipo de zona se desea crear y con que nombre se la mencionará en la interfaz. Hay diferentes tipos de zonas ya pre-definidas en el sistema:
+
+\begin{itemize}
+\item \textit{Region Of Interest}: utilizada para delimitar la región de interés, es decir, el área en donde se desea detectar personas. Toda detección que se encuentra fuera de esta zona será descartada.
+\item \textit{Avoid}: utilizada para delimitar espacios en donde no se desea detectar personas. Es lo contrario a la ``Region Of Interest'' y se utiliza especialmente para descartar zonas problemáticas.
+\item \textit{Entrance}: utilizada para delimitar el espacio de entrada al recinto.
+\item \textit{Transit}: utilizada para delimitar espacios en donde las personas pueden transitar de un espacio del recinto a otro sin abandonarlo. Se utiliza para detectar personas que cambian de ambiente, salen de cámara (se pierde la detección), pero el sistema sabe que la persona no ha abandonado el recinto.
+\item \textit{Analytics 1/2/3}: utilizada para delimitar espacios genéricos de interés, como por ejemplo: espacio de bebidas, de juegos, de descanso, etc.
+\end{itemize}
+
+En el la figura \ref{fig:arquitecturaWebApp} se observa el ejemplo de algunas zonas dibujadas, se puede apreciar una zona de comida en verde y una zona de tránsito en amarillo.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=.5]{./Figures/visualizacionZonas.png}
+	\caption{Zonas de interés.}
+	\label{fig:visualizacionZonas}
+\end{figure}
+
+Cada zona agregada se almacena con su tipo de zona, color y nombre junto con los puntos que conforman al polígono. Estos datos luego se utilizan en el Engine para determinar los espacios transitados por las personas.
+
+\newpage
 
 \subsection{Visualización del seguimiento}
 
+La visualización del monitoreo de personas en tiempo real se encuentra en el menu de ``Test''. La interfaz no muestra las personal tal cual son vistas por la cámara, sino que genera figuras geométricas para representarlas en la aplicación. En la figura \ref{fig:visualizacionSeguimiento} se observa como son representadas las personas en la interfaz web.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=.8]{./Figures/visualizacionSeguimiento.png}
+	\caption{Visualización del monitoreo de personas en tiempo real.}
+	\label{fig:visualizacionSeguimiento}
+\end{figure}
+
+Cada persona es representada por un poste en el cual en la parte superior se visualiza el identificador de monitoreo de esa persona. A su vez, el poste se pinta del color de la zona en la cual la persona es detectada. En la \ref{fig:visualizacionSeguimiento} se observan dos personas que se encuentran en la zona de juegos (azul) y una persona que se encuentra dentro de la región de interés (verde).
+
 \subsection{Visualización de las métricas}
 
+La visualización de las métricas de monitoreo de personas se encuentra en el menu de ``Metrics''. El sistema provee dos tipos de métricas que puede observar el usuario:
+
+\begin{itemize}
+\item Una tabla ordenada por las zonas de interés más transitadas. Esta tabla la puede utilizar el usuario para ver de golpe de vista cual fue el área más popular del recinto, como también observar el nivel de interacción de cada zona relativa a otras.
+\item Un mapa de calor del recinto. Este gráfico arroja información acerca de como transitaron las personas por el lugar y los espacios en donde más se detuvieron. El usuario puede utilizar este gráfico para observar como las personas transitan de un espacio a otro, permitiéndole optimizar el flujo de tránsito.
+\end{itemize}
+
+En la sección \ref{sec:resultados} se detallan ejemplos de métricas y gráficos obtenidos utilizando esta interfaz con videos de personas.
