@@ -299,11 +299,9 @@ Finalmente cada cluster formado en el sistema representará a una persona con un
 
 \subsection{Re-identificación por vectores}
 
-\textcolor{red}{
-El proceso de re-identificación de personas es aquel en el cual se busca relacionar una nueva persona por su vector de características con un cluster ya conformado. El objetivo es mantener el seguimiento de una persona con el mismo cluster, es decir con el mismo identificador, a pesar de que se haya perdido a la persona de escena por unos segundos. Para poder calcular la similitud entre el vector de una persona y los diferentes clusters se utiliza la similitud coseno \citep{COSINE_SIMILARITY}, la cual retorna un valor entre -1 y 1 siendo 1 la expresión para máxima similitud.
-}
+El proceso de re-identificación de personas es aquel en el cual se busca relacionar una nueva persona por su vector de características con un cluster ya conformado. El objetivo es mantener el seguimiento de una persona con el mismo cluster, es decir con el mismo identificador, a pesar de que se haya salido de escena por unos segundos. Para poder calcular la similitud entre el vector de una persona y los diferentes clusters se utiliza la similitud coseno \citep{COSINE_SIMILARITY}, la cual retorna un valor entre -1 y 1 siendo 1 la expresión para máxima similitud.
 
-En la figura \ref{fig:similitudCoseno} se observa que dado un punto verde que representa el vector de una nueva persona, se calcula la similitud coseno ``A'' y ``B''. En este caso, el resultado del proceso será que el nuevo vector es más probable que pertenezca al cluster ``A'' que al cluster ``B'' \textcolor{red}{por su cercanía en el espacio}, y por lo tanto, la nueva persona será asociada con el cluster ``A''.
+En la figura \ref{fig:similitudCoseno} se observa que dado un punto verde que representa el vector de una nueva persona, se calcula la similitud coseno ``A'' y ``B''. En este caso, el resultado del proceso será que el nuevo vector es más probable que pertenezca al cluster ``A'' que al cluster ``B'', y por lo tanto, la nueva persona será asociada con el cluster ``A''.
 
 \begin{figure}[ht]
 	\centering
@@ -322,8 +320,8 @@ Durante el monitoreo de una persona puede ocurrir diferentes problemas relaciona
 
 El sistema para mejorar el seguimiento por vectores utiliza dos estrategias:
 \begin{itemize}
-\item \textit{Matching}: proceso por el cual el sistema intenta asociar un cluster disponible a un persona que presente un identificador de seguimiento desconocido, es decir, una persona nueva para el sistema. Este proceso puede concluir en que la persona que apareció en escena es una persona nueva que no se había detectado hasta el momento (se genera un nuevo cluster), o concluir que en realidad es una persona que se estaba monitoreando pero desapareció de escena (se la asocia con un cluster existente).
-\item \textit{Mismatching}: proceso por el cual el sistema evaluá constantemente si una persona en monitoreo realmente pertenece al cluster asociado. Este proceso busca encontrar identificadores que hayan sido intercambiados por culpa de una oclusión. El proceso concluye en la búsqueda de los clusters correctos para aquellas personas  \textcolor{red}{que no hayan pasado la prueba}.
+\item \textit{Matching}: proceso por el cual el sistema intenta asociar un cluster disponible a un persona que presente un identificador de seguimiento desconocido, es decir, uno nuevo para el sistema. Este proceso puede concluir en que la persona que apareció en escena es un individuo nuevo que no se había detectado hasta el momento (se genera un nuevo cluster), o concluir que en realidad es una persona que se estaba monitoreando pero desapareció de escena (se la asocia con un cluster existente).
+\item \textit{Mismatching}: proceso por el cual el sistema evaluá constantemente si una persona en monitoreo realmente pertenece al cluster asociado. Este proceso busca encontrar identificadores que hayan sido intercambiados por culpa de una oclusión. El proceso concluye en la búsqueda de los clusters correctos para aquellas personas que no hayan pasado la prueba.
 \end{itemize}
 
 El sistema de mejora está conformado por una serie de \textit{thresholds} y \textit{timers} a fin de evitar generar falsos positivos. Estos valores de configuración se obtuvieron de forma teórica utilizando matrices de similitud, y se ensayaron de forma empírica en diferentes condiciones y escenarios a fin de validar los parámetros seleccionados.
@@ -345,7 +343,7 @@ Con el propósito de validar el sistema re-identificación por características 
 
 \subsubsection{Validación de matching}
 
-La estrategia de matching se desencadena cuando aparece una persona con un nuevo identificador de seguimiento y se analiza si dicha persona pertenece a un cluster disponible, es decir, no utilizado actualmente por otra persona en la escena. En la figura \ref{fig:validarMatching} se observa un ejemplo de una persona nueva que entra en escena con identificador ``52'' (persona de remera gris de caja color violeta) la cual el sistema la asocia con el cluster disponible número 2.
+La estrategia de matching se desencadena cuando aparece una persona con un nuevo identificador de seguimiento y se analiza si pertenece a un cluster disponible, es decir, no utilizado actualmente por otra persona en escena. En la figura \ref{fig:validarMatching} se observa un ejemplo de una persona nueva que entra en escena con identificador ``52'' (persona de remera gris de caja color violeta) la cual el sistema la asocia con el cluster disponible número 2.
 
 \begin{figure}[ht]
 	\centering
@@ -362,7 +360,7 @@ En caso de no coincidir las imágenes significa que el sistema no debía ejecuta
 
 \subsubsection{Validación de mismatching}
 
-La estrategia de mismatching se desencadena cuando el vector de una persona no coincide durante un determinado tiempo con el cluster asociado, es decir, la similitud coseno se encuentra por debajo del parámetro configurado. En la figura \ref{fig:validarMismatching} se observa un ejemplo en donde el hombre de gris captura la caja con identificador ``43'' que pertenecía a la mujer que lo acompaña.
+La estrategia de mismatching se desencadena cuando el vector de una persona no coincide durante un determinado tiempo con el cluster asociado, es decir, la similitud coseno se encuentra por debajo del parámetro configurado. En la figura \ref{fig:validarMismatching} se observa un ejemplo en donde el hombre de remera gris captura la caja con identificador ``43'' que pertenecía a la mujer que lo acompaña.
 
 \begin{figure}[ht]
 	\centering
@@ -399,8 +397,8 @@ El objetivo principal del Engine es recibir las detecciones, identificadores y c
 
 A continuación se detalla la funcionalidad de cada etapa de la figura \ref{fig:arquitecturaEngine}:
 \begin{itemize}
-\item Identificación de zonas: esta etapa es la encargada de determinar en que zona se encuentra cada una de las detecciones, utilizando como dato las zonas definidas por el usuario en la interfaz web. Se utilizan algoritmos geométricos para determinar si la detección se encuentra contenida dentro del polígono que define la zona de interés.
-\item Sistema de mejora de seguimiento: esta etapa posee la heurística que integra el uso de las detecciones y las características para el manejo de oclusiones y re-identificación, mejorando la calidad de seguimiento y monitoreo. La heurística está conformada por una máquina de estados que se explica en la sección \ref{sec:maquinaEstados}).
+\item Identificación de zonas: esta etapa es la encargada de determinar en que zona se encuentra cada una de las detecciones, utilizando como dato las zonas definidas por el usuario en la interfaz web. Se utilizan algoritmos geométricos \citep{POLYGON_TEST_INSIDE} para determinar si la detección se encuentra contenida dentro del polígono que define la zona de interés.
+\item Sistema de mejora de seguimiento: esta etapa posee la heurística que integra el uso de las detecciones y las características para el manejo de oclusiones y re-identificación, mejorando la calidad de seguimiento y monitoreo. La heurística está conformada por una máquina de estados que se explica en la sección \ref{sec:maquinaEstados}.
 \item Cálculo de métricas: esta etapa recibe las personas en monitoreo del sistema de mejora de seguimiento y calcula las métricas de cada una y su interacción con las zonas de interés. El resultado de esta etapa es un conjunto en datos en formato \textit{JSON (JavaScript Object Notation)} que captura la interfaz web para presentar al usuario los resultados.
 \end{itemize}
 
@@ -422,7 +420,7 @@ Los datos de entrada al sistema son las detecciones, que ingresarán al estado `
 
 A continuación se detalla la lógica de la máquina de estados.
 \begin{itemize}
-\item Nueva: estado en el cual ingresan las nuevas detección y se analiza si es posible aplicar la estrategia de matching, es decir, ubicar una nueva detección con un cluster disponible (re-identificación). En el caso de que fuera posible aplicar la estrategia (el threshold es válido) el estado pasa a ``matching''. En el caso de no poder asociar la detección con una persona registrada, la nueva detección pasa al estado ``en seguimiento'' y se crea un cluster nuevo.
+\item Nueva: estado en el cual ingresan las nuevas detección y se analiza si es posible aplicar la estrategia de matching, es decir, relacionar una nueva detección con un cluster disponible (re-identificación). En el caso de que fuera posible aplicar la estrategia (el threshold es válido) el estado pasa a ``matching''. En el caso de no poder asociar la detección con una persona registrada, la nueva detección pasa al estado ``en seguimiento'' y se crea un cluster nuevo.
 \item En seguimiento: estado en el cual ingresan las personas asociadas con un cluster y por lo tanto en monitoreo. Si la similitud de una persona en seguimiento respecto a su cluster disminuye por debajo del threshold, el sistema pasa a estado de ``mismatching'' para evaluar esa persona.
 \item Matching: estado en el cual se mantiene en observación una persona candidata de re-identificación. En caso de sostenerse el estado por encima del tiempo de timeout, el estado de esa persona pasa a ``en seguimiento''.
 \item Mismatching: estado en el cual se mantiene en observación una persona que no coincide con las características de su cluster. En caso de sostenerse el estado por encima del tiempo de timeout, el estado de esa persona pasa a ``nueva'', rompiendo el vínculo entre esa detección y su cluster asociado.
@@ -437,7 +435,7 @@ A continuación se detalla la lógica de la máquina de estados.
 \section{Interfaz de usuario}
 \label{sec:gui}
 
-La interfaz de usuario es la aplicación web utilizada para configurar las zonas de interés en el recinto y observar la evolución de las métricas y el monitoreo de personas. Para el desarrollo de esta aplicación se utilizaron las siguientes tecnologías:
+La interfaz de usuario es la aplicación web que se utiliza para configurar las zonas de interés en el recinto y observar la evolución de las métricas y el monitoreo de personas. Para el desarrollo de esta aplicación se utilizaron las siguientes tecnologías:
 \begin{itemize}
 \item Flask 2.0: \textit{microframework} \citep{FLASK} de Python utilizado para el desarrollo del \textit{back end} e integración con el \textit{front end}.
 \item HTML, CSS, Javascript: lenguajes de programación utilizados para el desarrollo del front end.
@@ -459,14 +457,14 @@ El Engine es un proceso que ejecuta la aplicación, utilizando las configuracion
 
 \subsection{Definición de zonas de interés}
 
-Las zonas de interés las define el usuario en el menu de ``Zones''. Las zonas son definidas como polígonos sobre la imagen del recinto, utilizando el mouse para agregar puntos y formar el polígono. Para poder agregar una zona es necesario primero indicar que tipo de zona se desea crear y con que nombre se la mencionará en la interfaz. Hay diferentes tipos de zonas ya pre-definidas en el sistema:
+Las zonas de interés las define el usuario en el menu de ``Zones''. Las zonas son definidas como polígonos sobre la imagen del recinto, utilizando el mouse para agregar puntos y formar cada polígono. Para poder agregar un polígono es necesario primero indicar que tipo de zona se desea crear y con que nombre se la mencionará en la interfaz. Hay diferentes tipos de zonas ya pre-definidas en el sistema:
 
 \begin{itemize}
 \item \textit{Region Of Interest}: utilizada para delimitar la región de interés, es decir, el área en donde se desea detectar personas. Toda detección que se encuentra fuera de esta zona será descartada.
 \item \textit{Avoid}: utilizada para delimitar espacios en donde no se desea detectar personas. Es lo contrario a la ``Region Of Interest'' y se utiliza especialmente para descartar zonas problemáticas.
 \item \textit{Entrance}: utilizada para delimitar el espacio de entrada al recinto.
 \item \textit{Transit}: utilizada para delimitar espacios en donde las personas pueden transitar de un espacio del recinto a otro sin abandonarlo. Se utiliza para detectar personas que cambian de ambiente, salen de cámara (se pierde la detección), pero el sistema sabe que la persona no ha abandonado el recinto.
-\item \textit{Analytics 1/2/3}: utilizada para delimitar espacios genéricos de interés, como por ejemplo: espacio de bebidas, de juegos, de descanso, etc.
+\item \textit{Analytics 1/2/3}: utilizada para delimitar espacios genéricos de interés, como por ejemplo: espacio de bebidas, juegos, descanso, etc.
 \end{itemize}
 
 En el la figura \ref{fig:arquitecturaWebApp} se observa el ejemplo de algunas zonas dibujadas, se puede apreciar una zona de comida en verde y una zona de tránsito en amarillo.
@@ -504,4 +502,4 @@ La visualización de las métricas de monitoreo de personas se encuentra en el m
 \item Un mapa de calor del recinto. Este gráfico arroja información acerca de como transitaron las personas por el lugar y los espacios en donde más se detuvieron. El usuario puede utilizar este gráfico para observar como las personas transitan de un espacio a otro, permitiéndole optimizar el flujo de tránsito.
 \end{itemize}
 
-En la sección \ref{sec:resultados} se detallan ejemplos de métricas y gráficos obtenidos utilizando esta interfaz con videos de personas.
+En la sección \ref{sec:resultados} se detallan ejemplos de métricas y gráficos obtenidos utilizando la interfaz con videos de personas.
