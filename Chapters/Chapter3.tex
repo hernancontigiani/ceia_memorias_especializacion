@@ -85,7 +85,7 @@ En esta sección se detalla la selección del dataset, la preparación de los da
 
 Existen diversos datasets disponibles \citep{DATASETS} para entrenar modelos de clasificación y extracción de características de personas. Para la elaboración de este trabajo se optó por utilizar el dataset ``RPIfield'' \citep{RPIfield}, el cual está autorizado para su libre uso y con el consentimientos de los participantes para el entrenamiento de este tipo de modelos.
 
-El dataset RPIfield está formado por capturas de 112 personas en 12 cámaras, en las cuales al menos cada uno aparece en tres cámaras distintas. En la figura \ref{fig:capturasDataset} se observa un ejemplo de las capturas disponibles en este dataset.
+El dataset RPIfield está formado por capturas de 112 personas en 12 cámaras, en las cuales al menos cada individuo aparece en tres cámaras distintas. En la figura \ref{fig:capturasDataset} se observa un ejemplo de las capturas disponibles en este dataset.
 
 \begin{figure}[ht]
 	\centering
@@ -96,19 +96,19 @@ El dataset RPIfield está formado por capturas de 112 personas en 12 cámaras, e
 
 \subsubsection{Composición del dataset}
 
-Dentro de la carpeta del dataset se encuentra la carpeta "Data", dentro de la cual hay 12 carpetas (uno por cada cámara). Dentro de cada carpeta hay una carpeta o varias carpetas por persona (por id), por ejemplo con el id 1:
+Dentro de la carpeta del dataset se encuentra la carpeta "Data", dentro de la cual hay 12 subcarpetas (una por cada cámara). Dentro de cada una hay una o varias carpetas por persona (por id), por ejemplo con el id 1:
 \begin{itemize}
-\item Las capturas de la primera vez que aparece la persona en dicha cámara se almacenan en la carpeta ``1''.
-\item Si vuelve a aparece en dicha cámara en capturas posteriores, las capturas aparecerán en la carpeta ``1\_1''.
+\item Las capturas de la primera vez que aparece la persona en una cámara se almacenan en la carpeta ``1''.
+\item Si vuelve a aparecer en la misma cámara en capturas posteriores, estas aparecerán en la carpeta ``1\_1''.
 \end{itemize}
 
-Este patrón se repite "N" veces por cada id en cada cámara según la cantidad de veces que re-aparecieron. Cada captura está almacenada como un archivo \file{.png} de tamaño variable (aproximadamente 200 x 100 píxeles). En el nombre de la imagen se encuentra el número de frame para el cual fue \textcolor{red}{tomado dicha captura}. 
+Este patrón se repite "N" veces por cada id en cada cámara según la cantidad de veces que re-aparecieron. Las capturas están almacenadas como un archivo \file{.png} de tamaño variable (aproximadamente 200 x 100 píxeles). En el nombre de la imagen se encuentra el número de frame de la captura.
 
 \newpage
 
 \subsubsection{Distribución de los datos}
 
-El dataset original cuenta con 211644 capturas, en la figura \ref{fig:distribucionOriginal} se observa como se encuentran distribuidas estas capturas entre los 112 participantes.
+El dataset original cuenta con 211644 capturas, en la figura \ref{fig:distribucionOriginal} se observa como se encuentran distribuidas entre los 112 participantes.
 
 \begin{figure}[ht]
 	\centering
@@ -125,17 +125,17 @@ Datos obtenidos del dataset original:
 \item Desvió estándar de capturas por persona: 2325.
 \end{itemize}
 
-A fin de balancear el dataset se decidió tomar menos capturas de las personas más frecuentes (aquellas que superan el cuantil 95\%) ya que por lo observado en los datos poseen muchas capturas repetidas que no aportan valor al sistema.
+A fin de balancear el dataset se decidió tomar menos capturas de las personas más frecuentes (aquellas que superan el cuantil 95\%) ya que por lo observado en los datos poseen muchas imágenes repetidas que no aportan valor al sistema.
 
 \subsubsection{Transformación de los datos}
 
 Con el objetivo de balancear el dataset se realizaron dos tipos de procesamiento de datos:
 \begin{itemize}
-\item Submuestreo de aquellas personas que superaran el cuantil 95\% (una total de 6 personas).
+\item Submuestreo de aquellas personas que superaran el cuantil 95\% (un total de 6 personas).
 \item Aumento de datos de aquellas personas debajo del 80\% de la media (un total de 23 personas).
 \end{itemize}
 
-Dado que las imágenes son de baja resolución y definición, no se posible aplicar una gran distorsión sin que se pierda información. La única técnica que se utilizó de aumento de datos fue espejar las imágenes a fin de duplicar la cantidad de muestras en las personas menos frecuentes. En la figura \ref{fig:distribucionOriginal} se observa la distribución del dataset modificado.
+Dado que las imágenes son de baja resolución y definición, no es posible aplicar una gran distorsión sin que se pierda información. La única técnica que se utilizó de aumento de datos fue espejar las imágenes a fin de duplicar la cantidad de muestras en las personas menos frecuentes. En la figura \ref{fig:distribucionOriginal} se observa la distribución del dataset modificado.
 
 \newpage
 
@@ -163,13 +163,13 @@ El dataset modificado posee una distribución de datos más balanceada y pareja 
 	\label{tab:datasets}
 \end{table}
 
-El dataset modificado posee menos capturas que el dataset original, aún así la cantidad es suficiente para entrenar un modelo de clasificación de imágenes. De las 173599 capturas se reservaron 140055 imágenes para entrenamiento (80\%), 15799 imágenes para validación (9\%) y 17745 imágenes para evaluación (11\%).
+El dataset modificado posee menos capturas que el dataset original, aún así la cantidad es suficiente para entrenar un modelo de clasificación de imágenes. De las 173599 capturas se reservaron 140055 imágenes para entrenamiento (80\%), 15799 para validación (9\%) y 17745 para evaluación (11\%).
 
 \newpage
 
 \subsection{Entrenamiento grueso y fino}
 
-El entrenamiento del modelo basado en Osnet se dividió en dos etapas, el entrenamiento grueso y fino. En ambas etapas se utilizó el dataset modificado y se realizaron en Colab aprovechando los recursos de GPU que la plataforma provee. El consumo de los datos durante el entrenamiento \textcolor{red}{se efectuó} con la herramienta \textit{ImageDataGenerator}\ de la librería Keras.
+El entrenamiento del modelo basado en Osnet se dividió en dos etapas: el entrenamiento grueso y fino. En ambas etapas se utilizó el dataset modificado y el entorno de Colab aprovechando los recursos de GPU que la plataforma provee. El consumo de los datos durante el entrenamiento se efectuó con la herramienta \textit{ImageDataGenerator}\ de la librería Keras.
 
 \subsubsection{Entrenamiento grueso}
 
@@ -182,7 +182,7 @@ El entrenamiento grueso partió del uso de un modelo basado en Osnet con sus pes
 	\label{fig:entrenamientoGrueso}
 \end{figure}
 
-Se entrenó el modelo en diez épocas durante 40 minutos con una tasa de aprendizaje de 0.001, en la figura \ref{fig:entrenamientoGruesoResultado} se observa que la exactitud alcanzada por el modelo durante el entrenamiento grueso es aproximadamente 0.6.
+Se entrenó el modelo en diez iteraciones durante 40 minutos con una tasa de aprendizaje de 0.001, en la figura \ref{fig:entrenamientoGruesoResultado} se observa que la exactitud alcanzada por el modelo durante el entrenamiento grueso es aproximadamente 0.6.
 
 \begin{figure}[ht]
 	\centering
@@ -195,7 +195,7 @@ Se entrenó el modelo en diez épocas durante 40 minutos con una tasa de aprendi
 
 \subsubsection{Entrenamiento fino}
 
-El entrenamiento fino partió del uso del modelo entrenado en la sección anterior. Esta vez se entrenó todas las capas del modelo utilizando una tasa de aprendizaje más baja a fin de realizar un ajuste fino, como se observa en la figura \ref{fig:entrenamientoFino}.
+El entrenamiento fino partió del uso del modelo utilizado en la sección anterior. Esta vez se entrenaron todas las capas del modelo utilizando una tasa de aprendizaje más baja a fin de realizar un ajuste fino, como se observa en la figura \ref{fig:entrenamientoFino}.
 
 \begin{figure}[ht]
 	\centering
@@ -204,7 +204,7 @@ El entrenamiento fino partió del uso del modelo entrenado en la sección anteri
 	\label{fig:entrenamientoFino}
 \end{figure}
 
-Se entrenó el modelo en trece épocas durante tres horas con una tasa de aprendizaje de 0.00001, en la figura \ref{fig:entrenamientoFinoResultado} se observa que la exactitud alcanzada por el modelo durante el entrenamiento fino es aproximadamente 0.93.
+Se entrenó el modelo en trece iteraciones durante tres horas con una tasa de aprendizaje de 0.00001, en la figura \ref{fig:entrenamientoFinoResultado} se observa que la exactitud alcanzada por el modelo durante el entrenamiento fino es aproximadamente 0.93.
 
 \begin{figure}[ht]
 	\centering
@@ -245,7 +245,7 @@ Con el propósito de comparar el extractor de características entrenado (al que
 	\label{fig:galerias}
 \end{figure}
 
-Se sometió a ensayo el modelo Osnet (el modelo original), el modelo Cosnet (elaborado en este trabajo) y el modelo DeepMar (mencionado en la sección \ref{sec:exactorOsnet}). Se utilizó la métrica de la silueta \citep{METRICA_SILUETA} para comparar estos modelos, la cual se obtiene como el cociente entre la distancia de todos los puntos de un mismo cluster al centro y la distancia de un cluster con otros. En la figura \ref{fig:metricaSilueta} se observa que cuanto más cerca se encuentren los puntos pertenecientes a un mismo cluster y más alejados estén los clusters entre sí (B), más alta será la métrica de la silueta.
+Se sometió a ensayo el modelo Osnet (el modelo original), el modelo Cosnet (elaborado en este trabajo) y el modelo DeepMar (mencionado en la sección \ref{sec:exactorOsnet}). Se utilizó la métrica de la silueta \citep{METRICA_SILUETA} para comparar estos modelos, la cual se obtiene como el cociente entre la distancia de todos los puntos de un mismo cluster al centro y la distancia de un cluster con otros. En la figura \ref{fig:metricaSilueta} se observa que cuanto más cerca se encuentren los puntos pertenecientes a un mismo cluster (A) y más alejados estén los clusters entre sí (B), más alta será la métrica de la silueta.
 
 \begin{figure}[ht]
 	\centering
@@ -256,7 +256,7 @@ Se sometió a ensayo el modelo Osnet (el modelo original), el modelo Cosnet (ela
 
 \newpage
 
-En la figura \ref{fig:comparacionExtractores} se observa que el modelo original de Osnet obtuvo mejor resultado que Cosnet. Cosnet supera los resultados obtenidos del modelo DeepMar, y por lo tanto, \textcolor{red}{el proceso de entrenamiento y pre-procesamiento fueron un éxito}.
+En la figura \ref{fig:comparacionExtractores} se observa que el modelo original de Osnet obtuvo mejor resultado que Cosnet. Cosnet supera los resultados obtenidos del modelo DeepMar, y por lo tanto, el proceso de entrenamiento y pre-procesamiento fueron un éxito.
 
 \begin{figure}[ht]
 	\centering
@@ -265,7 +265,7 @@ En la figura \ref{fig:comparacionExtractores} se observa que el modelo original 
 	\label{fig:comparacionExtractores}
 \end{figure}
 
-El modelo Osnet tuvo un mejor desempeño porque fue entrenado con la función de pérdida \textit{triple-loss}, que maximiza la distancia entre clusters distintos. En un futuro trabajo \textcolor{red}{se continuará trabajando} sobre el entrenamiento de Cosnet con triple-loss.
+El modelo Osnet tuvo un mejor desempeño porque fue entrenado con la función de pérdida \textit{triple-loss}, que maximiza la distancia entre clusters distintos. En un futuro trabajo se continuará desarrollando el entrenamiento de Cosnet con triple-loss.
 
 \newpage
 
@@ -282,9 +282,9 @@ En esta sección se detalla el uso del extractor de características para soluci
 
 La segmentación es el proceso por el cual se separa un conjunto de datos por similitud o características en grupos llamados clusters. El proceso de segmentación es un éxito cuando los clusters representan correctamente los datos y no hay solapamiento entre ellos.
 
-A fin representar \textcolor{red}{a las personas} como un conjunto de datos, se utiliza el modelo extractor de características que produce un vector por cada persona. Los vectores, de 512 dimensiones, se utilizan para segmentar a las personas y transformarlas en clusters.
+A fin representar a las personas como un conjunto de datos, se utiliza el modelo extractor de características que produce un vector por cada individuo. Los vectores, de 512 dimensiones, se utilizan para segmentar a las personas y transformarlas en clusters.
 
-En la figura \ref{fig:comparacionExtractores} se observa como las capturas de una persona forman un cluster, en el cual se agrupan sus características, formando así un cluster por persona. Se utilizó la técnica de \textit{Nearest Centroid} \citep{NEAREST_CENTROID} para calcular el centro de cada cluster dado el conjunto de vectores que lo conforman.
+En la figura \ref{fig:comparacionExtractores} se observa como las capturas de una persona forman un cluster, agrupando sus características. Se utilizó la técnica de \textit{Nearest Centroid} \citep{NEAREST_CENTROID} para calcular el centro de cada cluster dado el conjunto de vectores que lo conforman.
 
 \begin{figure}[ht]
 	\centering
@@ -293,7 +293,7 @@ En la figura \ref{fig:comparacionExtractores} se observa como las capturas de un
 	\label{fig:clusterPersonas}
 \end{figure}
 
-\textcolor{red}{Finalmente}, cada cluster formado en el sistema representará a una persona con un identificador único (cluster id). A medida que la persona incorpora más vectores a su cluster más se robustece y mejor la representa.
+Finalmente cada cluster formado en el sistema representará a una persona con un identificador único (cluster id). A medida que la persona incorpora más vectores a su cluster más se robustece y mejor la representa.
 
 \newpage
 
