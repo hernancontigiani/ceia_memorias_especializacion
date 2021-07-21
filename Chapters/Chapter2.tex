@@ -2,7 +2,7 @@
 
 \label{Chapter2}
 
-En este capítulo
+En este capítulo se detalla las tecnologías aplicadas en el desarrollo del trabajo, destacando los componentes de inteligencia artificial seleccionados para la detección y seguimiento de personas. Finalmente se describe los desafíos que el sistema debe superar para alcanzar los requerimientos establecidos.
 
 %----------------------------------------------------------------------------------------
 %	SECTION 1
@@ -11,7 +11,7 @@ En este capítulo
 \section{Requerimientos}
 \label{sec:requerimientos}
 
-Es esta sección
+\newpage
 
 %----------------------------------------------------------------------------------------
 %	SECTION 2
@@ -20,21 +20,101 @@ Es esta sección
 \section{Modelos de inteligencia artificial utilizados}
 \label{sec:modelosIA}
 
+En esta sección se realiza una introducción a los modelos de inteligencia artificial utilizados. En la sección \ref{sec:cadenaProcesamiento} se detalla la implementación e integración de los mismos.
+
 \subsection{Detector Yolo}
 
-\textit{Yolo (You Only Look once)}\footnote{\url{https://en.wikipedia.org/wiki/Raster_graphics}} es un detector...
+\textit{Yolo (You Only Look once)} es un modelo de inteligencia artificial que utiliza aprendizaje profundo y redes convolucionales para detectar objetos en imágenes. El nombre del modelo hace referencia a su arquitectura, ya que permite detectar múltiples objetos de una imagen con solo procesarla una vez (solo ``verla'' una vez). El proceso de detección está conformado por los siguientes pasos:
 
+\begin{itemize}
+\item Se divide la imagen original en una cuadrícula de ``SxS''.
+\item En cada celda se predicen ``N'' detecciones y se calcula la precisión de detección de cada una.
+\item Una detección se conforma por una caja que la situá en la imagen original (coordenadas X e Y, alto y ancho). Esta caja se la conoce como \textit{bounding boxe (bboxe)}.
+\item Las detecciones duplicadas o que posean un baja precisión de detección (configurable por el usuario) son descartadas.
+\end{itemize}
+
+En la figura \ref{fig:diagramaYolo} se observa un ejemplo del proceso completo de detección, en la cual el sistema detecta tres objetos en la imagen: un perro, una bicicleta y un auto. El resultado de procesar esta imagen por Yolo son tres bboxes con las coordenadas y la precisión de detección de cada objeto.
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[scale=.50]{./Figures/questionMark.png}
-	\caption{Esquema de funcionamiento de Yolo.}
+	\includegraphics[scale=.60]{./Figures/yolo.png}
+	\caption{Esquema de funcionamiento de Yolo\protect\footnotemark.}
 	\label{fig:diagramaYolo}
 \end{figure}
 
+\footnotetext{Imagen tomada de \url{https://pjreddie.com/darknet/yolov1/}}
 
+\newpage
+
+Otros modelos utilizados para detectar objetos en imágenes son los derivados de las arquitecturas ``R-CNN'' y ``Fast R-CNN'' \citep{RCNN}, que se basan en dividir la imagen en múltiples regiones y por cada una de ellas efectuar una clásica clasificación de imágenes. El proceso de dividir la imagen en regiones se encuentra bastante optimizado en las últimas versiones de estas arquitecturas, pero el sistema no deja de aplicar una detección por cada región candidata. Los modelos derivados de estas arquitecturas son más lentos que Yolo (no recomendables para procesos en tiempo real) pero son más precisos, como se ilustra en la tabla \ref{tab:comparativaDetectores}.
+
+\begin{table}[h]
+	\centering
+	\caption[Comparativa de detectores]{Comparativa de detectores.}
+	\begin{tabular}{l c c}    
+		\toprule
+		\textbf{Detector}   & \textbf{Velocidad [FPS]} & \textbf{Precisión promedio [\%]} \\
+		\midrule
+		R-CNN & 0,02 & 58,5\% \\
+		Fast R-CNN & 0,5 & 70\% \\
+		Faster R-CNN & 7 & 73,2\% \\
+		Yolo & 45 & 63,4\% \\
+		\bottomrule
+		\hline
+	\end{tabular}
+	\label{tab:comparativaDetectores}
+\end{table}
+
+La velocidad de ejecución de un modelo de inteligencia artificial se mide en \textit{frames per seconds (FPS)}, es decir, a que velocidad se pueden procesar imágenes de forma consecutiva sin presentar un retraso en el video generado de salida.
 
 \subsection{Seguidor Deepsort}
+
+\textit{Deepsort (Deep Simple Online Tracking)} es un modelo de inteligencia artificial que utiliza aprendizaje profundo y técnicas de visión por computadora para seguir múltiples objetos en imágenes. El modelo Deepsort es la evolución del modelo seguidor ``Sort'', que incorpora un comparador de imágenes o características al sistema junto al filtro de Kalman \citep{KALMAN_FILTER} para asociar las detecciones en cada frame. En la figura \ref{fig:deepsortArq} se observa un diagrama de alto nivel de la arquitectura Deepsort.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=.55]{./Figures/deepsort.png}
+	\caption{Arquitectura de Deepsort.}
+	\label{fig:deepsortArq}
+\end{figure}
+
+El seguidor consume a la entrada las detecciones en forma de bboxes que arroja el detector, como resultado retorna las bboxes con los identificadores de seguimiento asociados a ellas. 
+
+\newpage
+
+En la figura \ref{fig:deepsortProcess} se ilustra el proceso de seguimiento, el cual esta conformado por los siguientes pasos:
+\begin{itemize}
+\item Por cada detección que ingresa al seguidor, se estima la próxima posición de cada bboxe utilizando el filtro de Kalman. Este filtro estima la posición nueva utilizando la dinámica de movimiento que representa al objecto en seguimiento, en este caso, la dinámica de movimiento de personas.
+\item En el siguiente frame se asocian las nuevas detecciones con las predicciones calculadas. Aquellas bboxes que coincidan con las predicciones por arriba de un margen configurable se las asocia al mismo objecto. Cada objecto identificado por el seguidor obtiene un identificador único de seguimiento (ID).
+\item Aquellas bboxes que no coincidan con las predicciones se buscará asociarlas con detecciones anteriores utilizando el comparador de imágenes o características. Este sistema robustece al proceso cuando un objecto desaparece algunos frames de la imagen, permitiendo al sistema re-encontrar objectos en seguimiento que no hayan estado disponibles todos los frames de forma continua.
+\end{itemize}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=.65]{./Figures/deepsortProcess.png}
+	\caption{Esquema de funcionamiento de Deepsort}
+	\label{fig:deepsortProcess}
+\end{figure}
+
+La principal ventaja de Deepsort es que gracias al comparador de características es más robusto a oclusiones o pérdidas de detección momentáneas, además de ser uno de los modelos seguidores de objectos más rápidos. En la tabla \ref{tab:comparativaSeguidores} se comparan distintos modelos seguidores de objectos.
+
+\begin{table}[h]
+	\centering
+	\caption[Comparativa de seguidores]{Comparativa de seguidores.}
+	\begin{tabular}{l c c c}    
+		\toprule
+		\textbf{Seguidor} & \textbf{Velocidad [FPS]}  & \textbf{Precisión [MOTA]} & \textbf{Intercambios de IDs} \\
+		\midrule
+		POI & 10 & 61,4\% & 805 \\
+		Sort & 60 & 59,8\% & 1423 \\
+		Deepsort & 40 & 66,1\% & 781 \\
+		\bottomrule
+		\hline
+	\end{tabular}
+	\label{tab:comparativaSeguidores}
+\end{table}
+
+\newpage
 
 \subsection{Extractor de características Osnet}
 \label{sec:exactorOsnet}
