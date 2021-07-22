@@ -11,6 +11,33 @@ En este capítulo se detalla las tecnologías aplicadas en el desarrollo del tra
 \section{Requerimientos}
 \label{sec:requerimientos}
 
+En esta sección se detalla los requerimientos establecidos para este trabajo, que guiaron el diseño y la implementación del mismo:
+
+\begin{enumerate}
+\item Requerimientos asociados con el proceso de inteligencia artificial:
+	\begin{enumerate}
+	\item Detectar y seguir personas en un video, excluir otros elementos.
+	\item Generar características que permitan luego re-identificar personas perdidas.
+	\item Resolver problemáticas en el seguimiento de las personas utilizando sus características.
+	\end{enumerate}
+\item Requerimientos asociados con la interfaz de usuario:
+	\begin{enumerate}
+	\item Mediante una interfaz web poder definir las zonas de interés.
+	\item Medir el comportamiento de cada persona con las zonas de interés.
+	\item Poder observar en tiempo real las métricas obtenidas por el sistema.
+	\end{enumerate}
+\item Requerimientos asociados con el sistema de monitoreo:
+\begin{enumerate}
+	\item Se considerará que una persona es correctamente monitoreada si al menos se mantuvo su seguimiento el 80\% del tiempo que circuló en el recinto.
+	\item Se considerará que el sistema funciona dentro de los parámetros aceptables si entre el 80\% y 100\% de las personas en el video fueron correctamente monitoreadas.
+	\end{enumerate}
+\item Requerimientos asociados con regulaciones:
+\begin{enumerate}
+	\item Los videos utilizados no inflijan derechos de privacidad.
+	\item El sistema no asociará las personas en seguimiento con un persona física real.
+	\end{enumerate}
+\end{enumerate}
+
 \newpage
 
 %----------------------------------------------------------------------------------------
@@ -69,7 +96,7 @@ La velocidad de ejecución de un modelo de inteligencia artificial se mide en \t
 
 \subsection{Seguidor Deepsort}
 
-\textit{Deepsort (Deep Simple Online Tracking)} es un modelo de inteligencia artificial que utiliza aprendizaje profundo y técnicas de visión por computadora para seguir múltiples objetos en imágenes. El modelo Deepsort es la evolución del modelo seguidor ``Sort'', que incorpora un comparador de imágenes o características al sistema junto al filtro de Kalman \citep{KALMAN_FILTER} para asociar las detecciones en cada frame. En la figura \ref{fig:deepsortArq} se observa un diagrama de alto nivel de la arquitectura Deepsort.
+\textit{Deepsort (Deep Simple Online Tracking)} es un modelo de inteligencia artificial que utiliza aprendizaje profundo y técnicas de visión por computadora para seguir múltiples objetos en imágenes. El modelo Deepsort es la evolución del modelo seguidor ``Sort'', que incorpora un comparador de imágenes o características al sistema junto al filtro de Kalman \citep{KALMAN_FILTER}, para asociar las detecciones en cada frame. En la figura \ref{fig:deepsortArq} se observa un diagrama de alto nivel de la arquitectura Deepsort.
 
 \begin{figure}[ht]
 	\centering
@@ -78,7 +105,7 @@ La velocidad de ejecución de un modelo de inteligencia artificial se mide en \t
 	\label{fig:deepsortArq}
 \end{figure}
 
-El seguidor consume a la entrada las detecciones en forma de bboxes que arroja el detector, como resultado retorna las bboxes con los identificadores de seguimiento asociados a ellas. 
+El seguidor consume a la entrada las detecciones en forma de bboxes que arroja el detector, como resultado retorna las bboxes con los identificadores de seguimiento asociados a las detecciones.
 
 \newpage
 
@@ -86,7 +113,7 @@ En la figura \ref{fig:deepsortProcess} se ilustra el proceso de seguimiento, el 
 \begin{itemize}
 \item Por cada detección que ingresa al seguidor, se estima la próxima posición de cada bboxe utilizando el filtro de Kalman. Este filtro estima la posición nueva utilizando la dinámica de movimiento que representa al objecto en seguimiento, en este caso, la dinámica de movimiento de personas.
 \item En el siguiente frame se asocian las nuevas detecciones con las predicciones calculadas. Aquellas bboxes que coincidan con las predicciones por arriba de un margen configurable se las asocia al mismo objecto. Cada objecto identificado por el seguidor obtiene un identificador único de seguimiento (ID).
-\item Aquellas bboxes que no coincidan con las predicciones se buscará asociarlas con detecciones anteriores utilizando el comparador de imágenes o características. Este sistema robustece al proceso cuando un objecto desaparece algunos frames de la imagen, permitiendo al sistema re-encontrar objectos en seguimiento que no hayan estado disponibles todos los frames de forma continua.
+\item Aquellas bboxes que no coincidan con las predicciones se buscará asociarlas con detecciones anteriores utilizando el comparador de imágenes o características. Este sistema robustece al proceso cuando un objecto desaparece algunos frames de la imagen, permitiendo al sistema re-encontrar objectos en seguimiento que no hayan estado disponibles en todos los frames de forma continua.
 \end{itemize}
 
 \begin{figure}[ht]
@@ -119,15 +146,105 @@ La principal ventaja de Deepsort es que gracias al comparador de característica
 \subsection{Extractor de características Osnet}
 \label{sec:exactorOsnet}
 
+\textit{Osnet (Omni-Scale Network)} \citep{OSNET} es un modelo de inteligencia artificial que utiliza aprendizaje profundo y redes convolucionales para extraer vectores de características de una imagen. El nombre del modelo hace referencia a su arquitectura, ya que permite detectar tanto características globales (entorno) como características locales (detalles). En la figura \ref{fig:osnet} se observa un diagrama de alto nivel de la arquitectura Osnet.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=.60]{./Figures/osnet.png}
+	\caption{Esquema de funcionamiento de Osnet\protect\footnotemark.}
+	\label{fig:osnet}
+\end{figure}
+
+\footnotetext{Imagen tomada de \url{https://www.programmersought.com/article/12063493294/}}
+
+El extractor consume a la entrada las imágenes en forma de bboxes que arroja el detector o el seguidor, como resultado retorna un vectores de 512 dimensiones por cada imagen. Cada vector representa las características globales y locales (omni) detectadas de cada persona. En la figura \ref{fig:osnetFeatureMap} se observa un ejemplo de los patrones o características que Osnet observa y traduce a un vector numérico de datos.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=.60]{./Figures/osnetFeatureMap.png}
+	\caption{Características que Osnet observa de una persona\protect\footnotemark.}
+	\label{fig:osnetFeatureMap}
+\end{figure}
+
+\footnotetext{Imagen tomada de \url{https://kaiyangzhou.github.io/deep-person-reid/user_guide.html}}
+
+\newpage
+
+Existen otros modelos de inteligencia artificial que se utilizan para extraer características de personas. Un modelo muy popular es \textit{DeepMar (Multi-attribute Recognition)} \citep{DEEPMAR}, que extrae una serie de atributos definidos relativos a la persona y su vestimenta. En la figura \ref{fig:deepmar} se observa un ejemplo de los atributos que extrae DeepMar de una persona.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=.8]{./Figures/deepmar.png}
+	\caption{Atributos que DeepMar observa de una persona\protect\footnotemark.}
+	\label{fig:deepmar}
+\end{figure}
+
+\footnotetext{Imagen tomada de \url{https://github.com/sxzrt/DukeMTMC-reID_evaluation}}
+
+La ventaja de Osnet respecto a otros modelos como DeepMar es que sus vectores son más representativos, caracterizando mejor a las personas. Osnet es muy robusto obteniendo características que permiten diferenciar a dos personas muy similares, como se observa en la figura \ref{fig:osnetDosPersonas}.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.5]{./Figures/osnetDosPersonas.png}
+	\caption{Características de Osnet sobre dos personas similares\protect\footnotemark.}
+	\label{fig:osnetDosPersonas}
+\end{figure}
+
+\footnotetext{Imagen tomada de \url{https://arxiv.org/pdf/1905.00953.pdf}}
+
+En la tabla \ref{tab:comparativaExtractores} se comparan distintos modelos extractores de características de personas.
+
+\begin{table}[h]
+	\centering
+	\caption[Comparativa de extractores de características]{Comparativa de extractores de características.}
+	\begin{tabular}{l c c}    
+		\toprule
+		\textbf{Extractor} & \textbf{Exactitud [\%]}  & \textbf{Precisión [\%]} \\
+		\midrule
+		DeepMar & 70,4\% & 82,2\% \\
+		HydraPlusNet & 72,2\% & 83,0\% \\
+		Osnet & 76,0\% & 88,3\% \\
+		\bottomrule
+		\hline
+	\end{tabular}
+	\label{tab:comparativaExtractores}
+\end{table}
+
+\newpage
+
 %----------------------------------------------------------------------------------------
 %	SECTION 3
+%----------------------------------------------------------------------------------------
+
+\section{Agrupación de datos (clustering)}
+\label{sec:clustering}
+
+La agrupación de datos \textit{(clustering)} es el proceso que permite establecer relaciones entre elementos que poseen características en común conformando grupos de datos. De ahora en adelante se hará mención a estos grupos de datos bajo el nombre de \textit{clusters}. Los clusters representan a los datos que los componen  unidos por sus características o patrones que comparten.
+
+Según las características de sus elementos, el conjunto de datos que conforman el cluster irán definiendo al conjunto. Cada cluster contará con un hipotético punto intermedio (el centroide) que se irá modificando con la entrada o salida de datos al grupo. El clustering alcanzará el equilibrio cuando exista una coincidencia entre el hipotético punto de valor intermedio dentro del grupo y su relación con sus elementos. 
+
+En la figura \ref{fig:clusterDigitos} se observa un ejemplo de clustering de imágenes de digitos, en el cual, cada cluster está representado por un color y conformado por el dígito que lo caracteriza.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.7]{./Figures/clusterDigitos.png}
+	\caption{Ejemplo de clusters de dígitos}
+	\label{fig:clusterDigitos}
+\end{figure}
+
+En la sección \ref{sec:segmentacionPersonas} se detalla la implementación de esta técnica para su uso en la segmentación y re-identificación de personas.
+
+\newpage
+
+%----------------------------------------------------------------------------------------
+%	SECTION 4
 %----------------------------------------------------------------------------------------
 
 \section{Desafíos en el seguimiento de personas}
 \label{sec:desafiosSeguimiento}
 
 %----------------------------------------------------------------------------------------
-%	SECTION 4
+%	SECTION 5
 %----------------------------------------------------------------------------------------
 
 \section{Zonas de interés}
