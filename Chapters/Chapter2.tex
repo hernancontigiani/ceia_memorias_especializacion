@@ -2,7 +2,7 @@
 
 \label{Chapter2}
 
-En este capítulo se detalla las tecnologías aplicadas en el desarrollo del trabajo, destacando los componentes de inteligencia artificial seleccionados para la detección y seguimiento de personas. Finalmente se describe los desafíos que el sistema debe superar para alcanzar los requerimientos establecidos.
+En este capítulo se detallan las tecnologías aplicadas en el desarrollo del trabajo, destacando los componentes de inteligencia artificial seleccionados para la detección y seguimiento de personas. Finalmente se describe los desafíos que el sistema debe superar para alcanzar los requerimientos establecidos.
 
 %----------------------------------------------------------------------------------------
 %	SECTION 1
@@ -11,7 +11,7 @@ En este capítulo se detalla las tecnologías aplicadas en el desarrollo del tra
 \section{Requerimientos}
 \label{sec:requerimientos}
 
-En esta sección se detalla los requerimientos establecidos para este trabajo, que guiaron el diseño y la implementación del mismo:
+En esta sección se detallan los requerimientos establecidos para este trabajo, que guiaron el diseño y la implementación del mismo:
 
 \begin{enumerate}
 \item Requerimientos asociados con el proceso de inteligencia artificial:
@@ -60,7 +60,7 @@ En esta sección se realiza una introducción a los modelos de inteligencia arti
 \item Las detecciones duplicadas o que posean un baja precisión de detección (configurable por el usuario) son descartadas.
 \end{itemize}
 
-En la figura \ref{fig:diagramaYolo} se observa un ejemplo del proceso completo de detección, en la cual el sistema detecta tres objetos en la imagen: un perro, una bicicleta y un auto. El resultado de procesar esta imagen por Yolo son tres bboxes con las coordenadas y la precisión de detección de cada objeto.
+En la figura \ref{fig:diagramaYolo} se observa un ejemplo del proceso completo de detección, en el cual el sistema detecta tres objetos en la imagen: un perro, una bicicleta y un auto. El resultado de procesar esta imagen por Yolo son tres bboxes con las coordenadas y la precisión de detección de cada objeto.
 
 \begin{figure}[ht]
 	\centering
@@ -73,7 +73,7 @@ En la figura \ref{fig:diagramaYolo} se observa un ejemplo del proceso completo d
 
 \newpage
 
-Otros modelos utilizados para detectar objetos en imágenes son los derivados de las arquitecturas ``R-CNN'' y ``Fast R-CNN'' \citep{RCNN}, que se basan en dividir la imagen en múltiples regiones y por cada una de ellas efectuar una clásica clasificación de imágenes. El proceso de dividir la imagen en regiones se encuentra bastante optimizado en las últimas versiones de estas arquitecturas, pero el sistema no deja de aplicar una detección por cada región candidata. Los modelos derivados de estas arquitecturas son más lentos que Yolo (no recomendables para procesos en tiempo real) pero son más precisos, como se ilustra en la tabla \ref{tab:comparativaDetectores}.
+Otros modelos utilizados para detectar objetos en imágenes son los derivados de las arquitecturas ``R-CNN'' y ``Fast R-CNN'' \citep{RCNN}, que se basan en dividir la imagen en múltiples regiones y por cada una de ellas efectuar una clásica clasificación de imágenes. El proceso de dividir la imagen en regiones se encuentra bastante optimizado en las últimas versiones de estas arquitecturas, pero el sistema aplica una clasificación de imágenes por cada región candidata. Los modelos derivados de estas arquitecturas son más lentos que Yolo (no recomendables para procesos en tiempo real) pero son más precisos, como se ilustra en la tabla \ref{tab:comparativaDetectores}.
 
 \begin{table}[h]
 	\centering
@@ -119,7 +119,7 @@ En la figura \ref{fig:deepsortProcess} se ilustra el proceso de seguimiento, el 
 \begin{figure}[ht]
 	\centering
 	\includegraphics[scale=.65]{./Figures/deepsortProcess.png}
-	\caption{Esquema de funcionamiento de Deepsort}
+	\caption{Esquema de funcionamiento de Deepsort.}
 	\label{fig:deepsortProcess}
 \end{figure}
 
@@ -170,7 +170,7 @@ El extractor consume a la entrada las imágenes en forma de bboxes que arroja el
 
 \newpage
 
-Existen otros modelos de inteligencia artificial que se utilizan para extraer características de personas. Un modelo muy popular es \textit{DeepMar (Multi-attribute Recognition)} \citep{DEEPMAR}, que extrae una serie de atributos definidos relativos a la persona y su vestimenta. En la figura \ref{fig:deepmar} se observa un ejemplo de los atributos que extrae DeepMar de una persona.
+Existen otros modelos de inteligencia artificial que se utilizan para extraer características de personas. Un modelo muy popular es \textit{DeepMar (Multi-attribute Recognition)} \citep{DEEPMAR}, que extrae una serie de atributos relativos a la persona y su vestimenta. En la figura \ref{fig:deepmar} se observa un ejemplo de los atributos que extrae DeepMar de una persona.
 
 \begin{figure}[ht]
 	\centering
@@ -221,18 +221,18 @@ En la tabla \ref{tab:comparativaExtractores} se comparan distintos modelos extra
 
 La agrupación de datos \textit{(clustering)} es el proceso que permite establecer relaciones entre elementos que poseen características en común conformando grupos de datos. De ahora en adelante se hará mención a estos grupos de datos bajo el nombre de \textit{clusters}. Los clusters representan a los datos que los componen  unidos por sus características o patrones que comparten.
 
-Según las características de sus elementos, el conjunto de datos que conforman el cluster irán definiendo al conjunto. Cada cluster contará con un hipotético punto intermedio (el centroide) que se irá modificando con la entrada o salida de datos al grupo. El clustering alcanzará el equilibrio cuando exista una coincidencia entre el hipotético punto de valor intermedio dentro del grupo y su relación con sus elementos. 
+Cada cluster contará con un hipotético punto intermedio (el centroide) que se irá modificando con la entrada o salida de datos al grupo. El clustering alcanzará el equilibrio cuando exista una coincidencia entre el hipotético punto de valor intermedio dentro del grupo y su relación con sus elementos. 
 
 En la figura \ref{fig:clusterDigitos} se observa un ejemplo de clustering de imágenes de digitos, en el cual, cada cluster está representado por un color y conformado por el dígito que lo caracteriza.
 
 \begin{figure}[ht]
 	\centering
 	\includegraphics[scale=0.7]{./Figures/clusterDigitos.png}
-	\caption{Ejemplo de clusters de dígitos}
+	\caption{Ejemplo de clusters de dígitos.}
 	\label{fig:clusterDigitos}
 \end{figure}
 
-En la sección \ref{sec:segmentacionPersonas} se detalla la implementación de esta técnica para su uso en la segmentación y re-identificación de personas.
+En la sección \ref{sec:segmentacionPersonas} se detalla la implementación de esta técnica para la segmentación y re-identificación de personas.
 
 \newpage
 
