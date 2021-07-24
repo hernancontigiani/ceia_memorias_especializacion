@@ -5,7 +5,7 @@
 \label{Chapter1} % For referencing the chapter elsewhere, use \ref{Chapter1} 
 \label{IntroGeneral}
 
-En este capítulo
+En este capítulo se realiza una introducción a los sistemas de monitoreo por visión artificial. Asimismo, se menciona el estado del arte de las tecnologías empleadas, y por último se explica la motivación, alcance y objetivos del presente trabajo.
 
 %----------------------------------------------------------------------------------------
 %	SECTION 1
@@ -14,12 +14,93 @@ En este capítulo
 \section{Sistemas de monitoreo por visión}
 \label{sec:sistemasVision}
 
+En esta sección se realiza una introducción a los sistemas de monitoreo por visión, las principales disciplinas de visión artificial y su utilización en el mercado.
+
+\subsection{Visión artificial en la industria}
+
+Los sistemas de visión artificial se basan en sensores digitales o cámaras que capturan imágenes para que luego procesarlas y analizarlas. El sistema de software que analiza las imágenes utiliza técnicas de visión por computadora y/o aprendizaje profundo para extraer características o patrones de aquella imagen. En la figura \ref{fig:visionArtificial} se observa un ejemplo del uso de visión artificial en una línea de producción, en la cual el brazo robot captura o selecciona determinados objectos en la línea que el sistema de visión encuentra y localiza.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=.55]{./Figures/visionArtificial.jpg}
+	\caption{Utilización de visión artificial en la industria\protect\footnotemark.}
+	\label{fig:visionArtificial}
+\end{figure}
+
+\footnotetext{Imagen tomada de \url{https://www.z-laser.es/aplicaciones/robotica.html}}
+
+\newpage
+
+Los sistemas de visión artificial se utilizan actualmente en diferentes ámbitos o industrias, como por ejemplo:
+\begin{itemize}
+\item Visión artificial para la metrología: lo que hasta ahora se venía realizando con complejos equipos de metrología láser, se puede medir utilizando la visión artificial.
+\item Visión artificial para la detección de intrusos: se utiliza visión artificial para, por ejemplo, separar piedras o ramas de frutas en una línea transportadora.
+\item Visión artificial para la verificación de montaje: se utiliza visión artificial para verificar el correcto montaje de un equipo o garantizar que no haya faltantes en una línea de montaje.
+\item Visión artificial en el sector médico: se utiliza visión artificial para apoyar al profesional médico y simplificar procesos de análisis de células cancerígenas, lunares y radiografiás.
+\item Visión artificial en el sector automotriz: se utiliza visión artificial como un sistema que monitorea el tránsito y las condiciones de manejo, con el objetivo de evitar o reducir accidentes actuando en conjunto con otros sistemas de seguridad.
+\end{itemize}
+
+\subsection{Visión por computadora}
+
+La visión artificial o visión por computadora \textit{(computer vision)} \citep{COMPUTER_VISION} es una rama de la ciencia de la computación que desarrolla métodos para adquirir, procesar y analizar imágenes del mundo real, con el fin de que una máquina pueda interpretarla. Esta disciplina implementa herramientas de detección de patrones (líneas, bordes, texturas) llamadas filtros digitales. En la figura \ref{fig:visionComputadora} se observa un ejemplo del uso del ``algoritmo de Canny'' para la detecciones de bordes en una imagen.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=.55]{./Figures/visionComputadora.jpg}
+	\caption{Filtro de Canny de visión por computadora\protect\footnotemark.}
+	\label{fig:visionComputadora}
+\end{figure}
+
+
+\footnotetext{Imagen tomada de \url{https://www.researchgate.net/figure/The-Canny-Edger-on-the-image-Cameraman_fig13_266832526}}
+
+
+Hasta principios de la década del 2010, los filtros clásicos de visión por computadora eran las herramientas más populares para analizar imágenes en la industria. En el 2012, con los primeros modelos de aprendizaje profundo para visión, las forma en la cual se trabaja y analiza las imágenes cambió drásticamente, abriendo un nuevo mundo de técnicas y posibilidades a la industria.
+
+\newpage
+
+\subsection{Aprendizaje profundo}
+
+El aprendizaje profundo o \textit{Deep Learning} \citep{DEEP_LEARNING} es un subcampo de la inteligencia artificial, el cual utiliza distintas estructuras de redes neuronales para lograr representaciones de los datos cada vez más significativas. Las redes neuronales son un modelo computacional basado en un gran conjunto de unidades neuronales simples (neuronas artificiales), inspirado en el comportamiento observado de las neuronas en los cerebros humanos. 
+
+Las técnicas de aprendizaje profundo combinadas con las técnicas de visión por computadora crearon las redes convolucionales. La arquitectura actual de redes convolucionales creada en 2012 revolucionó el campo del análisis de imágenes y video. En la figura \ref{fig:visionDeepLearning} se observan algunas de las técnica de visión por aprendizaje profundo más populares, entre las que se encuentran: clasificación, detección y segmentación de imágenes.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=.7]{./Figures/visionDeepLearning.jpg}
+	\caption{Técnicas de redes convolucionales en aprendizaje profundo.}
+	\label{fig:visionDeepLearning}
+\end{figure}
+
 %----------------------------------------------------------------------------------------
 %	SECTION 2
 %----------------------------------------------------------------------------------------
 
 \section{Motivación}
 \label{sec:motivacion}
+
+Una de las principales motivaciones en la realización de este trabajo es la adopción de las nuevas tecnologías de aprendizaje profundo en la industria y el  creciente desarrollo de estas. Es notorio que a partir de la la década del 2010, la mayor cantidad de documentos científicos en el ámbito de la ciencia de la computación están enfocados a la inteligencia artificial, que supera por mucho la cantidad de publicaciones de las otras ramas de esta ciencia \citep{AI_PAPERS}.
+
+El creciente desarrollo de la inteligencia artificial y su adopción en la industria es posible gracias al avance del hardware, que hace posible ejecutar software más complejo en tiempo real pudiendo crear nuevas soluciones.
+
+\newpage
+
+En la figura \ref{fig:cpuGPU} se observa como han evolucionado las unidades de procesamiento gráfico (GPU) que hicieron posible esta nueva ola de desarrollo en el campo de la inteligencia artificial.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=.8]{./Figures/cpuGPU.jpg}
+	\caption{Evolución de las GPUs y CPUs\protect\footnotemark.}
+	\label{fig:cpuGPU}
+\end{figure}
+
+\footnotetext{Imagen tomada de \url{https://www.networld.co.jp/files/9615/0846/8069/GPUs_Data_Analytics_Book.pdf}}
+
+Las GPUs se crearon inicialmente para procesar vídeos en las computadoras.  Hoy en día las GPUs pueden funcionar mucho más rápido que los CPUs ya que actualmente pueden contener aproximadamente 5000 núcleos, 200 veces más que un CPUs. Los núcleos de una GPU son más limitados que un núcleo de una CPU, pero para realizar operaciones matemáticas simples alcanza la potencia de los núcleos de una GPU, y permiten paralelizar las operaciones y efectuar muchos más cálculos por segundo.
+
+El creciente desatollo de inteligencia artificial viene acompañado por el fenómeno de ``Big data''. Hoy en día, la cantidad de información que se produce supera la cantidad de información generada en toda la historia de la humanidad. Esto es posible ya que todas las personas están interactuando constantemente con la nube entre mediante dispositivos conectados a internet (redes sociales, foros, juegos). A todo este ecosistema se suma internet de las cosas (IoT(, en donde los dispositivos (sensores, computadoras, cámaras) recolectan y suben información constantemente a la nube para el monitoreo y control de sistemas, casas y productos.
+
+\newpage
 
 %----------------------------------------------------------------------------------------
 %	SECTION 3
@@ -28,11 +109,46 @@ En este capítulo
 \section{Estado del arte}
 \label{sec:estadoDelArte}
 
+Actualmente los sistemas de monitoreo de objectos por visión artificial incorporan una serie de técnicas y modelos de inteligencia artificial, que juntos en una cadena de procesamiento, permiten detectar y seguir diferentes clases de objectos en una imagen o video. Estas técnicas no requieren utilizar cámaras de muy alta resolución, y pueden llegar a ejecutarse dentro de un dispositivo embebido o un celular. Las técnicas de aprendizaje profundo involucradas en estos sistemas son:
+
+\begin{itemize}
+\item Detección de objetos en imágenes: se utilizan modelos de inteligencia artificial que localizan objectos de interés en imágenes. Según la precisión deseada y el poder de computo del dispositivo será el modelo detector que se utilice en el sistema.
+\item Seguir objectos en imágenes: se utilizan modelos de inteligencia artificial que consumen las detecciones del modelo anterior, y permiten seguir la trayectoria de los objectos en una imagen o video.
+\end{itemize}
+
+Estas técnicas y modelos de inteligencia artificial se pueden acceder de forma pública para su uso comercial. La dificultad que existe actualmente en estos sistemas de monitoreo son los desafíos que se detallan en la sección \ref{sec:desafiosSeguimiento}, los cuales se abordan en este trabajo.
+
 %----------------------------------------------------------------------------------------
 %	SECTION 4
 %----------------------------------------------------------------------------------------
 
 \section{Objetivos y alcance}
 \label{sec:objetivosAlcance}
+
+\subsection{Objetivos}
+
+El propósito de este trabajo fué el desarrollo de un sistema de monitoreo de personas. Tiene como principal objetivo estudiar los movimientos que realiza un individuo al ingresar y transitar un espacio a fin de obtener métricas sobre las zonas que visitó. Para poder cumplir este objetivo es necesario poder detectar a las personas que aparecen en el video tomado por una cámara, realizar el seguimiento de cada una y poder identificarlas aún cuando desaparecen del espacio de visión por unos segundos.
+
+En la figura \ref{fig:esquemaGeneral} se observa un diagrama general de la solución y las etapas que la componen.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=.6]{./Figures/esquemaGeneral.png}
+	\caption{Diagrama general de la solución.}
+	\label{fig:esquemaGeneral}
+\end{figure}
+
+\newpage
+
+\subsection{Alcance}
+
+Para la elaboración de este trabajo, la parte del sistema involucrada con aprendizaje profundo (el detector, seguidor y extractor) se ejecutó en una plataforma que proporciona una GPU para la ejecución de los modelos. La otra parte del sistema, el ``Engine'' y la aplicación web, se ejecutaron en una máquina personal. El desarrollo de las etapas mencionadas incluye los siguientes aspectos:
+\begin{itemize}
+\item Implementación de una cadena de procesamiento de inteligencia artificial que consuma videos \file{.mp4} y detecte personas.
+\item Implementación de un sistema de mejora de monitoreo (``Engine''), que aborde los problemas de oclusiones y re-identificación de personas.
+\item Implementación de una aplicación web para la configuración general del sistema.
+\item Visualización de los datos en tiempo real en la aplicación web.
+\item Alcanzar los requerimientos de monitoreo de personas establecidos en la \ref{sec:requerimientos}.
+\end{itemize}
 
 
