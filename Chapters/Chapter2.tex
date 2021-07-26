@@ -243,15 +243,15 @@ En la sección \ref{sec:segmentacionPersonas} se detalla la implementación de e
 \section{Desafíos en el seguimiento de personas}
 \label{sec:desafiosSeguimiento}
 
-Las desafíos que se detallan en esta sección son problemáticas generales a la hora de seguir un objeto con el mismo identificador, todo el tiempo que este permanece visible en escena. Uno de los objetivos del sistema es detectar estos casos, a fin de recuperar o re-asignar correctamente el identificador de cada persona en monitoreo. 
+Los desafíos que se detallan en esta sección son problemáticas generales a la hora de seguir un objeto con el mismo identificador, todo el tiempo que este permanece visible en escena. Uno de los objetivos del sistema es detectar estos casos, a fin de recuperar o re-asignar correctamente el identificador de cada persona en monitoreo. 
 
-Mantener el mismo identificador en el seguimiento de personas es más complejo, debido que las personas en movimiento son caóticas: forman y disuelven grupos de personas, cambian su pose constantemente, pueden salir y volver de escena, etc. En la sección \ref{sec:oclusionesReID} se detallan las técnicas empleadas de manejo de oclusiones y re-identificación de personas que resuelven estos desafíos.
+Mantener el mismo identificador en el seguimiento de personas es más complejo, debido que las personas en movimiento son caóticas: forman y disuelven grupos, cambian su pose constantemente, pueden salir y volver de escena. En la sección \ref{sec:oclusionesReID} se detallan las técnicas empleadas de manejo de oclusiones y re-identificación de personas que resuelven estos desafíos.
 
 \subsection{Pérdida de identificador}
 
-La pérdida del identificador de seguimiento (ID) de una persona en monitoreo generalmente ocurre cuando esta pasa por detrás de otro objecto que la ocluye. El objecto que la ocluye puede ser estático (un mueble, un cartel, etc) o dinámico (otra persona o grupo de personas en la escena).
+La pérdida del identificador de seguimiento (ID) de una persona en monitoreo generalmente ocurre cuando esta pasa por detrás de otro objeto que la ocluye. El objeto que la ocluye puede ser estático (un mueble, un cartel, etc) o dinámico (otra persona o grupo de personas en la escena).
 
-En la figura \ref{fig:id_lost} se observa un ejemplo de pérdida de ID cuando un sujeto azul pasa por detrás de un sujeto verde. Cuando el individuo vuelve a ser detectado por el seguidor al concluir la oclusión, el sistema confunde a esta persona con una nueva detección, asignado un identificador nuevo (persona roja). De esta forma, el identificador azul se perdió del sistema y se generó un nuevo erróneamente.
+En la figura \ref{fig:id_lost} se observa un ejemplo de pérdida de ID cuando un sujeto azul pasa por detrás de un sujeto verde. Cuando el individuo vuelve a ser detectado por el seguidor al concluir la oclusión, el sistema confunde a esta persona con una nueva detección, asignado un identificador nuevo (persona roja). De esta forma, el identificador azul se perdió del sistema y se generó uno nuevo erróneamente.
 
 \begin{figure}[!htpb]
      \centering
@@ -283,7 +283,7 @@ En la figura \ref{fig:id_lost} se observa un ejemplo de pérdida de ID cuando un
 
 \subsection{Intercambio de identificador}
 
-El intercambio del identificador de seguimiento (ID) de una persona en monitoreo generalmente ocurre cuando dos personas se cruzan en movimiento. Al momento que ambas personas se cruzan, sus bboxes poseen una ubicación geométrica y un vector de movimiento similar. Estos factores producen que el filtro de Kalman del seguidor no pueda diferenciar las detecciones, y recae toda la responsabilidad en el extractor de características del mismo en diferenciarlas. En general, el seguidor Deepsort no es lo suficientemente robusto para resolver esta situación.
+El intercambio del identificador de seguimiento (ID) de una persona en monitoreo generalmente ocurre cuando dos personas se cruzan en movimiento. Al momento que ambas personas se cruzan, sus bboxes poseen una ubicación geométrica y un vector de movimiento similar. Estos factores producen que el filtro de Kalman del seguidor no pueda diferenciar las detecciones, y recae toda la responsabilidad en el extractor de características del seguidor en diferenciarlas. En general, el seguidor Deepsort no es lo suficientemente robusto para resolver esta situación.
 
 En la figura \ref{fig:id_switch} se observa un ejemplo de intercambio de ID cuando un sujeto azul se cruza con un sujeto rojo en movimiento. Cuando los individuos vuelven a ser detectados por el seguidor al concluir la oclusión, el sistema confunde a estas personas mezclando sus identificadores. De esta forma, el identificador azul se asigna a la persona que antes era roja, y el identificador rojo se asigna a la persona que antes era azul.
 
@@ -321,7 +321,7 @@ En la figura \ref{fig:id_switch} se observa un ejemplo de intercambio de ID cuan
 \section{Zonas de interés}
 \label{sec:zonasInteres}
 
-Una zona de interés es un área en el espacio limitada por un polígono dibujado en el piso, diferenciadas por colores o nombres. Estas zonas se utilizan para identificar escenarios, datos o cualquier particularidad que el usuario desea obtener de esa región. El sistema detecta toda persona que ingrese en las zonas, contabilizando el tiempo de permanencia, su actividad e identificando a los individuos con el color de la zona a la que pertenecen.
+Una zona de interés es un área en el espacio delimitada por un polígono dibujado en el piso, diferenciada por color o nombre. Se generan diferentes zonas de interés para identificar escenarios, datos o cualquier particularidad que el usuario desea obtener de una región. El sistema detecta toda persona que ingrese en las zonas, contabilizando el tiempo de permanencia, su actividad e identificando a los individuos con el color de la zona a la que pertenecen.
 
 En la figura \ref{fig:zonasInteres} se observa un ejemplo de un espacio delimitado por tres zonas de interés: el área de retiro de efectivo o pago (zona azul), el área de bebidas o barra (zona roja) y la zona que delimita el espacio observable del bar (zona verde).
 
