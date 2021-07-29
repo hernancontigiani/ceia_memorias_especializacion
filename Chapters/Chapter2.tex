@@ -33,7 +33,7 @@ En esta sección se detallan los requerimientos que guiaron el diseño y la impl
 	\end{enumerate}
 \item Requerimientos asociados con regulaciones:
 \begin{enumerate}
-	\item Los videos utilizados no inflijan derechos de privacidad.
+	\item Los videos utilizados no infrinjan derechos de privacidad.
 	\item El sistema no asociará las personas en seguimiento con un persona física real.
 	\end{enumerate}
 \end{enumerate}
@@ -53,7 +53,7 @@ En esta sección se realiza una introducción a los modelos de inteligencia arti
 
 \textit{Yolo (You Only Look once)} \citep{YOLO_MODELO} es un modelo de inteligencia artificial que utiliza aprendizaje profundo y redes convolucionales para detectar objetos en imágenes. El nombre del modelo hace referencia a su arquitectura, ya que permite detectar múltiples objetos de una imagen con solo procesarla una vez (solo ``verla'' una vez). 
 
-En la figura \ref{fig:diagramaYolo} se observa un ejemplo del proceso de detección, en donde el modelo detecta tres objetos en la imagen: un perro, una bicicleta y un auto. El resultado de procesar esta imagen por Yolo son tres cajas que delimitan los objectos encontrados en la imagen (representadas en distintos colores) y la precisión de detección de cada una.
+En la figura \ref{fig:diagramaYolo} se observa un ejemplo del proceso de detección, en donde el modelo detecta tres objetos en la imagen: un perro, una bicicleta y un auto. El resultado de procesar esta imagen por Yolo son tres cajas que delimitan los objetos encontrados en la imagen (representadas en distintos colores) y la precisión de detección de cada una.
 
 \begin{figure}[ht]
 	\centering
@@ -70,7 +70,7 @@ El proceso de detección está conformado por los siguientes pasos:
 \item Se divide la imagen original en una cuadrícula de ``SxS''.
 \item En cada celda se predicen ``N'' detecciones y se calcula la precisión de detección de cada una.
 \item Las detecciones duplicadas o que posean un baja precisión de detección (configurable por el usuario) son descartadas.
-\item Finaliza el proceso generando cajas que delimitan cada objecto detectado en la imagen. La caja de detección se la conoce como \textit{bounding boxe (bboxe)}, conformada por las coordenadas de posición en la imagen (píxeles en X y píxeles en Y) y sus dimensiones (alto y ancho).
+\item Finaliza el proceso generando cajas que delimitan cada objeto detectado en la imagen. La caja de detección se la conoce como \textit{bounding boxe (bboxe)}, conformada por las coordenadas de posición en la imagen (píxeles en X y píxeles en Y) y sus dimensiones (alto y ancho).
 
 \end{itemize}
 
@@ -95,7 +95,7 @@ Otros modelos utilizados para detectar objetos en imágenes son los derivados de
 	\label{tab:comparativaDetectores}
 \end{table}
 
-La velocidad de ejecución de un modelo de inteligencia artificial se mide en \textit{frames per seconds (FPS)}, es decir, a que velocidad se pueden procesar imágenes de forma consecutiva sin presentar un retraso en el video generado de salida.
+La velocidad de ejecución de un modelo de inteligencia artificial se mide en \textit{frames per seconds (FPS)}, es decir, a qué velocidad se pueden procesar imágenes de forma consecutiva sin presentar un retraso en el video generado de salida.
 
 \subsection{Seguidor Deepsort}
 
@@ -116,9 +116,9 @@ El seguidor consume a la entrada las detecciones en forma de bboxes que arroja e
 
 En la figura \ref{fig:deepsortProcess} se ilustra el proceso de seguimiento, el cual esta conformado por los siguientes pasos:
 \begin{itemize}
-\item Por cada detección que ingresa al seguidor, se estima la próxima posición de cada bboxe utilizando el filtro de Kalman. Este filtro estima la posición nueva utilizando la dinámica de movimiento que representa al objecto en seguimiento, en este caso, la dinámica de movimiento de personas.
-\item En el siguiente frame se asocian las nuevas detecciones con las predicciones calculadas. Aquellas bboxes que coincidan con las predicciones por arriba de un margen configurable se las asocia al mismo objecto. Cada objecto identificado por el seguidor obtiene un identificador único de seguimiento (ID).
-\item Aquellas bboxes que no coincidan con las predicciones se asociarán con detecciones anteriores utilizando el comparador de imágenes o características. Este sistema robustece al proceso cuando un objecto desaparece algunos frames de la imagen, permitiendo al sistema re-encontrar objectos en seguimiento que no hayan estado disponibles en todos los frames de forma continua.
+\item Por cada detección que ingresa al seguidor, se estima la próxima posición de cada bboxe utilizando el filtro de Kalman. Este filtro estima la posición nueva utilizando la dinámica de movimiento que representa al objeto en seguimiento, en este caso, la dinámica de movimiento de personas.
+\item En el siguiente frame se asocian las nuevas detecciones con las predicciones calculadas. Aquellas bboxes que coincidan con las predicciones por arriba de un margen configurable se las asocia al mismo objeto. Cada objeto identificado por el seguidor obtiene un identificador único de seguimiento (ID).
+\item Aquellas bboxes que no coincidan con las predicciones se asociarán con detecciones anteriores utilizando el comparador de imágenes o características. Este sistema robustece al proceso cuando un objeto desaparece algunos frames de la imagen, permitiendo al sistema re-encontrar objetos en seguimiento que no hayan estado disponibles en todos los frames de forma continua.
 \end{itemize}
 
 \begin{figure}[ht]
@@ -128,7 +128,7 @@ En la figura \ref{fig:deepsortProcess} se ilustra el proceso de seguimiento, el 
 	\label{fig:deepsortProcess}
 \end{figure}
 
-La principal ventaja de Deepsort es que gracias al comparador de características es más robusto a oclusiones o pérdidas de detección momentáneas, además de ser uno de los modelos seguidores de objectos más rápidos. En la tabla \ref{tab:comparativaSeguidores} se comparan distintos modelos seguidores de objectos.
+La principal ventaja de Deepsort es que gracias al comparador de características es más robusto a oclusiones o pérdidas de detección momentáneas, además de ser uno de los modelos seguidores de objetos más rápidos. En la tabla \ref{tab:comparativaSeguidores} se comparan distintos modelos seguidores de objetos.
 
 \begin{table}[h]
 	\centering
@@ -153,7 +153,7 @@ La principal ventaja de Deepsort es que gracias al comparador de característica
 
 \textit{Osnet (Omni-Scale Network)} \citep{OSNET} es un modelo de inteligencia artificial que utiliza aprendizaje profundo y redes convolucionales para extraer vectores de características de una imagen de una persona. El nombre del modelo hace referencia a su arquitectura, ya que permite detectar tanto características globales (entorno) como características locales (detalles). 
 
-En la figura \ref{fig:osnet} se observa el proceso de extracción de características de Osnet, el cual esta conformado por los siguientes pasos:
+En la figura \ref{fig:osnet} se observa el proceso de extracción de características de Osnet, el cual está conformado por los siguientes pasos:
 
 \begin{itemize}
 \item El extractor consume a la entrada (input) las imágenes en forma de bboxes que arroja el detector o el seguidor.
@@ -185,7 +185,7 @@ En la figura \ref{fig:osnetFeatureMap} se observa un ejemplo de los patrones o c
 
 Existen otros modelos de inteligencia artificial que se utilizan para extraer características de personas. Un modelo muy popular es \textit{DeepMar (Multi-attribute Recognition)} \citep{DEEPMAR}, que extrae una serie de atributos relativos a la persona y su vestimenta. 
 
-En la figura \ref{fig:deepmar} se observa un ejemplo de los atributos que extrae DeepMar de una persona, que describen la vestimenta y  genero de la persona.
+En la figura \ref{fig:deepmar} se observa un ejemplo de los atributos que extrae DeepMar de una persona, que describen la vestimenta y  género de la persona.
 
 \begin{figure}[ht]
 	\centering
@@ -243,7 +243,7 @@ La agrupación de datos \textit{(clustering)} es el proceso que permite establec
 
 Cada cluster contará con un hipotético punto intermedio (el centroide) que se irá modificando con la entrada o salida de datos al grupo. El clustering alcanzará el equilibrio cuando exista una coincidencia entre el hipotético punto de valor intermedio dentro del grupo y su relación con sus elementos. 
 
-En la figura \ref{fig:clusterDigitos} se observa un ejemplo de clustering de imágenes de digitos, en el cual, cada cluster está representado por un color y conformado por el dígito que lo caracteriza.
+En la figura \ref{fig:clusterDigitos} se observa un ejemplo de clustering de imágenes de dígitos, en el cual, cada cluster está representado por un color y conformado por el dígito que lo caracteriza.
 
 \begin{figure}[ht]
 	\centering
@@ -265,7 +265,7 @@ En la sección \ref{sec:segmentacionPersonas} se detalla la implementación de e
 \section{Desafíos en el seguimiento de personas}
 \label{sec:desafiosSeguimiento}
 
-Los desafíos que se detallan en esta sección son problemáticas generales a la hora de seguir un objeto con el mismo identificador, todo el tiempo que este permanece visible en escena. Uno de los objetivos del sistema es detectar estos casos, a fin de recuperar o re-asignar correctamente el identificador de cada persona en monitoreo. 
+Los desafíos que se detallan en esta sección son problemáticas generales a la hora de seguir un objeto con el mismo identificador, todo el tiempo que este permanece visible en escena. Uno de los objetivos del sistema es detectar estos casos, a fin de recuperar o reasignar correctamente el identificador de cada persona en monitoreo. 
 
 Mantener el mismo identificador en el seguimiento de personas es más complejo, debido que las personas en movimiento son caóticas: forman y disuelven grupos, cambian su pose constantemente, pueden salir y volver de escena. En la sección \ref{sec:oclusionesReID} se detallan las técnicas empleadas de manejo de oclusiones y re-identificación de personas que resuelven estos desafíos.
 
@@ -343,7 +343,7 @@ En la figura \ref{fig:id_switch} se observa un ejemplo de intercambio de ID cuan
 \section{Zonas de interés}
 \label{sec:zonasInteres}
 
-Una zona de interés es un área en el espacio delimitada por un polígono dibujado en el piso, diferenciada por color o nombre. Se generan diferentes zonas de interés para identificar escenarios, datos o cualquier particularidad que el usuario desea obtener de una región. El sistema detecta toda persona que ingrese en las zonas, contabilizando el tiempo de permanencia, su actividad e identificando a los individuos con el color de la zona a la que pertenecen.
+Una zona de interés es un área en el espacio delimitada por un polígono dibujado en el piso, diferenciada por color o nombre. Se generan diferentes zonas de interés para identificar escenarios, datos o cualquier particularidad que el usuario desea obtener de una región. El sistema detecta a toda persona que ingrese en las zonas, contabilizando el tiempo de permanencia, su actividad e identificando a los individuos con el color de la zona a la que pertenecen.
 
 En la figura \ref{fig:zonasInteres} se observa un ejemplo de un espacio delimitado por tres zonas de interés: el área de retiro de efectivo o pago (zona azul), el área de bebidas o barra (zona roja) y la zona que delimita el espacio observable del bar (zona verde).
 

@@ -13,7 +13,7 @@ En este capítulo se detallan los resultados esperados y obtenidos sobre cada et
 \section{Descripción del banco de pruebas}
 \label{sec:bancoPruebas}
 
-Para poder evaluar la detección, el seguimiento y la re-identificación de personas, se somete al sistema a una validación visual a partir del análisis de los videos procesados por cada parte del sistema. El sistema se evaluá en las siguientes etapas:
+Para poder evaluar la detección, el seguimiento y la re-identificación de personas, se somete al sistema a una validación visual a partir del análisis de los videos procesados por cada parte del sistema. El sistema se evalúa en las siguientes etapas:
 
 \begin{itemize}
 \item Modelos de detección y seguimientos de personas.
@@ -57,7 +57,7 @@ De la experiencia obtenida de evaluar videos y el extractor de características,
 Validar sistemas de monitoreo por visión o procesamiento de imágenes normalmente implica una inspección manual por parte de un experto (conocedor del sistema y los objetivos a lograr) ya que es un proceso muy complejo de automatizar. El proceso empleado consiste en:
 
 \begin{itemize}
-\item Analizar si hay una zona de la cámara en donde las personas no estén siendo detectadas.
+\item Analizar si hay una zona de la cámara en donde las personas no están siendo detectadas.
 \item Analizar si hay problemas de iluminación o de foco en los videos capturados.
 \item Evaluar si las detecciones son continuas, o si las personas están constantemente cambiando de estado de detectada a no detectada.
 \item Evaluar si hay falsos positivos, es decir, objetos que no son personas detectadas en el video.
@@ -161,7 +161,7 @@ La salida del sistema es un nuevo video con las detecciones de las personas. En 
 	\label{fig:videoPorCaracteristicas}
 \end{figure}
 
-Este proceso es muy robusto porque el sistema en la segunda iteración analiza el video conociendo de ante mano las diferentes poses de cada persona, es decir, inicia el proceso con información futura. Las capturas de las personas se encuentran transformadas en clusters dentro de la galería. Por lo tanto, si la galería está correctamente armada se puede realizar seguimiento de personas por características sin errores. Utilizando este sistema se pueden obtener métricas automáticas de los videos obtenidos a la salida del Engine, por ejemplo:
+Este proceso es muy robusto porque el sistema en la segunda iteración analiza el video conociendo de antemano las diferentes poses de cada persona, es decir, inicia el proceso con información futura. Las capturas de las personas se encuentran transformadas en clusters dentro de la galería. Por lo tanto, si la galería está correctamente armada se puede realizar seguimiento de personas por características sin errores. Utilizando este sistema se pueden obtener métricas automáticas de los videos obtenidos a la salida del Engine, por ejemplo:
 \begin{itemize}
 \item Cuánto tiempo fue monitoreada cada persona de forma correcta.
 \item Cuántos identificadores distintos se asignaron a una misma persona.
@@ -245,7 +245,7 @@ El único video que se encontró en internet que cumpliera con todas las caracte
 
 \newpage
 
-Dado que se necesitaba un video de un recinto con más zonas de interés y personas que se involucraran más con el espacio se buscó simular el entorno. Para ello, se optó por utilizar el videojuego "Los Sims 3" \citep{SIMS3}, en el cual es posible crear un ambiente totalmente a medida y personajes que interactúan en el. El juego permite crear personajes con diferentes personalidades por lo que cada uno interactúa de forma singular con el espacio pudiéndose obtener distintas métricas por el tiempo que se desee que dure el ensayo. En la figura \ref{fig:sims} se observa el entorno creado para ensayar las últimas funcionalidades creadas en el sistema, como por ejemplo las zonas de interés, las métricas y la aplicación web.
+Dado que se necesitaba un video de un recinto con más zonas de interés y personas que se involucraran más con el espacio se buscó simular el entorno. Para ello, se optó por utilizar el videojuego "Los Sims 3" \citep{SIMS3}, en el cual es posible crear un ambiente totalmente a medida y personajes que interactúan en él. El juego permite crear personajes con diferentes personalidades por lo que cada uno interactúa de forma singular con el espacio pudiéndose obtener distintas métricas por el tiempo que se desee que dure el ensayo. En la figura \ref{fig:sims} se observa el entorno creado para ensayar las últimas funcionalidades creadas en el sistema, como por ejemplo las zonas de interés, las métricas y la aplicación web.
 
 \begin{figure}[ht]
 	\centering

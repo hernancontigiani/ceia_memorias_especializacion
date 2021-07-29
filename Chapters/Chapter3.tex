@@ -18,8 +18,8 @@ En esta sección se detalla la implementación de los modelos de inteligencia ar
 La arquitectura de la cadena de procesamiento se compone de tres modelos de inteligencia artificial:
 
 \begin{itemize}
-\item Modelo detector de objectos Yolo, cuyos pesos pre-entrenados se obtuvieron de la página de DarkNet \citep{YOLO_MODELO}.
-\item Modelo seguidor de objectos Deepsort, cuyos pesos pre-entrenados se obtuvieron de un repositorio \citep{DEEPSORT_MODELO}.
+\item Modelo detector de objetos Yolo, cuyos pesos pre-entrenados se obtuvieron de la página de DarkNet \citep{YOLO_MODELO}.
+\item Modelo seguidor de objetos Deepsort, cuyos pesos pre-entrenados se obtuvieron de un repositorio \citep{DEEPSORT_MODELO}.
 \item Manejo extractor de características Osnet, cuyos pesos pre-entrenados se obtuvieron de la librería Torchreid \citep{OSNET_MODELO}.
 \end{itemize}
 
@@ -102,7 +102,7 @@ Dentro de la carpeta del dataset se encuentra la carpeta "Data", dentro de la cu
 \item Si vuelve a aparecer en la misma cámara en capturas posteriores, estas aparecerán en la carpeta ``1\_1''.
 \end{itemize}
 
-Este patrón se repite "N" veces por cada id en cada cámara según la cantidad de veces que re-aparecieron. Las capturas están almacenadas como un archivo \file{.png} de tamaño variable (aproximadamente 200 x 100 píxeles). En el nombre de la imagen se encuentra el número de frame de la captura.
+Este patrón se repite "N" veces por cada id en cada cámara según la cantidad de veces que reaparecieron. Las capturas están almacenadas como un archivo \file{.png} de tamaño variable (aproximadamente 200 x 100 píxeles). En el nombre de la imagen se encuentra el número de frame de la captura.
 
 \newpage
 
@@ -131,7 +131,7 @@ A fin de balancear el dataset se decidió tomar menos capturas de las personas m
 
 Con el objetivo de balancear el dataset se realizaron dos tipos de procesamiento de datos:
 \begin{itemize}
-\item Submuestreo de aquellas personas que superaran el cuantil 95\% (un total de 6 personas).
+\item Submuestreo de aquellas personas que superan el cuantil 95\% (un total de 6 personas).
 \item Aumento de datos de aquellas personas debajo del 80\% de la media (un total de 23 personas).
 \end{itemize}
 
@@ -311,7 +311,7 @@ En la figura \ref{fig:similitudCoseno} se observa que dado un punto verde que re
 	\label{fig:similitudCoseno}
 \end{figure}
 
-Está técnica no contempla casos de falsos positivo, es decir, asociar erróneamente una persona con un cluster que no le pertenece. En la próxima sección se discute como se utiliza este principio para mejorar el sistema de seguimiento de personas.
+Esta técnica no contempla casos de falsos positivo, es decir, asociar erróneamente una persona con un cluster que no le pertenece. En la próxima sección se discute como se utiliza este principio para mejorar el sistema de seguimiento de personas.
 
 \subsection{Mejora del seguimiento por vectores}
 
@@ -322,7 +322,7 @@ Durante el monitoreo de una persona pueden ocurrir diferentes problemas relacion
 El sistema para mejorar el seguimiento por vectores utiliza dos estrategias:
 \begin{itemize}
 \item \textit{Matching}: proceso por el cual el sistema intenta asociar un cluster disponible a un persona que presente un identificador de seguimiento desconocido, es decir, uno nuevo para el sistema. Este proceso puede concluir en que la persona que apareció en escena es un individuo nuevo que no se había detectado hasta el momento (se genera un nuevo cluster), o concluir que en realidad es una persona que se estaba monitoreando pero desapareció de escena (se la asocia con un cluster existente).
-\item \textit{Mismatching}: proceso por el cual el sistema evaluá constantemente si una persona en monitoreo realmente pertenece al cluster asociado. Este proceso busca encontrar identificadores que hayan sido intercambiados por culpa de una oclusión. El proceso concluye en la búsqueda de los clusters correctos para aquellas personas que no hayan pasado la prueba.
+\item \textit{Mismatching}: proceso por el cual el sistema evalúa constantemente si una persona en monitoreo realmente pertenece al cluster asociado. Este proceso busca encontrar identificadores que hayan sido intercambiados por culpa de una oclusión. El proceso concluye en la búsqueda de los clusters correctos para aquellas personas que no hayan pasado la prueba.
 \end{itemize}
 
 El sistema de mejora está conformado por una serie de \textit{thresholds} y \textit{timers} a fin de evitar generar falsos positivos. Estos valores de configuración se obtuvieron de forma teórica utilizando matrices de similitud, y se ensayaron de forma empírica en diferentes condiciones y escenarios a fin de validar los parámetros seleccionados.
@@ -459,10 +459,10 @@ El Engine es un proceso que ejecuta la aplicación, utilizando las configuracion
 \subsection{Definición de zonas de interés}
 \label{sec:definicionZonasInteres}
 
-Las zonas son definidas como polígonos sobre la imagen del recinto, utilizando el mouse para agregar puntos y formar cada polígono. Para poder agregar un polígono es necesario primero indicar que tipo de zona se desea crear y con que nombre se la mencionará en la interfaz. Las zonas de interés las define el usuario en el menú de ``Zones''. Hay diferentes tipos de zonas ya pre-definidas en el sistema:
+Las zonas son definidas como polígonos sobre la imagen del recinto, utilizando el mouse para agregar puntos y formar cada polígono. Para poder agregar un polígono es necesario primero indicar que tipo de zona se desea crear y con qué nombre se la mencionará en la interfaz. Las zonas de interés las define el usuario en el menú de ``Zones''. Hay diferentes tipos de zonas ya pre-definidas en el sistema:
 
 \begin{itemize}
-\item \textit{Region Of Interest}: utilizada para delimitar la región de interés, es decir, el área en donde se desea detectar personas. Toda detección que se encuentra fuera de esta zona será descartada.
+\item \textit{Region Of Interest}: utilizada para delimitar la región de interés, es decir, el área en donde se desea detectar personas. Toda detección que se encuentre fuera de esta zona será descartada.
 \item \textit{Avoid}: utilizada para delimitar espacios en donde no se desea detectar personas. Es lo contrario a la ``Region Of Interest'' y se utiliza especialmente para descartar zonas problemáticas.
 \item \textit{Entrance}: utilizada para delimitar el espacio de entrada al recinto.
 \item \textit{Transit}: utilizada para delimitar espacios en donde las personas pueden transitar de un espacio del recinto a otro sin abandonarlo. Se utiliza para detectar personas que cambian de ambiente, salen de cámara (se pierde la detección), pero el sistema sabe que la persona no ha abandonado el recinto.
@@ -484,7 +484,7 @@ Cada zona agregada se almacena con su tipo, color y nombre junto con los puntos 
 
 \subsection{Visualización del seguimiento}
 
-La visualización del monitoreo de personas en tiempo real se encuentra en el menú de ``Test''. La interfaz no muestra las personas tal cual son vistas por la cámara, sino que genera figuras geométricas para representarlas en la aplicación. En la figura \ref{fig:visualizacionSeguimiento} se observa como son representadas las personas en la interfaz web.
+La visualización del monitoreo de personas en tiempo real se encuentra en el menú de ``Test''. La interfaz no muestra a las personas tal cual son vistas por la cámara, sino que genera figuras geométricas para representarlas en la aplicación. En la figura \ref{fig:visualizacionSeguimiento} se observa como son representadas las personas en la interfaz web.
 
 \begin{figure}[ht]
 	\centering
@@ -500,8 +500,8 @@ Cada persona es representada por un poste que en la parte superior muestra el id
 La visualización de las métricas de monitoreo de personas se encuentra en el menú de ``Metrics''. El sistema provee dos tipos de métricas que puede observar el usuario:
 
 \begin{itemize}
-\item Tabla ordenada por las zonas de interés más transitadas: tabla que puede utilizar el usuario para ver a golpe de vista cual fue el área más popular del recinto, como también observar el nivel de interacción de cada zona relativa a otras.
-\item Mapa de calor del recinto: gráfico que arroja información acerca de como transitaron las personas por el lugar y los espacios en donde más se detuvieron. El usuario puede utilizar este gráfico para observar como las personas transitan de un espacio a otro, lo que le permite optimizar el flujo de tránsito.
+\item Tabla ordenada por las zonas de interés más transitadas: tabla que puede utilizar el usuario para ver a golpe de vista cuál fue el área más popular del recinto, como también observar el nivel de interacción de cada zona relativa a otras.
+\item Mapa de calor del recinto: gráfico que arroja información acerca de cómo transitaron las personas por el lugar y los espacios en donde más se detuvieron. El usuario puede utilizar este gráfico para observar como las personas transitan de un espacio a otro, lo que le permite optimizar el flujo de tránsito.
 \end{itemize}
 
 En la sección \ref{sec:resultados} se detallan ejemplos de métricas y gráficos obtenidos utilizando la interfaz con videos de personas.
