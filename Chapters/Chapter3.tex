@@ -135,7 +135,7 @@ Con el objetivo de balancear el dataset se realizaron dos tipos de procesamiento
 \item Aumento de datos de aquellas personas debajo del 80\% de la media (un total de 23 personas).
 \end{itemize}
 
-Dado que las imágenes son de baja resolución y definición, no es posible aplicar una gran distorsión sin que se pierda información. La única técnica que se utilizó de aumento de datos fue espejar las imágenes a fin de duplicar la cantidad de muestras en las personas menos frecuentes. En la figura \ref{fig:distribucionFinal} se observa la distribución del dataset modificado.
+Dado que las imágenes son de baja resolución y definición, no es posible aplicar una gran distorsión sin que se pierda información. La única técnica de aumento de datos que se utilizó fue duplicar las muestras menos frecuentes creando una copia de cada imagen espejada horizontalmente. En la figura \ref{fig:distribucionFinal} se observa la distribución del dataset modificado.
 
 \newpage
 
@@ -300,7 +300,7 @@ Finalmente cada cluster formado en el sistema representará a una persona con un
 
 \subsection{Re-identificación por vectores}
 
-El proceso de re-identificación de personas es aquel en el cual se busca relacionar una nueva persona por su vector de características con un cluster ya conformado. El objetivo es mantener el seguimiento de una persona con el mismo cluster, es decir con el mismo identificador, a pesar de que se haya salido de escena por unos segundos. Para poder calcular la similitud entre el vector de una persona y los diferentes clusters se utiliza la similitud coseno \citep{COSINE_SIMILARITY}, la cual retorna un valor entre -1 y 1 siendo 1 la expresión para máxima similitud.
+El proceso de re-identificación de personas busca relacionar una nueva persona por su vector de características con un cluster ya conformado. El objetivo es mantener el seguimiento de una persona con el mismo cluster, es decir con el mismo identificador, a pesar de que se haya salido de escena por unos segundos. Para poder calcular la similitud entre el vector de una persona y los diferentes clusters se utiliza la similitud coseno \citep{COSINE_SIMILARITY}, la cual retorna un valor entre -1 y 1 siendo 1 la expresión para máxima similitud.
 
 En la figura \ref{fig:similitudCoseno} se observa que dado un punto verde que representa el vector de una nueva persona, se calcula la similitud coseno ``A'' y ``B''. En este caso, el resultado del proceso será que el nuevo vector es más probable que pertenezca al cluster ``A'' que al cluster ``B'', y por lo tanto, la nueva persona será asociada con el cluster ``A''.
 
@@ -469,7 +469,7 @@ Las zonas son definidas como polígonos sobre la imagen del recinto, utilizando 
 \item \textit{Analytics 1/2/3}: utilizada para delimitar espacios genéricos de interés, como por ejemplo: espacio de bebidas, juegos, descanso, etc.
 \end{itemize}
 
-En el la figura \ref{fig:visualizacionZonas	} se observa el ejemplo de algunas zonas dibujadas, se puede apreciar una zona de comida en verde y una zona de tránsito en amarillo.
+En la figura \ref{fig:visualizacionZonas} se observa el ejemplo de algunas zonas dibujadas, se puede apreciar una zona de comida en verde y una zona de tránsito en amarillo.
 
 \begin{figure}[ht]
 	\centering
@@ -478,7 +478,7 @@ En el la figura \ref{fig:visualizacionZonas	} se observa el ejemplo de algunas z
 	\label{fig:visualizacionZonas}
 \end{figure}
 
-Cada zona agregada se almacena con su tipo de zona, color y nombre junto con los puntos que conforman al polígono. Estos datos luego se utilizan en el Engine para determinar los espacios transitados por las personas.
+Cada zona agregada se almacena con su tipo, color y nombre junto con los puntos que conforman al polígono. Estos datos luego se utilizan en el Engine para determinar los espacios transitados por las personas.
 
 \newpage
 
@@ -493,7 +493,7 @@ La visualización del monitoreo de personas en tiempo real se encuentra en el me
 	\label{fig:visualizacionSeguimiento}
 \end{figure}
 
-Cada persona es representada por un poste en el cual en la parte superior se visualiza el identificador de monitoreo de esa persona. A su vez, el poste se pinta del color de la zona en la cual la persona es detectada. En la \ref{fig:visualizacionSeguimiento} se observan dos personas que se encuentran en la zona de juegos (azul) y una persona que se encuentra dentro de la región de interés (verde).
+Cada persona es representada por un poste que en la parte superior muestra el identificador de monitoreo de esa persona. A su vez, el poste se pinta del color de la zona donde la persona es detectada. En la \ref{fig:visualizacionSeguimiento} se observan dos personas que se encuentran en la zona de juegos (azul) y una persona que se encuentra dentro de la región de interés (verde).
 
 \subsection{Visualización de las métricas}
 

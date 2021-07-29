@@ -161,7 +161,7 @@ La salida del sistema es un nuevo video con las detecciones de las personas. En 
 	\label{fig:videoPorCaracteristicas}
 \end{figure}
 
-Este proceso es muy robusto porque el sistema en la segunda iteración analiza el video conociendo de ante mano las diferentes poses de cada persona, es decir, inicia el proceso con información futura. Las capturas de las personas se encuentran transformadas en clusters dentro de la galería. Por lo tanto, si la galería está correctamente armada se puede realizar seguimiento de personas por características sin errores. Utilizando este sistema se pueden obtener métricas automáticas de los videos obtenidos a la salida del Engine:
+Este proceso es muy robusto porque el sistema en la segunda iteración analiza el video conociendo de ante mano las diferentes poses de cada persona, es decir, inicia el proceso con información futura. Las capturas de las personas se encuentran transformadas en clusters dentro de la galería. Por lo tanto, si la galería está correctamente armada se puede realizar seguimiento de personas por características sin errores. Utilizando este sistema se pueden obtener métricas automáticas de los videos obtenidos a la salida del Engine, por ejemplo:
 \begin{itemize}
 \item Cuánto tiempo fue monitoreada cada persona de forma correcta.
 \item Cuántos identificadores distintos se asignaron a una misma persona.
@@ -174,10 +174,10 @@ Este proceso es muy robusto porque el sistema en la segunda iteración analiza e
 %	SECTION 4
 %----------------------------------------------------------------------------------------
 
-\section{Precisión de cada módulo del sistema ensayado}
+\section{Precisión de cada módulo del sistema}
 \label{sec:precisionSistema}
 
-Utilizando las métricas automáticas obtenidas en el capítulo anterior se puede validar por cada video procesado los siguientes requerimientos:
+Utilizando las métricas automáticas obtenidas en la sección \ref{sec:validExtractor} se puede validar por cada video procesado los siguientes requerimientos:
 \begin{itemize}
 \item Se considerará que una persona es correctamente monitoreada si al menos se mantuvo su seguimiento el 80\% del tiempo que circuló en el recinto.
 \item Se considerará que el sistema funciona dentro de los parámetros aceptables si entre el 80\% y 100\% de las personas en el video fueron correctamente monitoreadas.
@@ -267,7 +267,7 @@ El resultado final \citep{DEMO:2} se acerca a un escenario real, ya que el detec
 \section{Resultados}
 \label{sec:resultados}
 
-En esta sección se detallan los resultados y métricas obtenidas en la aplicación web luego de procesar el video de los Sims con el Engine v1.6. En la aplicación web las detecciones y las personas se ejemplifican con figuras geométricas, ya que no se realiza la transmisión del video original en la misma; como se observa en la figura \ref{fig:simsWebApp}.
+En esta sección se detallan los resultados y métricas obtenidas en la aplicación web luego de procesar el video de ``Los Sims'' con el Engine v1.6. En la aplicación web las detecciones y las personas se ejemplifican con figuras geométricas, ya que no se realiza la transmisión del video original en la misma; como se observa en la figura \ref{fig:simsWebApp}.
 
 \begin{figure}[ht]
 	\centering

@@ -33,11 +33,11 @@ Los sistemas de visión artificial se basan en sensores digitales o cámaras que
 
 Los sistemas de visión artificial se utilizan actualmente en diferentes ámbitos o industrias, como por ejemplo:
 \begin{itemize}
-\item Visión artificial para la metrología: lo que hasta ahora se venía realizando con complejos equipos de metrología láser, se puede medir utilizando la visión artificial.
-\item Visión artificial para la detección de intrusos: se utiliza visión artificial para, por ejemplo, separar piedras o ramas de frutas en una línea transportadora.
-\item Visión artificial para la verificación de montaje: se utiliza visión artificial para verificar el correcto montaje de un equipo o garantizar que no haya faltantes en una línea de montaje.
-\item Visión artificial en el sector médico: se utiliza visión artificial para apoyar al profesional médico y simplificar procesos de análisis de células cancerígenas, lunares y radiografías.
-\item Visión artificial en el sector automotriz: se utiliza visión artificial como un sistema que monitorea el tránsito y las condiciones de manejo, con el objetivo de evitar o reducir accidentes actuando en conjunto con otros sistemas de seguridad.
+\item En metrología: lo que hasta ahora se venía realizando con complejos equipos de metrología láser, se puede medir utilizando la visión artificial.
+\item Detección de intrusos: se utiliza visión artificial para separar objectos no deseados en una línea transportadora, por ejemplo, remover ramas de una línea transportadora de frutas.
+\item Verificación de montaje: se utiliza visión artificial para verificar el correcto montaje de un equipo o garantizar que no haya faltantes en una línea de montaje.
+\item Sector médico: se utiliza visión artificial para apoyar al profesional médico y simplificar procesos de análisis de células cancerígenas, lunares y radiografías.
+\item Sector automotriz: se utiliza visión artificial como un sistema que monitorea el tránsito y las condiciones de manejo, con el objetivo de evitar o reducir accidentes actuando en conjunto con otros sistemas de seguridad.
 \end{itemize}
 
 \subsection{Visión por computadora}
@@ -68,9 +68,11 @@ Las técnicas de aprendizaje profundo combinadas con las técnicas de visión po
 \begin{figure}[ht]
 	\centering
 	\includegraphics[scale=.7]{./Figures/visionDeepLearning.jpg}
-	\caption{Técnicas de redes convolucionales en aprendizaje profundo.}
+	\caption{Técnicas de redes convolucionales en aprendizaje profundo\protect\footnotemark.}
 	\label{fig:visionDeepLearning}
 \end{figure}
+
+\footnotetext{Imagen tomada de \url{https://ml4a.github.io/ml4a/convnets/}}
 
 %----------------------------------------------------------------------------------------
 %	SECTION 2
@@ -96,9 +98,9 @@ En la figura \ref{fig:cpuGPU} se observa como han evolucionado las unidades de p
 
 \footnotetext{Imagen tomada de \url{https://www.networld.co.jp/files/9615/0846/8069/GPUs_Data_Analytics_Book.pdf}}
 
-Las GPUs se crearon inicialmente para procesar vídeos en las computadoras.  Hoy en día las GPUs pueden funcionar mucho más rápido que los CPUs ya que actualmente pueden contener aproximadamente 5000 núcleos, 200 veces más que un CPU. Los núcleos de una GPU son más limitados que los núcleos de una CPU, pero para realizar operaciones matemáticas simples alcanza la potencia de los núcleos de una GPU, Además, permiten paralelizar las operaciones y efectuar muchos más cálculos por segundo.
+En el gráfico se compara la cantidad de operaciones de punto flotante por segundo (TFLOPS) \citep{TFLOPS} que pueden efectuar las GPUs y CPUs más modernas. Actualmente, una GPU puede contener 200 veces más núcleos que una CPU, permitiendo lograr más operaciones matemáticas simples por segundo. Los algoritmos de aprendizaje profundo se desarrollaron pensando en las operaciones que puede ejecutar y paralizar las GPUs, permitiendo que ejecutar algoritmos en tiempo real.
 
-El creciente desarrollo de la inteligencia artificial viene acompañado por el fenómeno de ``Big data''. Actualmente, la cantidad de información que se produce supera la cantidad de información generada en toda la historia de la humanidad. Esto es posible ya que todas las personas están interactuando constantemente con la nube mediante dispositivos conectados a internet (redes sociales, foros, juegos). A todo este ecosistema se suma internet de las cosas (IoT), en donde los dispositivos (sensores, computadoras, cámaras) recolectan y suben información constantemente a la nube para el monitoreo y control de sistemas, casas y productos.
+El creciente desarrollo de la inteligencia artificial viene acompañado por el fenómeno de ``big data''. Actualmente, la cantidad de información que se produce supera la cantidad de información generada en toda la historia de la humanidad. Esto es posible ya que todas las personas están interactuando constantemente con la nube mediante dispositivos conectados a internet (redes sociales, foros, juegos). A todo este ecosistema se suma internet de las cosas (IoT), en donde los dispositivos (sensores, computadoras, cámaras) recolectan y suben información constantemente a la nube para el monitoreo y control de sistemas, casas y productos.
 
 \newpage
 
@@ -148,7 +150,7 @@ Para la elaboración de este trabajo, la parte del sistema involucrada con apren
 \item Implementación de un sistema de mejora de monitoreo (``Engine''), que aborde los problemas de oclusiones y re-identificación de personas.
 \item Implementación de una aplicación web para la configuración general del sistema.
 \item Visualización de los datos en tiempo real en la aplicación web.
-\item Alcanzar los requerimientos de monitoreo de personas establecidos en la \ref{sec:requerimientos}.
+\item Alcanzar los requerimientos de monitoreo de personas establecidos en la sección \ref{sec:requerimientos}.
 \end{itemize}
 
 

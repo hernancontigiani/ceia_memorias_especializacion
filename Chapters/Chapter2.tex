@@ -2,7 +2,7 @@
 
 \label{Chapter2}
 
-En este capítulo se detallan las tecnologías aplicadas en el desarrollo del trabajo, destacando los componentes de inteligencia artificial seleccionados para la detección y seguimiento de personas. Finalmente se describe los desafíos que el sistema debe superar para alcanzar los requerimientos establecidos.
+En este capítulo se detallan las tecnologías aplicadas en el desarrollo del trabajo, destacando los componentes de inteligencia artificial seleccionados para la detección y seguimiento de personas. Finalmente se describen los desafíos que el sistema debe superar para alcanzar los requerimientos establecidos.
 
 %----------------------------------------------------------------------------------------
 %	SECTION 1
@@ -11,7 +11,7 @@ En este capítulo se detallan las tecnologías aplicadas en el desarrollo del tr
 \section{Requerimientos}
 \label{sec:requerimientos}
 
-En esta sección se detallan los requerimientos establecidos para este trabajo, que guiaron el diseño y la implementación del mismo:
+En esta sección se detallan los requerimientos que guiaron el diseño y la implementación del trabajo:
 
 \begin{enumerate}
 \item Requerimientos asociados con el proceso de inteligencia artificial:
@@ -51,36 +51,39 @@ En esta sección se realiza una introducción a los modelos de inteligencia arti
 
 \subsection{Detector Yolo}
 
-\textit{Yolo (You Only Look once)} es un modelo de inteligencia artificial que utiliza aprendizaje profundo y redes convolucionales para detectar objetos en imágenes. El nombre del modelo hace referencia a su arquitectura, ya que permite detectar múltiples objetos de una imagen con solo procesarla una vez (solo ``verla'' una vez). El proceso de detección está conformado por los siguientes pasos:
+\textit{Yolo (You Only Look once)} \citep{YOLO_MODELO} es un modelo de inteligencia artificial que utiliza aprendizaje profundo y redes convolucionales para detectar objetos en imágenes. El nombre del modelo hace referencia a su arquitectura, ya que permite detectar múltiples objetos de una imagen con solo procesarla una vez (solo ``verla'' una vez). 
 
-\begin{itemize}
-\item Se divide la imagen original en una cuadrícula de ``SxS''.
-\item En cada celda se predicen ``N'' detecciones y se calcula la precisión de detección de cada una.
-\item Una detección se conforma por una caja que la situá en la imagen original (coordenadas X e Y, alto y ancho). Esta caja se la conoce como \textit{bounding boxe (bboxe)}.
-\item Las detecciones duplicadas o que posean un baja precisión de detección (configurable por el usuario) son descartadas.
-\end{itemize}
-
-En la figura \ref{fig:diagramaYolo} se observa un ejemplo del proceso completo de detección, en el cual el sistema detecta tres objetos en la imagen: un perro, una bicicleta y un auto. El resultado de procesar esta imagen por Yolo son tres bboxes con las coordenadas y la precisión de detección de cada objeto.
+En la figura \ref{fig:diagramaYolo} se observa un ejemplo del proceso de detección, en donde el modelo detecta tres objetos en la imagen: un perro, una bicicleta y un auto. El resultado de procesar esta imagen por Yolo son tres cajas que delimitan los objectos encontrados en la imagen (representadas en distintos colores) y la precisión de detección de cada una.
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[scale=.60]{./Figures/yolo.jpg}
+	\includegraphics[scale=.55]{./Figures/yolo.jpg}
 	\caption{Esquema de funcionamiento de Yolo\protect\footnotemark.}
 	\label{fig:diagramaYolo}
 \end{figure}
 
 \footnotetext{Imagen tomada de \url{https://pjreddie.com/darknet/yolov1/}}
 
-\newpage
+El proceso de detección está conformado por los siguientes pasos:
 
-Otros modelos utilizados para detectar objetos en imágenes son los derivados de las arquitecturas ``R-CNN'' y ``Fast R-CNN'' \citep{RCNN}, que se basan en dividir la imagen en múltiples regiones y por cada una de ellas efectuar una clásica clasificación de imágenes. El proceso de dividir la imagen en regiones se encuentra bastante optimizado en las últimas versiones de estas arquitecturas, pero el sistema aplica una clasificación de imágenes por cada región candidata. Los modelos derivados de estas arquitecturas son más lentos que Yolo (no recomendables para procesos en tiempo real) pero son más precisos, como se ilustra en la tabla \ref{tab:comparativaDetectores}.
+\begin{itemize}
+\item Se divide la imagen original en una cuadrícula de ``SxS''.
+\item En cada celda se predicen ``N'' detecciones y se calcula la precisión de detección de cada una.
+\item Las detecciones duplicadas o que posean un baja precisión de detección (configurable por el usuario) son descartadas.
+\item Finaliza el proceso generando cajas que delimitan cada objecto detectado en la imagen. La caja de detección se la conoce como \textit{bounding boxe (bboxe)}, conformada por las coordenadas de posición en la imagen (píxeles en X y píxeles en Y) y sus dimensiones (alto y ancho).
+
+\end{itemize}
+
+%\newpage
+
+Otros modelos utilizados para detectar objetos en imágenes son los derivados de las arquitecturas ``R-CNN'' y ``Fast R-CNN'' \citep{RCNN}, que se basan en dividir la imagen en múltiples regiones y por cada una de ellas efectuar una clásica clasificación de imágenes. El proceso de dividir la imagen en regiones se encuentra bastante optimizado en las últimas versiones de estas arquitecturas, pero el modelo aplica una clasificación de imágenes por cada región candidata. Los modelos derivados de estas arquitecturas son más lentos que Yolo (no recomendables para procesos en tiempo real) pero son más precisos, como se ilustra en la tabla \ref{tab:comparativaDetectores}.
 
 \begin{table}[h]
 	\centering
-	\caption[Comparativa de detectores]{Comparativa de detectores.}
+	\caption[Comparativa de modelos detectores]{Comparativa de modelos detectores.}
 	\begin{tabular}{l c c}    
 		\toprule
-		\textbf{Detector}   & \textbf{Velocidad [FPS]} & \textbf{Precisión promedio [\%]} \\
+		\textbf{Modelo}   & \textbf{Velocidad [FPS]} & \textbf{Precisión promedio [\%]} \\
 		\midrule
 		R-CNN & 0,02 & 58,5\% \\
 		Fast R-CNN & 0,5 & 70\% \\
@@ -96,14 +99,16 @@ La velocidad de ejecución de un modelo de inteligencia artificial se mide en \t
 
 \subsection{Seguidor Deepsort}
 
-\textit{Deepsort (Deep Simple Online Tracking)} es un modelo de inteligencia artificial que utiliza aprendizaje profundo y técnicas de visión por computadora para seguir múltiples objetos en imágenes. El modelo Deepsort es la evolución del modelo seguidor ``Sort'', que incorpora un comparador de imágenes o características al sistema junto al filtro de Kalman \citep{KALMAN_FILTER}, para asociar las detecciones en cada frame. En la figura \ref{fig:deepsortArq} se observa un diagrama de alto nivel de la arquitectura Deepsort.
+\textit{Deepsort (Deep Simple Online Tracking)} \citep{DEEPSORT_PAPER} es un modelo de inteligencia artificial que utiliza aprendizaje profundo y técnicas de visión por computadora para seguir múltiples objetos en imágenes. El modelo Deepsort es la evolución del modelo seguidor ``Sort'', que incorpora un comparador de imágenes o características al sistema junto al filtro de Kalman \citep{KALMAN_FILTER} para asociar las detecciones en cada frame. En la figura \ref{fig:deepsortArq} se observa un diagrama de alto nivel de la arquitectura Deepsort.
 
 \begin{figure}[ht]
 	\centering
 	\includegraphics[scale=.55]{./Figures/deepsort.png}
-	\caption{Arquitectura de Deepsort.}
+	\caption{Arquitectura de Deepsort\protect\footnotemark.}
 	\label{fig:deepsortArq}
 \end{figure}
+
+\footnotetext{Imagen inspirada en \url{https://programmerclick.com/article/27431405370/}}
 
 El seguidor consume a la entrada las detecciones en forma de bboxes que arroja el detector, como resultado retorna las bboxes con los identificadores de seguimiento asociados a las detecciones.
 
@@ -113,7 +118,7 @@ En la figura \ref{fig:deepsortProcess} se ilustra el proceso de seguimiento, el 
 \begin{itemize}
 \item Por cada detección que ingresa al seguidor, se estima la próxima posición de cada bboxe utilizando el filtro de Kalman. Este filtro estima la posición nueva utilizando la dinámica de movimiento que representa al objecto en seguimiento, en este caso, la dinámica de movimiento de personas.
 \item En el siguiente frame se asocian las nuevas detecciones con las predicciones calculadas. Aquellas bboxes que coincidan con las predicciones por arriba de un margen configurable se las asocia al mismo objecto. Cada objecto identificado por el seguidor obtiene un identificador único de seguimiento (ID).
-\item Aquellas bboxes que no coincidan con las predicciones se buscará asociarlas con detecciones anteriores utilizando el comparador de imágenes o características. Este sistema robustece al proceso cuando un objecto desaparece algunos frames de la imagen, permitiendo al sistema re-encontrar objectos en seguimiento que no hayan estado disponibles en todos los frames de forma continua.
+\item Aquellas bboxes que no coincidan con las predicciones se asociarán con detecciones anteriores utilizando el comparador de imágenes o características. Este sistema robustece al proceso cuando un objecto desaparece algunos frames de la imagen, permitiendo al sistema re-encontrar objectos en seguimiento que no hayan estado disponibles en todos los frames de forma continua.
 \end{itemize}
 
 \begin{figure}[ht]
@@ -127,10 +132,10 @@ La principal ventaja de Deepsort es que gracias al comparador de característica
 
 \begin{table}[h]
 	\centering
-	\caption[Comparativa de seguidores]{Comparativa de seguidores.}
+	\caption[Comparativa de modelos seguidores]{Comparativa de modelos seguidores.}
 	\begin{tabular}{l c c c}    
 		\toprule
-		\textbf{Seguidor} & \textbf{Velocidad [FPS]}  & \textbf{Precisión [MOTA]} & \textbf{Intercambios de IDs} \\
+		\textbf{Modelo} & \textbf{Velocidad [FPS]}  & \textbf{Precisión [\%]} & \textbf{Intercambios de IDs} \\
 		\midrule
 		POI & 10 & 61,4\% & 805 \\
 		Sort & 60 & 59,8\% & 1423 \\
@@ -146,7 +151,15 @@ La principal ventaja de Deepsort es que gracias al comparador de característica
 \subsection{Extractor de características Osnet}
 \label{sec:exactorOsnet}
 
-\textit{Osnet (Omni-Scale Network)} \citep{OSNET} es un modelo de inteligencia artificial que utiliza aprendizaje profundo y redes convolucionales para extraer vectores de características de una imagen. El nombre del modelo hace referencia a su arquitectura, ya que permite detectar tanto características globales (entorno) como características locales (detalles). En la figura \ref{fig:osnet} se observa un diagrama de alto nivel de la arquitectura Osnet.
+\textit{Osnet (Omni-Scale Network)} \citep{OSNET} es un modelo de inteligencia artificial que utiliza aprendizaje profundo y redes convolucionales para extraer vectores de características de una imagen de una persona. El nombre del modelo hace referencia a su arquitectura, ya que permite detectar tanto características globales (entorno) como características locales (detalles). 
+
+En la figura \ref{fig:osnet} se observa el proceso de extracción de características de Osnet, el cual esta conformado por los siguientes pasos:
+
+\begin{itemize}
+\item El extractor consume a la entrada (input) las imágenes en forma de bboxes que arroja el detector o el seguidor.
+\item Los datos de entrada se transfieren a distintos conjuntos de filtros convolucionales. Cada conjunto de filtros posee una ventana de observación de distinto tamaño, lo que permite que cada uno analice diferentes partes de la imagen (características a diferentes escalas).
+\item Finaliza el proceso generando un vector de 512 dimensiones por cada persona. Cada vector representa las características globales y locales (omni) detectadas.
+\end{itemize}
 
 \begin{figure}[ht]
 	\centering
@@ -157,7 +170,9 @@ La principal ventaja de Deepsort es que gracias al comparador de característica
 
 \footnotetext{Imagen tomada de \url{https://www.programmersought.com/article/12063493294/}}
 
-El extractor consume a la entrada las imágenes en forma de bboxes que arroja el detector o el seguidor, como resultado retorna un vectores de 512 dimensiones por cada imagen. Cada vector representa las características globales y locales (omni) detectadas de cada persona. En la figura \ref{fig:osnetFeatureMap} se observa un ejemplo de los patrones o características que Osnet observa y traduce a un vector numérico de datos.
+\newpage
+
+En la figura \ref{fig:osnetFeatureMap} se observa un ejemplo de los patrones o características que Osnet observa y traduce a un vector numérico de datos. Las características están representadas en un mapa de calor, observándose en rojo las características más importantes y en azul las menos significativas.
 
 \begin{figure}[ht]
 	\centering
@@ -168,9 +183,9 @@ El extractor consume a la entrada las imágenes en forma de bboxes que arroja el
 
 \footnotetext{Imagen tomada de \url{https://kaiyangzhou.github.io/deep-person-reid/user_guide.html}}
 
-\newpage
+Existen otros modelos de inteligencia artificial que se utilizan para extraer características de personas. Un modelo muy popular es \textit{DeepMar (Multi-attribute Recognition)} \citep{DEEPMAR}, que extrae una serie de atributos relativos a la persona y su vestimenta. 
 
-Existen otros modelos de inteligencia artificial que se utilizan para extraer características de personas. Un modelo muy popular es \textit{DeepMar (Multi-attribute Recognition)} \citep{DEEPMAR}, que extrae una serie de atributos relativos a la persona y su vestimenta. En la figura \ref{fig:deepmar} se observa un ejemplo de los atributos que extrae DeepMar de una persona.
+En la figura \ref{fig:deepmar} se observa un ejemplo de los atributos que extrae DeepMar de una persona, que describen la vestimenta y  genero de la persona.
 
 \begin{figure}[ht]
 	\centering
@@ -180,6 +195,9 @@ Existen otros modelos de inteligencia artificial que se utilizan para extraer ca
 \end{figure}
 
 \footnotetext{Imagen tomada de \url{https://github.com/sxzrt/DukeMTMC-reID_evaluation}}
+
+
+\newpage
 
 La ventaja de Osnet respecto a otros modelos como DeepMar es que sus vectores son más representativos, caracterizando mejor a las personas. Osnet es muy robusto obteniendo características que permiten diferenciar a dos personas muy similares, como se observa en la figura \ref{fig:osnetDosPersonas}.
 
@@ -192,14 +210,16 @@ La ventaja de Osnet respecto a otros modelos como DeepMar es que sus vectores so
 
 \footnotetext{Imagen tomada de \url{https://arxiv.org/pdf/1905.00953.pdf}}
 
+Las dos personas poseen vestimenta similar, pero el sistema destaca en la primera persona el logo de la remera y en la segunda persona sus hombros.
+
 En la tabla \ref{tab:comparativaExtractores} se comparan distintos modelos extractores de características de personas.
 
 \begin{table}[h]
 	\centering
-	\caption[Comparativa de extractores de características]{Comparativa de extractores de características.}
+	\caption[Comparativa de modelos extractores de características]{Comparativa de modelos extractores de características.}
 	\begin{tabular}{l c c}    
 		\toprule
-		\textbf{Extractor} & \textbf{Exactitud [\%]}  & \textbf{Precisión [\%]} \\
+		\textbf{Modelo} & \textbf{Exactitud [\%]}  & \textbf{Precisión [\%]} \\
 		\midrule
 		DeepMar & 70,4\% & 82,2\% \\
 		HydraPlusNet & 72,2\% & 83,0\% \\
@@ -228,9 +248,11 @@ En la figura \ref{fig:clusterDigitos} se observa un ejemplo de clustering de im�
 \begin{figure}[ht]
 	\centering
 	\includegraphics[scale=0.7]{./Figures/clusterDigitos.jpg}
-	\caption{Ejemplo de clusters de dígitos.}
+	\caption{Ejemplo de clusters de dígitos\protect\footnotemark.}
 	\label{fig:clusterDigitos}
 \end{figure}
+
+\footnotetext{Imagen tomada de \url{https://cs.stanford.edu/people/karpathy/convnetjs/demo/autoencoder.html}}
 
 En la sección \ref{sec:segmentacionPersonas} se detalla la implementación de esta técnica para la segmentación y re-identificación de personas.
 
@@ -283,7 +305,7 @@ En la figura \ref{fig:id_lost} se observa un ejemplo de pérdida de ID cuando un
 
 \subsection{Intercambio de identificador}
 
-El intercambio del identificador de seguimiento (ID) de una persona en monitoreo generalmente ocurre cuando dos personas se cruzan en movimiento. Al momento que ambas personas se cruzan, sus bboxes poseen una ubicación geométrica y un vector de movimiento similar. Estos factores producen que el filtro de Kalman del seguidor no pueda diferenciar las detecciones, y recae toda la responsabilidad en el extractor de características del seguidor en diferenciarlas. En general, el seguidor Deepsort no es lo suficientemente robusto para resolver esta situación.
+El intercambio del identificador de seguimiento (ID) de una persona en monitoreo generalmente ocurre cuando dos personas se cruzan en movimiento. Al momento que ambas personas se cruzan, sus bboxes poseen una ubicación geométrica y un vector de movimiento similar. Estos factores producen que el filtro de Kalman del seguidor no pueda diferenciar las detecciones, y recae toda la responsabilidad en el extractor de características del seguidor en diferenciarlas. El seguidor Deepsort no es lo suficientemente robusto para resolver esta situación, como se detalla en la sección \ref{sec:precisionSistema}.
 
 En la figura \ref{fig:id_switch} se observa un ejemplo de intercambio de ID cuando un sujeto azul se cruza con un sujeto rojo en movimiento. Cuando los individuos vuelven a ser detectados por el seguidor al concluir la oclusión, el sistema confunde a estas personas mezclando sus identificadores. De esta forma, el identificador azul se asigna a la persona que antes era roja, y el identificador rojo se asigna a la persona que antes era azul.
 
