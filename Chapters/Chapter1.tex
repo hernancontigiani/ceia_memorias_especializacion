@@ -54,7 +54,6 @@ La visión artificial o visión por computadora \textit{(computer vision)} \cite
 
 \footnotetext{Imagen tomada de \url{https://www.researchgate.net/figure/The-Canny-Edger-on-the-image-Cameraman_fig13_266832526}}
 
-
 Hasta principios de la década del 2010, los filtros clásicos de visión por computadora eran las herramientas más populares para analizar imágenes en la industria. En el 2012, con los primeros modelos de aprendizaje profundo para visión, la forma en la cual se trabaja y analiza las imágenes cambió drásticamente, abriendo un nuevo mundo de técnicas y posibilidades a la industria.
 
 \newpage
@@ -81,11 +80,20 @@ Las técnicas de aprendizaje profundo combinadas con las técnicas de visión po
 \section{Motivación}
 \label{sec:motivacion}
 
-Una de las principales motivaciones en la realización de este trabajo es la adopción de las nuevas tecnologías de aprendizaje profundo en la industria y el  creciente desarrollo de estas. La incorporación de estas nuevas tecnologías permiten crear soluciones para monitorear condiciones en ambientes más adversos , como es el monitoreo de personas en una tienda.
+Una de las principales motivaciones en la realización de este trabajo es la adopción de las nuevas tecnologías de aprendizaje profundo en la industria y el  creciente desarrollo de estas. La incorporación de estas nuevas tecnologías permiten crear soluciones para monitorear condiciones en ambientes más adversos, como es el monitoreo de personas en una tienda.
 
-Es notorio que a partir de la la década del 2010, la mayor cantidad de documentos científicos en el ámbito de la ciencia de la computación están enfocados en inteligencia artificial, que supera por mucho la cantidad de publicaciones de las otras ramas de esta ciencia \citep{AI_PAPERS}. El creciente desarrollo de la inteligencia artificial y su incorporación en la industria es posible gracias al avance del hardware, que hace posible ejecutar software más complejo, en tiempo real, pudiendo crear nuevas soluciones.
+Globant S.A. busca utilizar estas tecnologías para transformar las organizaciones, cambiando la forma en que la que estas se conectan con los usuarios buscando potenciar sus experiencias de consumo.
 
 \newpage
+
+%----------------------------------------------------------------------------------------
+%	SECTION 3
+%----------------------------------------------------------------------------------------
+
+\section{Estado del arte}
+\label{sec:estadoDelArte}
+
+A partir de la la década del 2010, la mayor cantidad de documentos científicos en el ámbito de la ciencia de la computación están enfocados en inteligencia artificial, que supera por mucho la cantidad de publicaciones de las otras ramas de esta ciencia \citep{AI_PAPERS}. El creciente desarrollo de la inteligencia artificial y su incorporación en la industria es posible gracias al avance del hardware, que hace posible ejecutar software más complejo, en tiempo real, pudiendo crear nuevas soluciones.
 
 En la figura \ref{fig:cpuGPU} se observa como han evolucionado las unidades de procesamiento gráfico (GPU) que hicieron posible esta nueva ola de desarrollo en el campo de la inteligencia artificial.
 
@@ -98,27 +106,23 @@ En la figura \ref{fig:cpuGPU} se observa como han evolucionado las unidades de p
 
 \footnotetext{Imagen tomada de \url{https://www.networld.co.jp/files/9615/0846/8069/GPUs_Data_Analytics_Book.pdf}}
 
-En el gráfico se compara la cantidad de operaciones de punto flotante por segundo (TFLOPS) \citep{TFLOPS} que pueden efectuar las GPUs y CPUs más modernas. Actualmente, una GPU puede contener 200 veces más núcleos que una CPU, permitiendo lograr más operaciones matemáticas simples por segundo. Los algoritmos de aprendizaje profundo se desarrollaron pensando en las operaciones que puede ejecutar y paralizar las GPUs, permitiendo que ejecutar algoritmos en tiempo real.
+En la figura \ref{fig:cpuGPU} se compara la cantidad de operaciones de punto flotante por segundo (TFLOPS) \citep{TFLOPS} que pueden efectuar las GPUs y CPUs más modernas. Actualmente, una GPU puede contener 200 veces más núcleos que una CPU, permitiendo lograr más operaciones matemáticas simples por segundo. Los algoritmos de aprendizaje profundo se desarrollaron teniendo en consideración las operaciones que pueden ejecutar y paralizar las GPUs, lo que posibilita su ejecución en tiempo real.
 
 El creciente desarrollo de la inteligencia artificial viene acompañado por el fenómeno de ``big data''. Actualmente, la cantidad de información que se produce supera la cantidad de información generada en toda la historia de la humanidad. Esto es posible ya que todas las personas están interactuando constantemente con la nube mediante dispositivos conectados a internet (redes sociales, foros, juegos). A todo este ecosistema se suma internet de las cosas (IoT), en donde los dispositivos (sensores, computadoras, cámaras) recolectan y suben información constantemente a la nube para el monitoreo y control de sistemas, casas y productos.
 
 \newpage
 
-%----------------------------------------------------------------------------------------
-%	SECTION 3
-%----------------------------------------------------------------------------------------
+Surgieron en el mercado nuevas soluciones de monitoreo de personas, basadas en técnicas de visión por aprendizaje profundo (detección y seguimiento de objectos en imágenes) . Estas técnicas no requieren utilizar cámaras de alta resolución y pueden llegar a ejecutarse dentro de un dispositivo embebido o un celular.
 
-\section{Estado del arte}
-\label{sec:estadoDelArte}
-
-Los sistemas de monitoreo de objectos por visión incorporan una serie de técnicas y modelos de inteligencia artificial, que juntos en una cadena de procesamiento, permiten detectar y seguir diferentes clases de objectos en una imagen o video. Estas técnicas no requieren utilizar cámaras de alta resolución, y pueden llegar a ejecutarse dentro de un dispositivo embebido o un celular. Las técnicas de aprendizaje profundo involucradas en estos sistemas son:
-
+Entre las soluciones disponibles en el mercado se pueden encontrar los siguientes servicios:
 \begin{itemize}
-\item Detección de objetos en imágenes: se utilizan modelos de inteligencia artificial que localizan objectos de interés en imágenes. Según la precisión deseada y el poder de computo del dispositivo será el modelo detector que se utilice en el sistema.
-\item Seguir objectos en imágenes: se utilizan modelos de inteligencia artificial que consumen las detecciones del modelo anterior, y permiten seguir la trayectoria de los objectos en una imagen o video.
+\item Contar la cantidad de personas que entran y salen del recinto.
+\item Indicar en tiempo real el nivel de ocupación.
+\item Administrar múltiples filas de espera, ayudando al personal a distribuir de forma eficiente a los clientes.
+\item Recomendaciones respecto a las áreas más transitadas del recinto, con el objetivo de ayudar al personal a optimizar el flujo de tránsito.
 \end{itemize}
 
-Estas técnicas y modelos de inteligencia artificial se pueden acceder de forma pública para su uso académico o comercial. La dificultad que existe actualmente en estos sistemas de monitoreo son los desafíos que se detallan en la sección \ref{sec:desafiosSeguimiento}, los cuales se abordan en este trabajo.
+Los beneficios que se obtienen de la utilización de estos sistemas en tiendas o supermercados también pueden extenderse a eventos, bancos, hoteles, edificios inteligentes o cualquier industria en donde la logística y el manejo del espacio sean vitales para su negocio.
 
 %----------------------------------------------------------------------------------------
 %	SECTION 4
@@ -140,11 +144,15 @@ En la figura \ref{fig:esquemaGeneral} se observa un diagrama general de la soluc
 	\label{fig:esquemaGeneral}
 \end{figure}
 
-\newpage
+El detector, seguidor y extractor son modelos de inteligencia artificial que utilizan técnicas de aprendizaje profundo, encargados de detectar y seguir a las personas en un video. El resultado de esta etapa es un archivo con las detecciones y características de cada persona monitoreada. 
+
+El ``Engine'' es la parte del sistema encargada de mejorar la precisión de seguimiento mediante re-identificación y manejo de oclusiones. Además, calcula las métricas de monitoreo que luego se presentan en la interfaz de usuario disponible en la aplicación web.
+
+En el capítulo \ref{Chapter3} se detalla el diseño y la implementación de las etapas que componen a este sistema.
 
 \subsection{Alcance}
 
-Para la elaboración de este trabajo, la parte del sistema involucrada con aprendizaje profundo (el detector, seguidor y extractor) se ejecutó en una plataforma que proporciona una GPU para la ejecución de los modelos. La otra parte del sistema, el ``Engine'' y la aplicación web, se ejecutaron en una máquina personal. El desarrollo de las etapas mencionadas incluye los siguientes aspectos:
+Para la elaboración de este trabajo, la parte del sistema involucrada con aprendizaje profundo se ejecutó en una plataforma que proporciona una GPU para la ejecución de los modelos. La otra parte del sistema, el ``Engine'' y la aplicación web, se ejecutaron en una máquina personal. El desarrollo de las etapas mencionadas incluye los siguientes aspectos:
 \begin{itemize}
 \item Implementación de una cadena de procesamiento de inteligencia artificial que consuma videos \file{.mp4} y detecte personas.
 \item Implementación de un sistema de mejora de monitoreo (``Engine''), que aborde los problemas de oclusiones y re-identificación de personas.
@@ -152,5 +160,7 @@ Para la elaboración de este trabajo, la parte del sistema involucrada con apren
 \item Visualización de los datos en tiempo real en la aplicación web.
 \item Alcanzar los requerimientos de monitoreo de personas establecidos en la sección \ref{sec:requerimientos}.
 \end{itemize}
+
+La plataforma que se seleccionó para ejecutar los modelos de inteligencia artificial con GPU es \textit{Google Colaboratory (Colab)}, la cual permite a cualquier usuario utilizar los recursos de Google de forma gratuita durante un tiempo limitado. Las limitaciones sobre los recursos de Colab no afectan la elaboración de este trabajo, ya que no es parte del alcance la implementación en tiempo real de los modelos de inteligencia artificial.
 
 
